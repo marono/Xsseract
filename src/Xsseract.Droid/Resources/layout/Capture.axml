@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Xsseract.Droid.Controls.CropImageView
@@ -9,47 +10,23 @@
         android:layout_height="fill_parent"
         android:layout_x="0dip"
         android:layout_y="0dip" />
-<!--<SurfaceView
-        android:id="@+id/srfViewPreview"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:alpha="1" />-->
-<!--<LinearLayout
-        android:id="@+id/overlay"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black"
-            android:alpha="0.5"
-            android:layout_weight="1" />
-        <LinearLayout
-            android:id="@+id/viewFinder"
-            android:layout_width="match_parent"
-            android:layout_height="150dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black"
-            android:alpha="0.5"
-            android:layout_weight="1" />
-    </LinearLayout>-->
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="CAMERA"
-            android:id="@+id/btnTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Button
-            android:text="READ"
-            android:id="@+id/btnRead"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:id="@+id/containerMain"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabAccept"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/accept"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabCamera"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/camera" />
     </LinearLayout>
 </RelativeLayout>

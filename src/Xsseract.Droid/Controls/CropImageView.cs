@@ -11,15 +11,13 @@ using Android.Views;
 
 namespace Xsseract.Droid.Controls
 {
-  public class CropImageView: ImageViewTouchBase
+  public class CropImageView : ImageViewTouchBase
   {
     #region Private members
-
-    private Context context;
     private readonly List<HighlightView> hightlightViews = new List<HighlightView>();
     private float mLastX;
     private float mLastY;
-    private HighlightView mMotionHighlightView = null;
+    private HighlightView mMotionHighlightView;
     private HighlightView.HitPosition motionEdge;
 
     #endregion
@@ -30,7 +28,6 @@ namespace Xsseract.Droid.Controls
       : base(context, attrs)
     {
       SetLayerType(LayerType.Software, null);
-      this.context = context;
     }
 
     #endregion
@@ -77,7 +74,7 @@ namespace Xsseract.Droid.Controls
 
           if(hv.Focused)
           {
-            centerBasedOnHighlightView(hv);
+            CenterBasedOnHighlightView(hv);
           }
         }
       }
@@ -117,6 +114,7 @@ namespace Xsseract.Droid.Controls
     protected override void ZoomTo(float scale, float centerX, float centerY)
     {
       base.ZoomTo(scale, centerX, centerY);
+
       foreach(var hv in hightlightViews)
       {
         hv.matrix.Set(ImageMatrix);
@@ -134,11 +132,11 @@ namespace Xsseract.Droid.Controls
       {
         case MotionEventActions.Down:
 
-          for(int i = 0; i < hightlightViews.Count; i++)
+          for (int i = 0; i < hightlightViews.Count; i++)
           {
             HighlightView hv = hightlightViews[i];
             var edge = hv.GetHit(ev.GetX(), ev.GetY());
-            if(edge != HighlightView.HitPosition.None)
+            if (edge != HighlightView.HitPosition.None)
             {
               motionEdge = edge;
               mMotionHighlightView = hv;
@@ -148,31 +146,21 @@ namespace Xsseract.Droid.Controls
                 (edge == HighlightView.HitPosition.Move)
                   ? HighlightView.ModifyMode.Move
                   : HighlightView.ModifyMode.Grow;
+              
               break;
             }
-          }
-
-          if(motionEdge == HighlightView.HitPosition.None)
-          {
-            return base.OnTouchEvent(ev);
           }
           break;
 
         case MotionEventActions.Up:
-          bool movingEdge = false;
           if(mMotionHighlightView != null)
           {
-            centerBasedOnHighlightView(mMotionHighlightView);
+            CenterBasedOnHighlightView(mMotionHighlightView);
             mMotionHighlightView.Mode = HighlightView.ModifyMode.None;
-
-            movingEdge = true;
           }
 
           mMotionHighlightView = null;
-          if(!movingEdge)
-          {
-            return base.OnTouchEvent(ev);
-          }
+          motionEdge = HighlightView.HitPosition.None;
           break;
 
         case MotionEventActions.Move:
@@ -191,34 +179,28 @@ namespace Xsseract.Droid.Controls
               // the edge of the screen causes scrolling but it means
               // that the crop rectangle is no longer fixed under
               // the user's finger.
-              ensureVisible(mMotionHighlightView);
+              EnsureVisible(mMotionHighlightView);
             }
           }
-          else
-          {
-            return base.OnTouchEvent(ev);
-          }
           break;
-        default:
-          return base.OnTouchEvent(ev);
       }
 
-      //switch (ev.Action)
-      //{
-      //  case MotionEventActions.Up:
-      //    Center(true, true);
-      //    break;
-      //  case MotionEventActions.Move:
-      //    // if we're not zoomed then there's no point in even allowing
-      //    // the user to move the image around.  This call to center puts
-      //    // it back to the normalized location (with false meaning don't
-      //    // animate).
-      //    if (GetScale() == 1F)
-      //    {
-      //      Center(true, true);
-      //    }
-      //    break;
-      //}
+      switch (ev.Action)
+      {
+        case MotionEventActions.Up:
+          Center(true, true);
+          break;
+        case MotionEventActions.Move:
+          // if we're not zoomed then there's no point in even allowing
+          // the user to move the image around.  This call to center puts
+          // it back to the normalized location (with false meaning don't
+          // animate).
+          if (GetScale() == 1F)
+          {
+            Center(true, true);
+          }
+          break;
+      }
 
       return true;
     }
@@ -233,7 +215,7 @@ namespace Xsseract.Droid.Controls
 
     // If the cropping rectangle's size changed significantly, change the
     // view's center and scale according to the cropping rectangle.
-    private void centerBasedOnHighlightView(HighlightView hv)
+    private void CenterBasedOnHighlightView(HighlightView hv)
     {
       Rect drawRect = hv.DrawRect;
 
@@ -261,10 +243,10 @@ namespace Xsseract.Droid.Controls
         ZoomTo(zoom, coordinates[0], coordinates[1], 300F);
       }
 
-      ensureVisible(hv);
+      EnsureVisible(hv);
     }
 
-    private void ensureVisible(HighlightView hv)
+    private void EnsureVisible(HighlightView hv)
     {
       Rect r = hv.DrawRect;
 

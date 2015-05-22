@@ -4,6 +4,8 @@ using System;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Views;
+using Xsseract.Droid.Extensions;
+using Color = Android.Graphics.Color;
 
 #endregion
 
@@ -29,6 +31,7 @@ namespace Xsseract.Droid.Controls
     private readonly Paint outlinePaint = new Paint();
     private Drawable resizeDrawableHeight;
     private Drawable resizeDrawableWidth;
+    private Rect leftResizeWidgetRect, rightResizeWidgetRect, topResizeWidgetRect, bottomResizeWidgetRect;
 
     #endregion
 
@@ -113,16 +116,20 @@ namespace Xsseract.Droid.Controls
       int xMiddle = DrawRect.Left + ((DrawRect.Right - DrawRect.Left) / 2);
       int yMiddle = DrawRect.Top + ((DrawRect.Bottom - DrawRect.Top) / 2);
 
-      resizeDrawableWidth.SetBounds(left - widthWidth, yMiddle - widthHeight, left + widthWidth, yMiddle + widthHeight);
+      leftResizeWidgetRect = new Rect(left - widthWidth, yMiddle - widthHeight, left + widthWidth, yMiddle + widthHeight);
+      resizeDrawableWidth.SetBounds(leftResizeWidgetRect);
       resizeDrawableWidth.Draw(canvas);
 
-      resizeDrawableWidth.SetBounds(right - widthWidth, yMiddle - widthHeight, right + widthWidth, yMiddle + widthHeight);
+      rightResizeWidgetRect = new Rect(right - widthWidth, yMiddle - widthHeight, right + widthWidth, yMiddle + widthHeight);
+      resizeDrawableWidth.SetBounds(rightResizeWidgetRect);
       resizeDrawableWidth.Draw(canvas);
 
-      resizeDrawableHeight.SetBounds(xMiddle - heightWidth, top - heightHeight, xMiddle + heightWidth, top + heightHeight);
+      topResizeWidgetRect = new Rect(xMiddle - heightWidth, top - heightHeight, xMiddle + heightWidth, top + heightHeight);
+      resizeDrawableHeight.SetBounds(topResizeWidgetRect);
       resizeDrawableHeight.Draw(canvas);
 
-      resizeDrawableHeight.SetBounds(xMiddle - heightWidth, bottom - heightHeight, xMiddle + heightWidth, bottom + heightHeight);
+      bottomResizeWidgetRect = new Rect(xMiddle - heightWidth, bottom - heightHeight, xMiddle + heightWidth, bottom + heightHeight);
+      resizeDrawableHeight.SetBounds(bottomResizeWidgetRect);
       resizeDrawableHeight.Draw(canvas);
     }
 
@@ -130,39 +137,34 @@ namespace Xsseract.Droid.Controls
     public HitPosition GetHit(float x, float y)
     {
       Rect r = computeLayout();
-      float hysteresis = Math.Max(
-        Math.Max(resizeDrawableWidth.IntrinsicWidth / 2, resizeDrawableWidth.IntrinsicHeight / 2),
-        Math.Max(resizeDrawableHeight.IntrinsicWidth / 2, resizeDrawableHeight.IntrinsicHeight / 2));
       var retval = HitPosition.None;
 
-      // verticalCheck makes sure the position is between the top and
-      // the bottom edge (with some tolerance). Similar for horizCheck.
-      bool verticalCheck = (y >= r.Top - hysteresis) && (y < r.Bottom + hysteresis);
-      bool horizCheck = (x >= r.Left - hysteresis) && (x < r.Right + hysteresis);
+      int rx = (int)x;
+      int ry = (int)y;
 
       // Check whether the position is near some edge(s).
-      if((Math.Abs(r.Left - x) < hysteresis) && verticalCheck)
+      if(leftResizeWidgetRect.Contains(rx, ry))
       {
         retval |= HitPosition.GrowLeftEdge;
       }
 
-      if((Math.Abs(r.Right - x) < hysteresis) && verticalCheck)
+      if(rightResizeWidgetRect.Contains(rx, ry))
       {
         retval |= HitPosition.GrowRightEdge;
       }
 
-      if((Math.Abs(r.Top - y) < hysteresis) && horizCheck)
+      if(topResizeWidgetRect.Contains(rx, ry))
       {
         retval |= HitPosition.GrowTopEdge;
       }
 
-      if((Math.Abs(r.Bottom - y) < hysteresis) && horizCheck)
+      if(bottomResizeWidgetRect.Contains(rx, ry))
       {
         retval |= HitPosition.GrowBottomEdge;
       }
 
       // Not near any edge but inside the rectangle: move.
-      if(retval == HitPosition.None && r.Contains((int)x, (int)y))
+      if(retval == HitPosition.None && r.Contains(rx, ry))
       {
         retval = HitPosition.Move;
       }

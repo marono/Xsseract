@@ -4,8 +4,8 @@
   </style>
   <style name="AppTheme.Splash" parent="AppTheme.Base">
     <item name="android:windowNoTitle">true</item>
-    <item name="android:windowBackground">@color/launcher_background</item>
-    <item name="android:textColorPrimary">@color/white</item>
+    <!--<item name="android:windowBackground">@color/launcher_background</item>
+    <item name="android:textColorPrimary">@color/white</item>-->
   </style>
   <!-- Base theme applied no matter what API -->
   <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -18,16 +18,32 @@
     <item name="colorPrimary">@color/primary</item>
     <!-- colorPrimaryDark is used for the status bar -->
     <item name="android:colorPrimaryDark">@color/primary_dark</item>
-    <item name="android:navigationBarColor">#303F9F</item>
+    <item name="android:navigationBarColor">@color/primary_dark</item>
 
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
     <item name="colorAccent">@color/accent</item>
-    <item name="android:textColorPrimary">#212121</item>
+    <item name="android:textColorPrimary">@color/primary_text</item>
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight and colorSwitchThumbNormal. -->
-    <item name="android:textColorSecondary">@color/text_color_secondary</item>
+    <item name="android:textColorSecondary">@color/secondary_text</item>
     <!--<item name="android:icons">#FFFFFF</item>-->
-    <item name="android:divider">#B6B6B6</item>
+    <item name="android:divider">@color/divider</item>
+  </style>
+  <style name="FloatingActionButtonMain" parent="@style/FloatingActionButton">
+    <item name="android:layout_margin">10dp</item>
+    <item name="fab_colorNormal">@color/accent</item>
+    <item name="fab_colorPressed">@color/accent</item>
+    <item name="fab_colorRipple">@color/accent</item>
+    <item name="android:layout_width">64dp</item>
+    <item name="android:layout_height">64dp</item>
+  </style>
+  <style name="FloatingActionButtonTools" parent="@style/FloatingActionButton">
+    <item name="android:layout_margin">5dp</item>
+  </style>
+  <style name="FloatingActionButton" parent="@style/AppTheme.Base">
+    <item name="fab_colorNormal">@color/primary</item>
+    <item name="fab_colorPressed">@color/primary_light</item>
+    <item name="fab_colorRipple">@color/primary_dark</item>
   </style>
 </resources>

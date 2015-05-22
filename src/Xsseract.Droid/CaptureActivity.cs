@@ -11,6 +11,7 @@ using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Widget;
+using com.refractored.fab;
 using Java.IO;
 using Xsseract.Droid.Controls;
 using Environment = Android.OS.Environment;
@@ -26,8 +27,8 @@ namespace Xsseract.Droid
   {
     #region Fields
 
-    private Button btnRead;
-    private Button btnTest;
+    private FloatingActionButton fabAccept;
+    private FloatingActionButton fabCamera;
     private HighlightView crop;
     //private CameraHandler cameraHandler;
     //private SurfaceView srfViewPreview;
@@ -66,15 +67,15 @@ namespace Xsseract.Droid
       tesseractor = new Tesseractor(ApplicationContext.DestinationDirBase);
 
       SetContentView(Resource.Layout.Capture);
-      btnTest = FindViewById<Button>(Resource.Id.btnTest);
-      btnRead = FindViewById<Button>(Resource.Id.btnRead);
+      fabCamera = FindViewById<FloatingActionButton>(Resource.Id.fabCamera);
+      fabAccept = FindViewById<FloatingActionButton>(Resource.Id.fabAccept);
       //viewFinder = FindViewById<ViewGroup>(Resource.Id.viewFinder);
       //srfViewPreview = FindViewById<SurfaceView>(Resource.Id.srfViewPreview);
       //cameraHandler = new CameraHandler(srfViewPreview.Holder, BaseContext);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
 
-      btnTest.Click += btnTest_Click;
-      btnRead.Click += btnRead_Click;
+      fabCamera.Click += btnCamera_Click;
+      fabAccept.Click += btnAccept_Click;
     }
 
     protected override void OnDestroy()
@@ -147,7 +148,7 @@ namespace Xsseract.Droid
       int width = r.Width();
       int height = r.Height();
 
-      Bitmap croppedImage = Bitmap.CreateBitmap(width, height, Bitmap.Config.Rgb565);
+      Bitmap croppedImage = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
       {
         var canvas = new Canvas(croppedImage);
         var dstRect = new Rect(0, 0, width, height);
@@ -155,68 +156,6 @@ namespace Xsseract.Droid
       }
 
       return croppedImage;
-
-      // If the output is required to a specific size then scale or fill
-      //if (outputX != 0 && outputY != 0)
-      //{
-      //  if (scale)
-      //  {
-      //    // Scale the image to the required dimensions
-      //    Bitmap old = croppedImage;
-      //    croppedImage = Util.transform(new Matrix(),
-      //                                  croppedImage, outputX, outputY, scaleUp);
-      //    if (old != croppedImage)
-      //    {
-      //      old.Recycle();
-      //    }
-      //  }
-      //  else
-      //  {
-      //    // Don't scale the image crop it to the size requested.
-      //    // Create an new image with the cropped image in the center and
-      //    // the extra space filled.              
-      //    Bitmap b = Bitmap.CreateBitmap(outputX, outputY,
-      //                                   Bitmap.Config.Rgb565);
-      //    Canvas canvas = new Canvas(b);
-
-      //    Rect srcRect = crop.CropRect;
-      //    Rect dstRect = new Rect(0, 0, outputX, outputY);
-
-      //    int dx = (srcRect.Width() - dstRect.Width()) / 2;
-      //    int dy = (srcRect.Height() - dstRect.Height()) / 2;
-
-      //    // If the srcRect is too big, use the center part of it.
-      //    srcRect.Inset(Math.Max(0, dx), Math.Max(0, dy));
-
-      //    // If the dstRect is too big, use the center part of it.
-      //    dstRect.Inset(Math.Max(0, -dx), Math.Max(0, -dy));
-
-      //    // Draw the cropped bitmap in the center
-      //    canvas.DrawBitmap(image, srcRect, dstRect, null);
-
-      //    // Set the cropped bitmap as the new bitmap
-      //    croppedImage.Recycle();
-      //    croppedImage = b;
-      //  }
-      //}
-
-      // Return the cropped image directly or save it to the specified URI.
-      Bundle myExtras = Intent.Extras;
-
-      //if (myExtras != null &&
-      //    (myExtras.GetParcelable("data") != null || myExtras.GetBoolean("return-data")))
-      //{
-      //  Bundle extras = new Bundle();
-      //  extras.PutParcelable("data", croppedImage);
-      //  SetResult(Result.Ok,
-      //            (new Intent()).SetAction("inline-data").PutExtras(extras));
-      //  Finish();
-      //}
-      //else
-      //{
-      //  Bitmap b = croppedImage;
-      //  BackgroundJob.StartBackgroundJob(this, null, "Saving image", () => saveOutput(b), mHandler);
-      //}
     }
 
     private bool IsThereACameraAppAvailable()
@@ -311,23 +250,15 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, 1);
     }
 
-    private async void btnRead_Click(object sender, EventArgs eventArgs)
+    private async void btnAccept_Click(object sender, EventArgs eventArgs)
     {
-      //var cropped = GetSelectedRegion();
+      //float cropX = crop.CropRect.Left;
+      //float cropY = crop.CropRect.Top;
+      //float cropW = crop.CropRect.Width();
+      //float cropH = crop.CropRect.Height();
 
-      LogDebug("Image translation is {0}, {1}", imgPreview.TranslateX, imgPreview.TranslateY);
-      LogDebug("Image scale is {0}", imgPreview.Scale);
-      LogDebug("Crop rect is {0},{1}/{2},{3}", crop.CropRect.Left, crop.CropRect.Top, crop.CropRect.Width(), crop.CropRect.Height());
-      LogDebug("Draw rect is at {0},{1}/{2},{3}", crop.DrawRect.Left, crop.DrawRect.Top, crop.DrawRect.Width(), crop.DrawRect.Height());
-
-      float cropX = crop.CropRect.Left;
-      float cropY = crop.CropRect.Top;
-      float cropW = crop.CropRect.Width();
-      float cropH = crop.CropRect.Height();
-      LogDebug("Cropping at {0},{1}/{2},{3}", cropX, cropY, cropW, cropH);
-      LogDebug("Image size is {0},{1}", image.Width, image.Height);
-
-      var cropped = Bitmap.CreateBitmap(image, (int)cropX, (int)cropY, (int)cropW, (int)cropH, imgPreview.Matrix, true);
+      //var cropped = Bitmap.CreateBitmap(image, (int)cropX, (int)cropY, (int)cropW, (int)cropH, imgPreview.Matrix, true);
+      var cropped = GetSelectedRegion();
       imgPreview.SetImageBitmapResetBase(cropped, true);
       imgPreview.ClearHighlightViews();
 
@@ -343,7 +274,7 @@ namespace Xsseract.Droid
       }
     }
 
-    private async void btnTest_Click(object sender, EventArgs e)
+    private async void btnCamera_Click(object sender, EventArgs e)
     {
       nextImageUri = null;
       //StartCameraActivity();
@@ -351,7 +282,6 @@ namespace Xsseract.Droid
       //nextImageUri = Android.Net.Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_82f8d342-e04c-4ccb-8f4c-c2d63b004d0c.jpg"));
       await ProcessAndDisplayImage();
     }
-
     #endregion
   }
 }

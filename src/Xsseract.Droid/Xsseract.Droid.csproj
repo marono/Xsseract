@@ -46,6 +46,9 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="Refractored.FloatingActionButton">
+      <HintPath>..\packages\Refractored.FloatingActionButton.1.3.4\lib\MonoAndroid10\Refractored.FloatingActionButton.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Android.Support.v4">
@@ -54,13 +57,16 @@
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityBase.cs" />
-    <Compile Include="CameraHandler.cs" />
     <Compile Include="Controls\CropImageView.cs" />
     <Compile Include="Controls\HighlightView.cs" />
     <Compile Include="Controls\ImageViewTouchBase.cs" />
+    <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="LauncherActivity.cs" />
     <Compile Include="Controls\RotateBitmap.cs" />
     <Compile Include="Tesseractor.cs" />
@@ -88,9 +94,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <TransformFile Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +106,9 @@
     <AndroidResource Include="Resources\drawable\TestImg.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\values\Styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Colors.xml" />
@@ -146,6 +151,51 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\indicator_autocrop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\accept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\accept.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

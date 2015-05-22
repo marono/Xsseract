@@ -6,17 +6,18 @@ using Android.Graphics;
 using Android.OS;
 using Android.Util;
 using Android.Views;
-using com.refractored.monodroidtoolkit;
+using Android.Widget;
 using Environment = System.Environment;
 
 #endregion
 
 namespace Xsseract.Droid.Controls
 {
-  public abstract class ImageViewTouchBase: ScaleImageView
+  public abstract class ImageViewTouchBase : ImageView
   {
     #region Members
 
+    #region Fields
     // This is the base transformation which is used to show the image
     // initially.  The current computation for this shows the image in
     // it's entirety, letterboxing as needed.  One could choose to
@@ -24,21 +25,13 @@ namespace Xsseract.Droid.Controls
     //
     // This matrix is recomputed when we go from the thumbnail image to
     // the full size image.
-
-    #region Fields
-
     protected Matrix baseMatrix = new Matrix();
     protected RotateBitmap bitmapDisplayed = new RotateBitmap(null);
-
-    // This is the supplementary transformation which reflects what
-    // the user has done in terms of zooming and panning.
-    //
-    // This matrix remains the same when we go from the thumbnail image
-    // to the full size image.
 
     // This is the final matrix which is computed as the concatentation
     // of the base matrix and the supplementary matrix.
     private readonly Matrix displayMatrix = new Matrix();
+
     private readonly Handler handler = new Handler();
 
     // Temporary buffer used for getting the values out of a matrix.
@@ -49,6 +42,11 @@ namespace Xsseract.Droid.Controls
     private float maxZoom;
 
     private Action onLayoutRunnable = null;
+    // This is the supplementary transformation which reflects what
+    // the user has done in terms of zooming and panning.
+    //
+    // This matrix remains the same when we go from the thumbnail image
+    // to the full size image.
     protected Matrix suppMatrix = new Matrix();
     private int thisHeight = -1;
     private int thisWidth = -1;
