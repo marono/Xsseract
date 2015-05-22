@@ -3,4 +3,5 @@
   <string name="ApplicationName">Xsseract</string>
   <string name="ErrorTitle">Ooops...</string>
   <string name="AlertTitle">A message from the underworld ...</string>
+  <string name="label_Result">Result:</string>
 </resources>

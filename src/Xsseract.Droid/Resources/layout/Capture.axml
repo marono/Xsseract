@@ -11,6 +11,30 @@
         android:layout_x="0dip"
         android:layout_y="0dip" />
     <LinearLayout
+        android:id="@+id/containerResult"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp">
+        <TextView
+            android:text="@string/label_Result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_text"
+            android:layout_gravity="left" />
+        <TextView
+            android:id="@+id/txtViewResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp"
+            android:layout_gravity="left" />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/containerMain"
         android:orientation="horizontal"
         android:layout_marginBottom="10dp"
@@ -19,14 +43,25 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
         <com.refractored.fab.FloatingActionButton
-            android:id="@+id/fabAccept"
+            android:id="@+id/fabCrop"
             style="@style/FloatingActionButtonMain"
-            android:src="@drawable/accept"
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
+            android:src="@drawable/crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
         <com.refractored.fab.FloatingActionButton
             android:id="@+id/fabCamera"
             style="@style/FloatingActionButtonMain"
-            android:src="@drawable/camera" />
+            android:src="@drawable/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabAccept"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

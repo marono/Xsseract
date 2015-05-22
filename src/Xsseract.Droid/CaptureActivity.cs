@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
+using Android.Views;
 using Android.Widget;
 using com.refractored.fab;
 using Java.IO;
@@ -23,20 +24,32 @@ using Uri = Android.Net.Uri;
 namespace Xsseract.Droid
 {
   [Activity]
-  public class CaptureActivity: ActivityBase
+  public class CaptureActivity : ActivityBase
   {
+    private enum CaptureStates
+    {
+      None,
+      Capture,
+      Crop,
+      Parsed
+    }
     #region Fields
 
-    private FloatingActionButton fabAccept;
+    private FloatingActionButton fabCrop;
     private FloatingActionButton fabCamera;
+    private FloatingActionButton fabAccept;
+    private LinearLayout containerResult;
+    private TextView txtViewResult;
     private HighlightView crop;
     //private CameraHandler cameraHandler;
     //private SurfaceView srfViewPreview;
     private Bitmap image;
+    private Bitmap cropped;
     private Uri imageUri;
     private CropImageView imgPreview;
     private Uri nextImageUri;
     private Tesseractor tesseractor;
+    private CaptureStates state;
 
     #endregion
 
@@ -46,10 +59,10 @@ namespace Xsseract.Droid
     {
       base.OnActivityResult(requestCode, resultCode, data);
 
-      switch(requestCode)
+      switch (requestCode)
       {
         case 1:
-          if(resultCode != Result.Ok)
+          if (resultCode != Result.Ok)
           {
             nextImageUri = null;
             return;
@@ -68,14 +81,17 @@ namespace Xsseract.Droid
 
       SetContentView(Resource.Layout.Capture);
       fabCamera = FindViewById<FloatingActionButton>(Resource.Id.fabCamera);
+      fabCrop = FindViewById<FloatingActionButton>(Resource.Id.fabCrop);
       fabAccept = FindViewById<FloatingActionButton>(Resource.Id.fabAccept);
       //viewFinder = FindViewById<ViewGroup>(Resource.Id.viewFinder);
       //srfViewPreview = FindViewById<SurfaceView>(Resource.Id.srfViewPreview);
       //cameraHandler = new CameraHandler(srfViewPreview.Holder, BaseContext);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
+      txtViewResult = FindViewById<TextView>(Resource.Id.txtViewResult);
+      containerResult = FindViewById<LinearLayout>(Resource.Id.containerResult);
 
-      fabCamera.Click += btnCamera_Click;
-      fabAccept.Click += btnAccept_Click;
+      fabCamera.Click += fabCamera_Click;
+      fabCrop.Click += fabCrop_Click;
     }
 
     protected override void OnDestroy()
@@ -89,8 +105,16 @@ namespace Xsseract.Droid
       base.OnResume();
 
       await tesseractor.InitializeAsync();
+      if (null == image)
+      {
+        SetStateCapture();
+      }
+      else
+      {
+        SetStateCrop();
+      }
 
-      if(null != nextImageUri)
+      if (null != nextImageUri)
       {
         // Don't take another snap, as one is already present.
         return;
@@ -99,6 +123,7 @@ namespace Xsseract.Droid
       //StartCameraActivity();
       nextImageUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
       //nextImageUri = Android.Net.Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_82f8d342-e04c-4ccb-8f4c-c2d63b004d0c.jpg"));
+      SetStateCrop();
       await ProcessAndDisplayImage();
     }
 
@@ -133,7 +158,7 @@ namespace Xsseract.Droid
     private File CreateDirectoryForPictures()
     {
       var mediaPath = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), Resources.GetString(Resource.String.ApplicationName));
-      if(!mediaPath.Exists())
+      if (!mediaPath.Exists())
       {
         mediaPath.Mkdirs();
       }
@@ -168,7 +193,7 @@ namespace Xsseract.Droid
     private async Task ProcessAndDisplayImage()
     {
       imgPreview.SetImageBitmap(null);
-      if(null != image)
+      if (null != image)
       {
         image.Recycle();
         image.Dispose();
@@ -189,7 +214,7 @@ namespace Xsseract.Droid
 
           var matrix = new Matrix();
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
-          switch((Orientation)exifOrientation)
+          switch ((Orientation)exifOrientation)
           {
             case Orientation.Normal:
             case Orientation.Rotate90:
@@ -206,7 +231,7 @@ namespace Xsseract.Droid
               break;
           }
 
-          if(width > 4096 || height > 4096)
+          if (width > 4096 || height > 4096)
           {
             float scaleFactorW = (float)width / 4096;
             float scaleFactorH = (float)height / 4096;
@@ -227,11 +252,12 @@ namespace Xsseract.Droid
 
       imgPreview.SetImageBitmapResetBase(image, true);
       AddHighlightView();
+      SetStateCrop();
     }
 
     private void StartCameraActivity()
     {
-      if(!IsThereACameraAppAvailable())
+      if (!IsThereACameraAppAvailable())
       {
         // TODO: To resources.
         DisplayError("There's no camera app to take snaps. Get one from the store ...");
@@ -250,7 +276,64 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, 1);
     }
 
-    private async void btnAccept_Click(object sender, EventArgs eventArgs)
+    private void SetStateCapture()
+    {
+      fabAccept.Hide(false);
+      fabAccept.Visibility = ViewStates.Gone;
+      fabCrop.Hide(false);
+      fabCrop.Visibility = ViewStates.Gone;
+      fabCamera.Visibility = ViewStates.Visible;
+      fabCamera.Show(true);
+
+      state = CaptureStates.Capture;
+    }
+
+    private void SetStateCrop()
+    {
+      switch (state)
+      {
+        case CaptureStates.None:
+          fabAccept.Hide(false);
+          fabAccept.Visibility = ViewStates.Gone;
+          break;
+        case CaptureStates.Capture:
+          fabAccept.Hide(false);
+          fabAccept.Visibility = ViewStates.Gone;
+          fabCrop.Visibility = ViewStates.Visible;
+          fabCrop.Show(true);
+          break;
+        case CaptureStates.Parsed:
+          fabAccept.Hide(true);
+          fabAccept.Visibility = ViewStates.Gone;
+          fabCrop.Visibility = ViewStates.Visible;
+          fabCrop.Show(true);
+          containerResult.Visibility = ViewStates.Gone;
+          break;
+      }
+
+      state = CaptureStates.Crop;
+
+    }
+
+    private void SetStateParsed()
+    {
+      switch (state)
+      {
+        case CaptureStates.Crop:
+          fabAccept.Visibility = ViewStates.Visible;
+          fabAccept.Show(true);
+
+          fabCrop.Hide(true);
+          fabCrop.Visibility = ViewStates.Gone;
+          containerResult.Visibility = ViewStates.Visible;
+          break;
+      }
+
+      state = CaptureStates.Parsed;
+
+    }
+
+    private async void fabCrop_Click(object sender, EventArgs eventArgs)
     {
       //float cropX = crop.CropRect.Left;
       //float cropY = crop.CropRect.Top;
@@ -265,16 +348,17 @@ namespace Xsseract.Droid
       try
       {
         var result = await tesseractor.RecognizeAsync(cropped);
-        DisplayAlert(result);
+        txtViewResult.Text = result;
+        SetStateParsed();
       }
-      catch(Exception e)
+      catch (Exception e)
       {
         LogError(e);
         DisplayError(e);
       }
     }
 
-    private async void btnCamera_Click(object sender, EventArgs e)
+    private async void fabCamera_Click(object sender, EventArgs e)
     {
       nextImageUri = null;
       //StartCameraActivity();
