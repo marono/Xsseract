@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="ApplicationName">Xsseract</string>
+  <string name="ErrorTitle">Ooops...</string>
+  <string name="AlertTitle">A message from the underworld ...</string>
+</resources>
