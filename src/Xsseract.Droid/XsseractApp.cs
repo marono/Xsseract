@@ -1,39 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+#region
 
+using System;
+using System.IO;
 using Android.App;
-using Android.Content;
-using Android.Content.Res;
-using Android.OS;
 using Android.Runtime;
 using Android.Util;
-using Android.Views;
-using Android.Widget;
 using Java.IO;
 using Java.Util.Zip;
+
+#endregion
 
 namespace Xsseract.Droid
 {
   [Application(Icon = "@drawable/icon")]
-  public class XsseractApp : Android.App.Application
+  public class XsseractApp: Application
   {
-    public const string Tag = "XsseractApp";
+    #region Properties
+
     public string DestinationDirBase { get; private set; }
 
+    #endregion
+
+    #region .ctors
+
     protected XsseractApp(IntPtr javaReference, JniHandleOwnership transfer)
-      : base(javaReference, transfer) { }
+      : base(javaReference, transfer) {}
 
-    public override void OnCreate()
-    {
-      base.OnCreate();
+    #endregion
 
-      // TODO: Move to launcher ???
-      InitializeTessData();
-    }
+    #region Public methods
 
     public void LogDebug(string message)
     {
@@ -50,25 +45,36 @@ namespace Xsseract.Droid
       Log.Error(Tag, e.ToString());
     }
 
+    public override void OnCreate()
+    {
+      base.OnCreate();
+
+      // TODO: Move to launcher ???
+      InitializeTessData();
+    }
+
+    #endregion
+
+    #region Private Methods
+
     private void InitializeTessData()
     {
-      DestinationDirBase = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+      DestinationDirBase = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
       string tessDataFolder = Path.Combine(DestinationDirBase, "tessdata");
-      
 
-      if (Directory.Exists(tessDataFolder))
+      if(Directory.Exists(tessDataFolder))
       {
         return;
       }
 
       Directory.CreateDirectory(tessDataFolder);
 
-      using (var file = new ZipInputStream(Resources.Assets.Open("tessData.zip")))
+      using(var file = new ZipInputStream(Resources.Assets.Open("tessData.zip")))
       {
         var buffer = new byte[2048];
         int count;
         ZipEntry entry;
-        while ((entry = file.NextEntry) != null)
+        while((entry = file.NextEntry) != null)
         {
           var fos = new FileStream(Path.Combine(tessDataFolder, entry.Name), FileMode.CreateNew, FileAccess.Write);
           var dest = new BufferedOutputStream(fos, buffer.Length);
@@ -76,11 +82,17 @@ namespace Xsseract.Droid
           do
           {
             count = file.Read(buffer, 0, buffer.Length);
-            if (count > 0)
+            if(count > 0)
+            {
               dest.Write(buffer, 0, count);
-          } while (count > 0);
+            }
+          } while(count > 0);
         }
       }
     }
+
+    #endregion
+
+    public const string Tag = "XsseractApp";
   }
 }

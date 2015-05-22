@@ -1,28 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+#region
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.Hardware.Camera2;
+using System;
 using System.Threading.Tasks;
+using Android.Content;
+using Android.Hardware.Camera2;
+using Android.Views;
+
+#endregion
 
 namespace Xsseract.Droid
 {
   public class CameraHandler
   {
+    #region Fields
+
     private CameraDevice camera;
     //private AutoFocusManager
+    private readonly Context context;
     private readonly ISurfaceHolder previewHolder;
-    private readonly Android.Content.Context context;
     private bool previewing;
 
-    public CameraHandler(ISurfaceHolder previewHolder, Android.Content.Context context)
+    #endregion
+
+    #region .ctors
+
+    public CameraHandler(ISurfaceHolder previewHolder, Context context)
     {
       if(null == previewHolder)
       {
@@ -37,22 +39,27 @@ namespace Xsseract.Droid
       this.context = context;
     }
 
+    #endregion
+
+    #region Public methods
+
     public async Task OpenAsync()
     {
-      await Task.Factory.StartNew(() => {
-        //CameraManager manager = (CameraManager)context.GetSystemService(Android.Content.Context.CameraService);
-        //var cameras = manager.OpenCamera("0", CameraCallback, previewHolder);
+      await Task.Factory.StartNew(() =>
+                                  {
+                                    //CameraManager manager = (CameraManager)context.GetSystemService(Android.Content.Context.CameraService);
+                                    //var cameras = manager.OpenCamera("0", CameraCallback, previewHolder);
 
-        //var c0 = manager.GetCameraCharacteristics("0");
-        //var c1 = manager.GetCameraCharacteristics("1");
+                                    //var c0 = manager.GetCameraCharacteristics("0");
+                                    //var c1 = manager.GetCameraCharacteristics("1");
 
-        if(null == camera)
-        {
-          throw new ApplicationException("Could not open the camera.");
-        }
+                                    if(null == camera)
+                                    {
+                                      throw new ApplicationException("Could not open the camera.");
+                                    }
 
-        //camera.SetPreviewDisplay(previewHolder);
-      });
+                                    //camera.SetPreviewDisplay(previewHolder);
+                                  });
     }
 
     public async Task StartPreviewAsync()
@@ -66,13 +73,19 @@ namespace Xsseract.Droid
         throw new InvalidOperationException("The camera is already in preview mode. Multiple calls to StartPreview are not supported.");
       }
 
-      await Task.Factory.StartNew(() => {
-        //camera.StartPreview();
-        previewing = true;
-      });
+      await Task.Factory.StartNew(() =>
+                                  {
+                                    //camera.StartPreview();
+                                    previewing = true;
+                                  });
     }
 
-    private void CameraCallback()
-    { }
+    #endregion
+
+    #region Private Methods
+
+    private void CameraCallback() {}
+
+    #endregion
   }
 }

@@ -1,18 +1,4 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+#region
 
 using System;
 using System.Collections.Generic;
@@ -21,18 +7,20 @@ using Android.Graphics;
 using Android.Util;
 using Android.Views;
 
+#endregion
+
 namespace Xsseract.Droid.Controls
 {
-  public class CropImageView : ImageViewTouchBase
+  public class CropImageView: ImageViewTouchBase
   {
     #region Private members
 
-    private List<HighlightView> hightlightViews = new List<HighlightView>();
-    private HighlightView mMotionHighlightView = null;
+    private Context context;
+    private readonly List<HighlightView> hightlightViews = new List<HighlightView>();
     private float mLastX;
     private float mLastY;
-    private global::Xsseract.Droid.Controls.HighlightView.HitPosition motionEdge;
-    private Context context;
+    private HighlightView mMotionHighlightView = null;
+    private HighlightView.HitPosition motionEdge;
 
     #endregion
 
@@ -41,7 +29,7 @@ namespace Xsseract.Droid.Controls
     public CropImageView(Context context, IAttributeSet attrs)
       : base(context, attrs)
     {
-      SetLayerType(Android.Views.LayerType.Software, null);
+      SetLayerType(LayerType.Software, null);
       this.context = context;
     }
 
@@ -49,26 +37,28 @@ namespace Xsseract.Droid.Controls
 
     #region Public methods
 
-    public void ClearHighlightViews()
-    {
-      this.hightlightViews.Clear();
-    }
-
     public void AddHighlightView(HighlightView hv)
     {
       hightlightViews.Add(hv);
       Invalidate();
     }
 
+    public void ClearHighlightViews()
+    {
+      hightlightViews.Clear();
+    }
+
     #endregion
 
     #region Overrides
+
+    #region Protected methods
 
     protected override void OnDraw(Canvas canvas)
     {
       base.OnDraw(canvas);
 
-      for (int i = 0; i < hightlightViews.Count; i++)
+      for(int i = 0; i < hightlightViews.Count; i++)
       {
         hightlightViews[i].Draw(canvas);
       }
@@ -78,14 +68,14 @@ namespace Xsseract.Droid.Controls
     {
       base.OnLayout(changed, left, top, right, bottom);
 
-      if (bitmapDisplayed.Bitmap != null)
+      if(bitmapDisplayed.Bitmap != null)
       {
-        foreach (var hv in hightlightViews)
+        foreach(var hv in hightlightViews)
         {
           hv.matrix.Set(ImageMatrix);
           hv.Invalidate();
 
-          if (hv.Focused)
+          if(hv.Focused)
           {
             centerBasedOnHighlightView(hv);
           }
@@ -93,12 +83,13 @@ namespace Xsseract.Droid.Controls
       }
     }
 
-    protected override void ZoomTo(float scale, float centerX, float centerY)
+    protected override void PostTranslate(float deltaX, float deltaY)
     {
-      base.ZoomTo(scale, centerX, centerY);
-      foreach (var hv in hightlightViews)
+      base.PostTranslate(deltaX, deltaY);
+      for(int i = 0; i < hightlightViews.Count; i++)
       {
-        hv.matrix.Set(ImageMatrix);
+        HighlightView hv = hightlightViews[i];
+        hv.matrix.PostTranslate(deltaX, deltaY);
         hv.Invalidate();
       }
     }
@@ -106,7 +97,7 @@ namespace Xsseract.Droid.Controls
     protected override void ZoomIn()
     {
       base.ZoomIn();
-      foreach (var hv in hightlightViews)
+      foreach(var hv in hightlightViews)
       {
         hv.matrix.Set(ImageMatrix);
         hv.Invalidate();
@@ -116,49 +107,52 @@ namespace Xsseract.Droid.Controls
     protected override void ZoomOut()
     {
       base.ZoomOut();
-      foreach (var hv in hightlightViews)
+      foreach(var hv in hightlightViews)
       {
         hv.matrix.Set(ImageMatrix);
         hv.Invalidate();
       }
     }
 
-    protected override void PostTranslate(float deltaX, float deltaY)
+    protected override void ZoomTo(float scale, float centerX, float centerY)
     {
-      base.PostTranslate(deltaX, deltaY);
-      for (int i = 0; i < hightlightViews.Count; i++)
+      base.ZoomTo(scale, centerX, centerY);
+      foreach(var hv in hightlightViews)
       {
-        HighlightView hv = hightlightViews[i];
-        hv.matrix.PostTranslate(deltaX, deltaY);
+        hv.matrix.Set(ImageMatrix);
         hv.Invalidate();
       }
     }
 
+    #endregion
+
+    #region Public methods
+
     public override bool OnTouchEvent(MotionEvent ev)
     {
-      switch (ev.Action)
+      switch(ev.Action)
       {
         case MotionEventActions.Down:
 
-          for (int i = 0; i < hightlightViews.Count; i++)
+          for(int i = 0; i < hightlightViews.Count; i++)
           {
             HighlightView hv = hightlightViews[i];
             var edge = hv.GetHit(ev.GetX(), ev.GetY());
-            if(edge != global::Xsseract.Droid.Controls.HighlightView.HitPosition.None)
+            if(edge != HighlightView.HitPosition.None)
             {
               motionEdge = edge;
               mMotionHighlightView = hv;
               mLastX = ev.GetX();
               mLastY = ev.GetY();
               mMotionHighlightView.Mode =
-                (edge == global::Xsseract.Droid.Controls.HighlightView.HitPosition.Move)
+                (edge == HighlightView.HitPosition.Move)
                   ? HighlightView.ModifyMode.Move
                   : HighlightView.ModifyMode.Grow;
               break;
             }
           }
 
-          if(motionEdge == global::Xsseract.Droid.Controls.HighlightView.HitPosition.None)
+          if(motionEdge == HighlightView.HitPosition.None)
           {
             return base.OnTouchEvent(ev);
           }
@@ -166,7 +160,7 @@ namespace Xsseract.Droid.Controls
 
         case MotionEventActions.Up:
           bool movingEdge = false;
-          if (mMotionHighlightView != null)
+          if(mMotionHighlightView != null)
           {
             centerBasedOnHighlightView(mMotionHighlightView);
             mMotionHighlightView.Mode = HighlightView.ModifyMode.None;
@@ -231,27 +225,11 @@ namespace Xsseract.Droid.Controls
 
     #endregion
 
+    #endregion
+
     #region Private helpers
 
     // Pan the displayed image to make sure the cropping rectangle is visible.
-    private void ensureVisible(HighlightView hv)
-    {
-      Rect r = hv.DrawRect;
-
-      int panDeltaX1 = Math.Max(0, IvLeft - r.Left);
-      int panDeltaX2 = Math.Min(0, IvRight - r.Right);
-
-      int panDeltaY1 = Math.Max(0, IvTop - r.Top);
-      int panDeltaY2 = Math.Min(0, IvBottom - r.Bottom);
-
-      int panDeltaX = panDeltaX1 != 0 ? panDeltaX1 : panDeltaX2;
-      int panDeltaY = panDeltaY1 != 0 ? panDeltaY1 : panDeltaY2;
-
-      if (panDeltaX != 0 || panDeltaY != 0)
-      {
-        PanBy(panDeltaX, panDeltaY);
-      }
-    }
 
     // If the cropping rectangle's size changed significantly, change the
     // view's center and scale according to the cropping rectangle.
@@ -269,11 +247,11 @@ namespace Xsseract.Droid.Controls
       float z2 = thisHeight / height * .6F;
 
       float zoom = Math.Min(z1, z2);
-      zoom = zoom * this.GetScale();
+      zoom = zoom * GetScale();
       zoom = Math.Max(1F, zoom);
-      if ((Math.Abs(zoom - GetScale()) / zoom) > .1)
+      if((Math.Abs(zoom - GetScale()) / zoom) > .1)
       {
-        float[] coordinates = new float[]
+        var coordinates = new float[]
         {
           hv.CropRect.CenterX(),
           hv.CropRect.CenterY()
@@ -284,6 +262,25 @@ namespace Xsseract.Droid.Controls
       }
 
       ensureVisible(hv);
+    }
+
+    private void ensureVisible(HighlightView hv)
+    {
+      Rect r = hv.DrawRect;
+
+      int panDeltaX1 = Math.Max(0, IvLeft - r.Left);
+      int panDeltaX2 = Math.Min(0, IvRight - r.Right);
+
+      int panDeltaY1 = Math.Max(0, IvTop - r.Top);
+      int panDeltaY2 = Math.Min(0, IvBottom - r.Bottom);
+
+      int panDeltaX = panDeltaX1 != 0 ? panDeltaX1 : panDeltaX2;
+      int panDeltaY = panDeltaY1 != 0 ? panDeltaY1 : panDeltaY2;
+
+      if(panDeltaX != 0 || panDeltaY != 0)
+      {
+        PanBy(panDeltaX, panDeltaY);
+      }
     }
 
     #endregion

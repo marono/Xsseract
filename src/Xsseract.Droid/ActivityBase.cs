@@ -1,28 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+#region
 
-using Android.App;
+using System;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.Support.V7.App;
+
+#endregion
 
 namespace Xsseract.Droid
 {
-  public class ActivityBase : AppCompatActivity
+  public class ActivityBase: AppCompatActivity
   {
+    #region Properties
+
     protected XsseractApp ApplicationContext
     {
-      get { return (XsseractApp)this.BaseContext.ApplicationContext; }
+      get { return (XsseractApp)BaseContext.ApplicationContext; }
     }
+
+    #endregion
+
+    #region Protected methods
 
     protected void DisplayAlert(string message)
     {
-      new Android.Support.V7.App.AlertDialog.Builder(this)
+      new AlertDialog.Builder(this)
         .SetTitle(Resource.String.AlertTitle)
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
@@ -31,9 +32,9 @@ namespace Xsseract.Droid
 
     protected void DisplayError(Exception e)
     {
-      string message = String.Format("{0}{1}{2}", e.Message, System.Environment.NewLine, e.StackTrace[0]);
+      string message = String.Format("{0}{1}{2}", e.Message, Environment.NewLine, e.StackTrace[0]);
 
-      new Android.Support.V7.App.AlertDialog.Builder(this)
+      new AlertDialog.Builder(this)
         .SetTitle(Resource.String.ErrorTitle)
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
@@ -42,12 +43,16 @@ namespace Xsseract.Droid
 
     protected void DisplayError(string error)
     {
-      new Android.Support.V7.App.AlertDialog.Builder(this)
+      new AlertDialog.Builder(this)
         .SetTitle(Resource.String.ErrorTitle)
         .SetMessage(error)
         .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
         .Show();
     }
+
+    #endregion
+
+    #region Public methods
 
     public void LogDebug(string message)
     {
@@ -63,5 +68,7 @@ namespace Xsseract.Droid
     {
       ApplicationContext.LogError(e);
     }
+
+    #endregion
   }
 }

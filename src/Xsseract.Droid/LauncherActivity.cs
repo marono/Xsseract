@@ -1,15 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+#region
 
 using Android.App;
 using Android.OS;
 
+#endregion
+
 namespace Xsseract.Droid
 {
   [Activity(MainLauncher = true)]
-  public class LauncherActivity : ActivityBase
+  public class LauncherActivity: ActivityBase
   {
+    #region Protected methods
+
     protected override void OnCreate(Bundle bundle)
     {
       base.OnCreate(bundle);
@@ -21,5 +23,7 @@ namespace Xsseract.Droid
 
       StartActivity(typeof(CaptureActivity));
     }
+
+    #endregion
   }
 }
