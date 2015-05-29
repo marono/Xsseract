@@ -10,30 +10,54 @@
         android:layout_height="fill_parent"
         android:layout_x="0dip"
         android:layout_y="0dip" />
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/containerResult"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:padding="10dp">
-        <TextView
-            android:text="@string/label_Result"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/containerTextResult"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondary_text"
-            android:layout_gravity="left" />
-        <TextView
-            android:id="@+id/txtViewResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="100dp"
-            android:layout_gravity="left" />
-    </LinearLayout>
+            android:padding="10dp">
+            <TextView
+                android:text="@string/label_Result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:layout_gravity="left" />
+            <TextView
+                android:id="@+id/txtViewResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:layout_gravity="left"
+                android:maxHeight="150dp"
+                android:clickable="true" />
+            <EditText
+                android:id="@+id/txtEditResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:maxHeight="250dp"
+                android:layout_gravity="left" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imgResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_above="@id/containerTextResult" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/containerMain"
         android:orientation="horizontal"

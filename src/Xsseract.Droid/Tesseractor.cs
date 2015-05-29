@@ -53,6 +53,7 @@ namespace Xsseract.Droid
 
     public void Dispose()
     {
+      tesseract.End();
       tesseract.Dispose();
     }
 

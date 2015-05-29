@@ -9,5 +9,4 @@
   <!--<attr path="/api/package/class[@name='Pixa.PixIterator']/method[@name='next']" name="return">java.lang.Object</attr>-->
   <remove-node path="/api/package/class[@name != 'TessBaseAPI' and @name != 'Pixa' and @name != 'Pix' and @name != 'Box' and @name != 'TessBaseAPI.ProgressValues' and @name != 'ResultIterator' and @name != 'TessBaseAPI.ProgressNotifier' and @name != 'PageIterator' and @name != 'ReadFile']" />
   <remove-node path="/api/package/class/method[@name='getResultIterator']"></remove-node>
-  <!--<remove-node path="/api/package/class/method[@name='OnProgressValues']"></remove-node>-->
 </metadata>

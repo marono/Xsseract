@@ -1,0 +1,16 @@
+<metadata>
+  <!--Remove all interfaces-->
+  <remove-node path="/api/package/interface" />
+  <!--Remove all classes except Fabric and Kit-->
+  <remove-node path="/api/package/class[@name != 'Fabric' and @name != 'Crashlytics' and @name != 'Kit' and @name != 'MonoException']"/>
+  <!--Remove all implemented interfaces on Kit-->
+  <remove-node path="/api/package[@name='io.fabric.sdk.android']/class[@name='Kit']/implements" />
+  <!--Only keep the with method of Fabric-->
+  <remove-node path="/api/package[@name='io.fabric.sdk.android']/class[@name='Fabric']/method[@name != 'with']" />
+  <!--Remove all methods on Crashlytics, except for the constructor-->
+  <remove-node path="/api/package[@name='com.crashlytics.android']/class[@name='Crashlytics']/maethod[@name != 'LogException']" />
+  <!--Remove all methods of the Kit class-->
+  <remove-node path="/api/package/class[@name='Kit']/method"/>
+  <attr path="/api/package[@name='com.crashlytics.android']" name="managedName">Crashlytics.Bindings.Droid</attr>
+  <attr path="/api/package[@name='io.fabric.sdk.android']" name="managedName">Crashlytics.Bindings.Droid</attr>
+</metadata>

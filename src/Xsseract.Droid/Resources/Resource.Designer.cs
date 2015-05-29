@@ -1701,13 +1701,16 @@ namespace Xsseract.Droid
 			public const int pin_progress_unpinned = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int scrubber_control_normal_holo = 2130837578;
+			public const int ProgressBar = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int scrubber_control_pressed_holo = 2130837579;
+			public const int scrubber_control_normal_holo = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int TestImg = 2130837580;
+			public const int scrubber_control_pressed_holo = 2130837580;
+			
+			// aapt resource value: 0x7f02004d
+			public const int TestImg = 2130837581;
 			
 			static Drawable()
 			{
@@ -1803,11 +1806,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0017
 			public const int collapseActionView = 2131361815;
 			
-			// aapt resource value: 0x7f0a0061
-			public const int containerMain = 2131361889;
+			// aapt resource value: 0x7f0a0064
+			public const int containerMain = 2131361892;
 			
 			// aapt resource value: 0x7f0a005f
 			public const int containerResult = 2131361887;
+			
+			// aapt resource value: 0x7f0a0060
+			public const int containerTextResult = 2131361888;
 			
 			// aapt resource value: 0x7f0a0040
 			public const int contentPanel = 2131361856;
@@ -1845,14 +1851,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0046
 			public const int expanded_menu = 2131361862;
 			
-			// aapt resource value: 0x7f0a0064
-			public const int fabAccept = 2131361892;
+			// aapt resource value: 0x7f0a0067
+			public const int fabAccept = 2131361895;
 			
-			// aapt resource value: 0x7f0a0063
-			public const int fabCamera = 2131361891;
+			// aapt resource value: 0x7f0a0066
+			public const int fabCamera = 2131361894;
 			
-			// aapt resource value: 0x7f0a0062
-			public const int fabCrop = 2131361890;
+			// aapt resource value: 0x7f0a0065
+			public const int fabCrop = 2131361893;
 			
 			// aapt resource value: 0x7f0a002b
 			public const int fill = 2131361835;
@@ -1880,6 +1886,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0a005e
 			public const int imgPreview = 2131361886;
+			
+			// aapt resource value: 0x7f0a0063
+			public const int imgResult = 2131361891;
 			
 			// aapt resource value: 0x7f0a002e
 			public const int left = 2131361838;
@@ -1910,6 +1919,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0a003c
 			public const int parentPanel = 2131361852;
+			
+			// aapt resource value: 0x7f0a0068
+			public const int progressView = 2131361896;
 			
 			// aapt resource value: 0x7f0a0005
 			public const int progress_circular = 2131361797;
@@ -2010,8 +2022,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a003d
 			public const int topPanel = 2131361853;
 			
-			// aapt resource value: 0x7f0a0060
-			public const int txtViewResult = 2131361888;
+			// aapt resource value: 0x7f0a0062
+			public const int txtEditResult = 2131361890;
+			
+			// aapt resource value: 0x7f0a0069
+			public const int txtViewDescription = 2131361897;
+			
+			// aapt resource value: 0x7f0a0061
+			public const int txtViewResult = 2131361889;
 			
 			// aapt resource value: 0x7f0a0008
 			public const int up = 2131361800;
@@ -2145,16 +2163,19 @@ namespace Xsseract.Droid
 			public const int Capture = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int select_dialog_item_material = 2130903066;
+			public const int Launcher = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int select_dialog_multichoice_material = 2130903067;
+			public const int select_dialog_item_material = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int select_dialog_singlechoice_material = 2130903068;
+			public const int select_dialog_multichoice_material = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int support_simple_spinner_dropdown_item = 2130903069;
+			public const int select_dialog_singlechoice_material = 2130903069;
+			
+			// aapt resource value: 0x7f03001e
+			public const int support_simple_spinner_dropdown_item = 2130903070;
 			
 			static Layout()
 			{
@@ -2178,56 +2199,59 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060001
 			public const int ErrorTitle = 2131099649;
 			
-			// aapt resource value: 0x7f060004
-			public const int abc_action_bar_home_description = 2131099652;
-			
 			// aapt resource value: 0x7f060005
-			public const int abc_action_bar_home_description_format = 2131099653;
+			public const int abc_action_bar_home_description = 2131099653;
 			
 			// aapt resource value: 0x7f060006
-			public const int abc_action_bar_home_subtitle_description_format = 2131099654;
+			public const int abc_action_bar_home_description_format = 2131099654;
 			
 			// aapt resource value: 0x7f060007
-			public const int abc_action_bar_up_description = 2131099655;
+			public const int abc_action_bar_home_subtitle_description_format = 2131099655;
 			
 			// aapt resource value: 0x7f060008
-			public const int abc_action_menu_overflow_description = 2131099656;
+			public const int abc_action_bar_up_description = 2131099656;
 			
 			// aapt resource value: 0x7f060009
-			public const int abc_action_mode_done = 2131099657;
+			public const int abc_action_menu_overflow_description = 2131099657;
 			
 			// aapt resource value: 0x7f06000a
-			public const int abc_activity_chooser_view_see_all = 2131099658;
+			public const int abc_action_mode_done = 2131099658;
 			
 			// aapt resource value: 0x7f06000b
-			public const int abc_activitychooserview_choose_application = 2131099659;
+			public const int abc_activity_chooser_view_see_all = 2131099659;
 			
 			// aapt resource value: 0x7f06000c
-			public const int abc_search_hint = 2131099660;
+			public const int abc_activitychooserview_choose_application = 2131099660;
 			
 			// aapt resource value: 0x7f06000d
-			public const int abc_searchview_description_clear = 2131099661;
+			public const int abc_search_hint = 2131099661;
 			
 			// aapt resource value: 0x7f06000e
-			public const int abc_searchview_description_query = 2131099662;
+			public const int abc_searchview_description_clear = 2131099662;
 			
 			// aapt resource value: 0x7f06000f
-			public const int abc_searchview_description_search = 2131099663;
+			public const int abc_searchview_description_query = 2131099663;
 			
 			// aapt resource value: 0x7f060010
-			public const int abc_searchview_description_submit = 2131099664;
+			public const int abc_searchview_description_search = 2131099664;
 			
 			// aapt resource value: 0x7f060011
-			public const int abc_searchview_description_voice = 2131099665;
+			public const int abc_searchview_description_submit = 2131099665;
 			
 			// aapt resource value: 0x7f060012
-			public const int abc_shareactionprovider_share_with = 2131099666;
+			public const int abc_searchview_description_voice = 2131099666;
 			
 			// aapt resource value: 0x7f060013
-			public const int abc_shareactionprovider_share_with_application = 2131099667;
+			public const int abc_shareactionprovider_share_with = 2131099667;
 			
 			// aapt resource value: 0x7f060014
-			public const int abc_toolbar_collapse_description = 2131099668;
+			public const int abc_shareactionprovider_share_with_application = 2131099668;
+			
+			// aapt resource value: 0x7f060015
+			public const int abc_toolbar_collapse_description = 2131099669;
+			
+			// aapt resource value: 0x7f060004
+			public const int label_Initializing = 2131099652;
 			
 			// aapt resource value: 0x7f060003
 			public const int label_Result = 2131099651;

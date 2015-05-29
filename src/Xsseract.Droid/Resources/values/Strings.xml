@@ -4,4 +4,5 @@
   <string name="ErrorTitle">Ooops...</string>
   <string name="AlertTitle">A message from the underworld ...</string>
   <string name="label_Result">Result:</string>
+  <string name="label_Initializing">Xsseract is initializing ...</string>
 </resources>

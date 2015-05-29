@@ -56,17 +56,17 @@ namespace Xsseract.Droid
 
     public void LogDebug(string message)
     {
-      ApplicationContext.LogDebug(message);
+      ApplicationContext.AppContext.LogDebug(message);
     }
 
     public void LogDebug(string format, params object[] args)
     {
-      ApplicationContext.LogDebug(format, args);
+      ApplicationContext.AppContext.LogDebug(format, args);
     }
 
     public void LogError(Exception e)
     {
-      ApplicationContext.LogError(e);
+      ApplicationContext.AppContext.LogError(e);
     }
 
     #endregion
