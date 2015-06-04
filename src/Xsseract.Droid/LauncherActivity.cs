@@ -1,8 +1,10 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Bluetooth;
 using Android.OS;
 using Android.Widget;
 
@@ -10,21 +12,20 @@ using Android.Widget;
 
 namespace Xsseract.Droid
 {
+  // TODO: Investigate white screen before splashscreen.
   [Activity(MainLauncher = true)]
-  public class LauncherActivity: ActivityBase
+  public class LauncherActivity : ActivityBase
   {
-    private ProgressBar progressView;
-
     #region Protected methods
 
     protected override void OnCreate(Bundle bundle)
     {
       base.OnCreate(bundle);
 
+      // TODO: Review this code, tesseract init should only happen when it hasn't already been initialized.
       if (!ApplicationContext.AppContext.Initialized)
       {
         SetContentView(Resource.Layout.Launcher);
-        progressView = FindViewById<ProgressBar>(Resource.Id.progressView);
       }
     }
 
@@ -32,37 +33,52 @@ namespace Xsseract.Droid
     {
       base.OnResume();
 
-      if(!ApplicationContext.AppContext.Initialized)
+      // TODO: Investigate exceptions on Tasks when the return is void!!!
+      
+      if (!ApplicationContext.AppContext.Initialized)
       {
         await PerformInit();
-        StartActivity(typeof(CaptureActivity));
       }
-      else
+
+      var tessInitializer = new TessDataInitializer(ApplicationContext.AppContext);
+      await tessInitializer.InitializeAsync();
+
+      StartActivity(typeof(CaptureActivity));
+      if(null != ApplicationContext.AppStartupTracker)
       {
-        StartActivity(typeof(CaptureActivity));
+        ApplicationContext.AppStartupTracker.Stop();
+        var span = ApplicationContext.AppStartupTracker.Elapsed;
+        ApplicationContext.AppStartupTracker = null;
+
+        LogAppStatupTime(span);
       }
     }
 
     #endregion
+
     private async Task PerformInit()
     {
       var t1 = Task.Factory.StartNew(
         () =>
         {
           ApplicationContext.AppContext.Initialize();
-          if(ApplicationContext.AppContext.InitializeError)
+          if (ApplicationContext.AppContext.InitializeError)
           {
             // TODO: Handle error during init.
           }
         });
-      var t2 = Task.Factory.StartNew(
-        () =>
-        {
-          ApplicationContext.InitializeTesseract();
-          // TODO: Handle error.
-        });
 
-      await Task.WhenAll(t1, t2);
+      await Task.WhenAll(t1);
+    }
+
+    private void LogAppStatupTime(TimeSpan span)
+    {
+      ApplicationContext.AppContext.LogEvent(AppTrackingEvents.Startup,
+        new Dictionary<string, string>
+        {
+          { "Duration", span.TotalMilliseconds.ToString() },
+          { "Device", ApplicationContext.AppContext.DeviceName }
+        });
     }
   }
 }

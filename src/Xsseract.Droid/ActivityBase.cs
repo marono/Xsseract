@@ -1,20 +1,40 @@
 #region
 
 using System;
+using Android.App;
 using Android.Content;
-using Android.Support.V7.App;
+using Xsseract.Droid.Fragments;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
+using Environment = System.Environment;
 
 #endregion
 
 namespace Xsseract.Droid
 {
-  public class ActivityBase: AppCompatActivity
+  public class ActivityBase : Android.Support.V4.App.FragmentActivity
   {
+    private ProgressDialog progressDialog;
+    private ToolbarFragment toolbar;
+
     #region Properties
 
     protected XsseractApp ApplicationContext
     {
       get { return (XsseractApp)BaseContext.ApplicationContext; }
+    }
+
+    protected ToolbarFragment Toolbar
+    {
+      get
+      {
+        if(null != toolbar)
+        {
+          return toolbar;
+        }
+
+        toolbar = FragmentManager.FindFragmentById<ToolbarFragment>(Resource.Id.toolbar);
+        return toolbar;
+      }
     }
 
     #endregion
@@ -48,6 +68,25 @@ namespace Xsseract.Droid
         .SetMessage(error)
         .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
         .Show();
+    }
+
+    protected void DisplayProgress(string message)
+    {
+      if (null != progressDialog)
+      {
+        throw new InvalidOperationException("A background operation is already in progress.");
+      }
+
+      progressDialog = new ProgressDialog(this);
+      progressDialog.SetCancelable(false);
+      progressDialog.SetMessage(message);
+      progressDialog.Show();
+    }
+
+    protected void HideProgress()
+    {
+      progressDialog.Hide();
+      progressDialog = null;
     }
 
     #endregion

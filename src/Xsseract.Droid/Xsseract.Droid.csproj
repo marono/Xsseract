@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\packages\Xamarin.Android.Support.v4.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
@@ -76,23 +77,29 @@
   <ItemGroup>
     <Compile Include="ActivityBase.cs" />
     <Compile Include="AppContext.cs" />
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="AppTrackingEvents.cs" />
     <Compile Include="CaptureStates.cs" />
-    <Compile Include="Controls\CropImageView.cs" />
-    <Compile Include="Controls\HighlightView.cs" />
-    <Compile Include="Controls\ImageViewTouchBase.cs" />
+    <Compile Include="ResultActivity.cs" />
+    <Compile Include="Views\CropImageView.cs" />
+    <Compile Include="Views\HighlightView.cs" />
+    <Compile Include="Views\ImageViewTouchBase.cs" />
     <Compile Include="Extensions\DrawableExtensions.cs" />
+    <Compile Include="Extensions\UriExtensions.cs" />
+    <Compile Include="BitmapUtils.cs" />
     <Compile Include="LauncherActivity.cs" />
-    <Compile Include="Controls\RotateBitmap.cs" />
+    <Compile Include="Views\RotateBitmap.cs" />
     <Compile Include="ParserContext.cs" />
+    <Compile Include="Fragments\ToolbarFragment.cs" />
+    <Compile Include="TessDataInitializer.cs" />
     <Compile Include="Tesseractor.cs" />
-    <Compile Include="Controls\Util.cs" />
+    <Compile Include="Views\Util.cs" />
     <Compile Include="XsseractApp.cs" />
     <Compile Include="CaptureActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\tessData.zip" />
     <AndroidAsset Include="Assets\Settings.DEBUG.json" />
     <AndroidAsset Include="Assets\Settings.RELEASE.json" />
     <None Include="packages.config" />
@@ -102,9 +109,14 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\ProgressBar.xml" />
+    <AndroidResource Include="Resources\layout\Result.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Toolbar.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\tesseract-ocr-3.02.eng.tar.gz" />
     <AndroidResource Include="Resources\layout\Capture.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -123,6 +135,10 @@
     <ProjectReference Include="..\Tesseract.Bindings.Droid\Tesseract.Bindings.Droid.csproj">
       <Project>{1026A8D5-3BAA-4722-8136-9FBB367E236D}</Project>
       <Name>Tesseract.Bindings.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XeusTech.JTar.Bindings.Droid\XeusTech.JTar.Bindings.Droid.csproj">
+      <Project>{EFB459E0-0648-4AAE-AB15-DA707D5566B6}</Project>
+      <Name>XeusTech.JTar.Bindings.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

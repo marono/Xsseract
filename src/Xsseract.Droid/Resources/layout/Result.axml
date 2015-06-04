@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imgResult"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:scaleType="fitCenter"
+            android:layout_weight="2" />
+        <LinearLayout
+            android:id="@+id/containerTextResult"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:text="@string/label_Result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:layout_gravity="left" />
+            <TextView
+                android:id="@+id/txtViewResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:scrollbars="vertical"
+                android:clickable="true" />
+            <EditText
+                android:id="@+id/txtEditResult"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="left" />
+        </LinearLayout>
+    </LinearLayout>
+    <fragment
+        android:name="Xsseract.Droid.Fragments.ToolbarFragment"
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

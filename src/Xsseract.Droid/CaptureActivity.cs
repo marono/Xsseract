@@ -10,12 +10,8 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
-using Android.Views;
-using Android.Views.InputMethods;
-using Android.Widget;
-using com.refractored.fab;
 using Java.IO;
-using Xsseract.Droid.Controls;
+using Xsseract.Droid.Views;
 using Environment = Android.OS.Environment;
 using Orientation = Android.Media.Orientation;
 using Uri = Android.Net.Uri;
@@ -24,27 +20,26 @@ using Uri = Android.Net.Uri;
 
 namespace Xsseract.Droid
 {
+  // TODO: Add help screen.
+  // TODO: Add toasts explaining what to do on each screen.
+  // TODO: Memory issue probably due to poor image manipulation.
+  // TODO: Hitting back should exit the app somehow (double-tap?).
   [Activity]
   public class CaptureActivity : ActivityBase
   {
+    internal enum RequestCode
+    {
+      Image = 1,
+      Parse = 2
+    }
     #region Fields
-
-    private FloatingActionButton fabCrop;
-    private FloatingActionButton fabCamera;
-    private FloatingActionButton fabAccept;
-    private RelativeLayout containerResult;
-    private TextView txtViewResult;
-    private EditText txtEditResult;
     private HighlightView crop;
     private Bitmap image;
-    private Bitmap cropped;
-    private string result;
+    private int orientation;
     private Uri imageUri;
+    private Uri prospectiveUri;
     private CropImageView imgPreview;
-    private ImageView imgResult;
-    private Uri nextImageUri;
-    private Tesseractor tesseractor;
-
+    private int imageSamplingRatio;
     #endregion
 
     #region Protected methods
@@ -53,16 +48,33 @@ namespace Xsseract.Droid
     {
       base.OnActivityResult(requestCode, resultCode, data);
 
-      switch (requestCode)
+      switch ((RequestCode)requestCode)
       {
-        case 1:
+        case RequestCode.Image:
           if (resultCode != Result.Ok)
           {
-            nextImageUri = null;
+            prospectiveUri = null;
             return;
           }
 
           await ProcessAndDisplayImage();
+          break;
+        case RequestCode.Parse:
+          if(resultCode == Result.Canceled)
+          {
+            if(null == data)
+            {
+              return;
+            }
+
+            bool reimage = data.GetBooleanExtra(ResultActivity.Constants.CancelAndReimage, false);
+            if(reimage)
+              await AcquireNewImage();
+
+            bool resample = data.GetBooleanExtra(ResultActivity.Constants.CancelAndResample, false);
+            if(resample)
+              ResetHighlightView();
+          }
           break;
       }
     }
@@ -72,101 +84,35 @@ namespace Xsseract.Droid
       base.OnCreate(bundle);
 
       SetContentView(Resource.Layout.Capture);
-      fabCamera = FindViewById<FloatingActionButton>(Resource.Id.fabCamera);
-      fabCrop = FindViewById<FloatingActionButton>(Resource.Id.fabCrop);
-      fabAccept = FindViewById<FloatingActionButton>(Resource.Id.fabAccept);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
-      txtViewResult = FindViewById<TextView>(Resource.Id.txtViewResult);
-      containerResult = FindViewById<RelativeLayout>(Resource.Id.containerResult);
-      imgResult = FindViewById<ImageView>(Resource.Id.imgResult);
-      txtEditResult = FindViewById<EditText>(Resource.Id.txtEditResult);
 
-      fabCamera.Click += fabCamera_Click;
-      fabCrop.Click += fabCrop_Click;
-      txtViewResult.Click += txtViewResult_Click;
-      imgResult.Focusable = true;
-    }
-
-    protected override void OnDestroy()
-    {
-      if (null != tesseractor)
-      {
-        tesseractor.Dispose();
-        tesseractor = null;
-      }
-
-      base.OnDestroy();
+      Toolbar.Crop += Toolbar_Crop;
+      Toolbar.Camera += Toolbar_Camera;
     }
 
     protected override async void OnResume()
     {
       base.OnResume();
 
-      if (null == tesseractor)
-      {
-        tesseractor = new Tesseractor(ApplicationContext.DestinationDirBase);
-        await tesseractor.InitializeAsync();
-      }
-
-      if (null != nextImageUri)
+      if (null != imageUri || null != prospectiveUri)
       {
         // Don't take another snap, as one is already present.
         return;
       }
 
-      switch (ApplicationContext.ParserContext.CaptureState)
-      {
-        case CaptureStates.None:
-          //StartCameraActivity();
-          nextImageUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-          //nextImageUri = Android.Net.Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_82f8d342-e04c-4ccb-8f4c-c2d63b004d0c.jpg"));
-          SetStateCrop();
-          await ProcessAndDisplayImage();
-          break;
-        case CaptureStates.Capture:
-          //StartCameraActivity();
-          nextImageUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-          //nextImageUri = Android.Net.Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_82f8d342-e04c-4ccb-8f4c-c2d63b004d0c.jpg"));
-          SetStateCrop();
-          await ProcessAndDisplayImage();
-          break;
-        case CaptureStates.Crop:
-          nextImageUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-          SetStateCrop();
-          await ProcessAndDisplayImage();
-          break;
-        case CaptureStates.Parsed:
-          SetStateParsed();
-          break;
-      }
+      await AcquireNewImage();
     }
 
-    public override bool OnTouchEvent(MotionEvent e)
-    {
-      if (ApplicationContext.ParserContext.CaptureState != CaptureStates.Parsed || txtEditResult.Visibility != ViewStates.Visible)
-      {
-        return base.OnTouchEvent(e);
-      }
-
-      var coords = new int[2];
-      txtEditResult.GetLocationOnScreen(coords);
-      var rect = new Rect(coords[0], coords[1], coords[0] + txtEditResult.Width, coords[1] + txtEditResult.Height);
-
-      if (!rect.Contains((int)e.RawX, (int)e.RawY))
-      {
-        InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-        imm.HideSoftInputFromWindow(txtEditResult.WindowToken, 0);
-
-        txtViewResult.Text = txtEditResult.Text;
-        txtViewResult.Visibility = ViewStates.Visible;
-        txtEditResult.Visibility = ViewStates.Gone;
-      }
-
-      return base.OnTouchEvent(e);
-    }
     #endregion
 
     #region Private Methods
+    private void ResetHighlightView()
+    {
+      imgPreview.ClearHighlightViews();
+      crop = null;
+
+      AddHighlightView();
+    }
 
     private void AddHighlightView()
     {
@@ -192,7 +138,6 @@ namespace Xsseract.Droid
       var cropRect = new RectF(x, y, x + cropWidth, y + cropHeight);
       crop.Setup(imgPreview.ImageMatrix, imageRect, cropRect, false);
 
-      //imgPreview.ClearHighlightViews();
       crop.Focused = true;
       imgPreview.AddHighlightView(crop);
     }
@@ -206,23 +151,6 @@ namespace Xsseract.Droid
       }
 
       return mediaPath;
-    }
-
-    private Bitmap GetSelectedRegion()
-    {
-      var r = crop.CropRect;
-
-      int width = r.Width();
-      int height = r.Height();
-
-      Bitmap croppedImage = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
-      {
-        var canvas = new Canvas(croppedImage);
-        var dstRect = new Rect(0, 0, width, height);
-        canvas.DrawBitmap(image, r, dstRect, null);
-      }
-
-      return croppedImage;
     }
 
     private bool IsThereACameraAppAvailable()
@@ -245,71 +173,32 @@ namespace Xsseract.Droid
       var newImage = await Task.Factory.StartNew(
         () =>
         {
-          string path = nextImageUri.Path;
-          var original = BitmapFactory.DecodeFile(path);
+          string path = prospectiveUri.Path;
+          var options = BitmapUtils.GetBitmapOptionsNoLoad(path);
 
-          var width = original.Width;
-          var height = original.Height;
+          options.InSampleSize = imageSamplingRatio = BitmapUtils.CalculateSampleSize(options, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+          options.InJustDecodeBounds = false;
+          var original = BitmapFactory.DecodeFile(path, options);
 
           var exif = new ExifInterface(path); //Since API Level 5
           var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
-          var matrix = new Matrix();
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
-          switch ((Orientation)exifOrientation)
-          {
-            case Orientation.Normal:
-            case Orientation.Rotate90:
-              matrix = new Matrix();
-              matrix.PostRotate(90);
-              break;
-            case Orientation.Rotate270:
-              matrix = new Matrix();
-              matrix.PostRotate(90);
-              break;
-            case Orientation.Rotate180:
-              matrix = new Matrix();
-              matrix.PostRotate(180);
-              break;
-          }
-
-          if (width > 4096 || height > 4096)
-          {
-            float scaleFactorW = (float)width / 4096;
-            float scaleFactorH = (float)height / 4096;
-            float scaleFactor = scaleFactorW > scaleFactorH ? scaleFactorW : scaleFactorH;
-
-            matrix.PostScale(1 / scaleFactor, 1 / scaleFactor);
-          }
+          var matrix = BitmapUtils.GetOrientationMatrix((Orientation)exifOrientation);
 
           var rotated = Bitmap.CreateBitmap(original, 0, 0, original.Width, original.Height, matrix, true);
           original.Recycle();
           original.Dispose();
+          orientation = exifOrientation;
 
           return rotated;
         });
 
-      imageUri = nextImageUri;
+      imageUri = prospectiveUri;
       image = newImage;
 
+      ResetHighlightView();
       imgPreview.SetImageBitmapResetBase(image, true);
-      AddHighlightView();
-      SetStateCrop();
-    }
-
-    private async Task ProcessAndDisplayResult()
-    {
-      if (null == cropped)
-      {
-        cropped = GetSelectedRegion();
-      }
-      if (null == result)
-      {
-        result = await tesseractor.RecognizeAsync(cropped);
-      }
-
-      imgResult.SetImageBitmap(cropped);
-      txtViewResult.Text = result;
     }
 
     private void StartCameraActivity()
@@ -327,145 +216,47 @@ namespace Xsseract.Droid
       var imageFile = new File(mediaPath, String.Format("Xsseract_{0}.jpg", Guid.NewGuid()));
       imageFile.DeleteOnExit();
 
-      nextImageUri = Uri.FromFile(imageFile);
-      intent.PutExtra(MediaStore.ExtraOutput, nextImageUri);
+      prospectiveUri = Uri.FromFile(imageFile);
+      intent.PutExtra(MediaStore.ExtraOutput, prospectiveUri);
 
-      StartActivityForResult(intent, 1);
+      StartActivityForResult(intent, (int)RequestCode.Image);
     }
 
-    private void SetStateCapture()
-    {
-      fabAccept.Hide(false);
-      fabAccept.Visibility = ViewStates.Gone;
-      fabCrop.Hide(false);
-      fabCrop.Visibility = ViewStates.Gone;
-      fabCamera.Visibility = ViewStates.Visible;
-      fabCamera.Show(true);
-
-      ApplicationContext.ParserContext.CaptureState = CaptureStates.Capture;
-    }
-
-    private void SetStateCrop()
-    {
-      switch (ApplicationContext.ParserContext.CaptureState)
-      {
-        case CaptureStates.None:
-          fabAccept.Hide(false);
-          fabAccept.Visibility = ViewStates.Gone;
-          fabCrop.Visibility = ViewStates.Visible;
-          fabCrop.Show(true);
-          fabCamera.Visibility = ViewStates.Visible;
-          fabCamera.Show(true);
-          break;
-        case CaptureStates.Crop:
-          // Resuming activity
-          fabAccept.Hide(false);
-          fabAccept.Visibility = ViewStates.Gone;
-          fabCrop.Visibility = ViewStates.Visible;
-          fabCrop.Show(true);
-          fabCamera.Visibility = ViewStates.Visible;
-          fabCamera.Show(true);
-
-          containerResult.Visibility = ViewStates.Gone;
-          imgPreview.Visibility = ViewStates.Visible;
-          break;
-        case CaptureStates.Capture:
-          fabAccept.Hide(false);
-          fabAccept.Visibility = ViewStates.Gone;
-          fabCrop.Visibility = ViewStates.Visible;
-          fabCrop.Show(true);
-          break;
-        case CaptureStates.Parsed:
-          fabAccept.Hide(true);
-          fabAccept.Visibility = ViewStates.Gone;
-          fabCrop.Visibility = ViewStates.Visible;
-          fabCrop.Show(true);
-          containerResult.Visibility = ViewStates.Gone;
-
-          imgResult.Visibility = ViewStates.Gone;
-          imgPreview.Visibility = ViewStates.Visible;
-          break;
-      }
-
-      ApplicationContext.ParserContext.CaptureState = CaptureStates.Crop;
-
-    }
-
-    private async void SetStateParsed()
-    {
-      switch (ApplicationContext.ParserContext.CaptureState)
-      {
-        case CaptureStates.Crop:
-          fabAccept.Visibility = ViewStates.Visible;
-          fabAccept.Show(true);
-
-          fabCrop.Hide(true);
-          fabCrop.Visibility = ViewStates.Gone;
-          containerResult.Visibility = ViewStates.Visible;
-
-          imgResult.Visibility = ViewStates.Visible;
-          imgPreview.Visibility = ViewStates.Gone;
-          break;
-        case CaptureStates.Parsed:
-          // Resume activity.
-          fabAccept.Visibility = ViewStates.Visible;
-          fabAccept.Show(true);
-
-          fabCamera.Visibility = ViewStates.Visible;
-          fabCamera.Show(true);
-
-          fabCrop.Hide(true);
-          fabCrop.Visibility = ViewStates.Gone;
-          containerResult.Visibility = ViewStates.Visible;
-
-          await ProcessAndDisplayResult();
-          imgResult.Visibility = ViewStates.Visible;
-          imgPreview.Visibility = ViewStates.Gone;
-          break;
-      }
-
-      ApplicationContext.ParserContext.CaptureState = CaptureStates.Parsed;
-
-    }
-
-    private async void fabCrop_Click(object sender, EventArgs eventArgs)
+    private async Task AcquireNewImage()
     {
       try
       {
-        await ProcessAndDisplayResult();
-        SetStateParsed();
+        DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
+        prospectiveUri = null;
+        //StartCameraActivity();
+        prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
+        await ProcessAndDisplayImage();
+
+        HideProgress();
+
+        Toolbar.ShowCroppingTools(false);
       }
       catch (Exception e)
       {
+        HideProgress();
         LogError(e);
         DisplayError(e);
       }
     }
 
-    private async void fabCamera_Click(object sender, EventArgs e)
+    private void Toolbar_Crop(object sender, EventArgs eventArgs)
     {
-      nextImageUri = null;
-      //StartCameraActivity();
-      nextImageUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-      //nextImageUri = Android.Net.Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_82f8d342-e04c-4ccb-8f4c-c2d63b004d0c.jpg"));
-      await ProcessAndDisplayImage();
-      SetStateCrop();
+      var intent = new Intent(this, typeof(ResultActivity));
+
+      intent.PutExtra(ResultActivity.Constants.ImagePath, imageUri.Path);
+      intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", crop.CropRect.Left * imageSamplingRatio, crop.CropRect.Top * imageSamplingRatio, crop.CropRect.Right * imageSamplingRatio, crop.CropRect.Bottom * imageSamplingRatio));
+      intent.PutExtra(ResultActivity.Constants.Orientation, orientation);
+      StartActivityForResult(intent, (int)RequestCode.Parse);
     }
 
-    private void txtViewResult_Click(object sender, EventArgs eventArgs)
+    private async void Toolbar_Camera(object sender, EventArgs eventArgs)
     {
-      //containerResult.LayoutParameters.Height = containerResult.Height;
-      //txtEditResult.SetHeight(txtViewResult.Height);
-      //containerResult.Invalidate();
-
-      txtEditResult.Text = txtViewResult.Text;
-      txtViewResult.Visibility = ViewStates.Gone;
-      txtEditResult.Visibility = ViewStates.Visible;
-
-      txtEditResult.RequestFocus();
-      InputMethodManager inputMethodManager = BaseContext.GetSystemService(Context.InputMethodService) as InputMethodManager;
-      inputMethodManager.ShowSoftInput(txtEditResult, ShowFlags.Forced);
-      inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+      await AcquireNewImage();
     }
     #endregion
   }

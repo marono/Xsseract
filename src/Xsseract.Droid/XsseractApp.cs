@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using Android.App;
 using Android.Runtime;
@@ -14,6 +15,7 @@ using Xamarin;
 
 namespace Xsseract.Droid
 {
+  // TODO: Add more analytics data.
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application
   {
@@ -32,6 +34,7 @@ namespace Xsseract.Droid
       get { return appContext; }
     }
 
+    public Stopwatch AppStartupTracker { get; set; }
     #endregion
 
     #region .ctors
@@ -47,11 +50,8 @@ namespace Xsseract.Droid
     #region Public methods
     public override void OnCreate()
     {
-      base.OnCreate();
-      //We won't be using Crashlytics for now, we've switched to Xamarin Insights.
-      //CrashReporter.StartWithMonoHook(this, true);
-
-      if(!String.IsNullOrWhiteSpace(AppContext.Settings.InsightsKey))
+      AppStartupTracker = Stopwatch.StartNew();
+      if (!String.IsNullOrWhiteSpace(AppContext.Settings.InsightsKey))
       {
         Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
         {
@@ -63,45 +63,10 @@ namespace Xsseract.Droid
 
         Insights.Initialize(AppContext.Settings.InsightsKey, this);
       }
+
+      base.OnCreate();
+      
     }
-    #endregion
-
-    #region Private Methods
-
-    public void InitializeTesseract()
-    {
-      DestinationDirBase = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-      string tessDataFolder = Path.Combine(DestinationDirBase, "tessdata");
-
-      if (Directory.Exists(tessDataFolder))
-      {
-        return;
-      }
-
-      Directory.CreateDirectory(tessDataFolder);
-
-      using (var file = new ZipInputStream(Resources.Assets.Open("tessData.zip")))
-      {
-        var buffer = new byte[2048];
-        int count;
-        ZipEntry entry;
-        while ((entry = file.NextEntry) != null)
-        {
-          var fos = new FileStream(Path.Combine(tessDataFolder, entry.Name), FileMode.CreateNew, FileAccess.Write);
-          var dest = new BufferedOutputStream(fos, buffer.Length);
-
-          do
-          {
-            count = file.Read(buffer, 0, buffer.Length);
-            if (count > 0)
-            {
-              dest.Write(buffer, 0, count);
-            }
-          } while (count > 0);
-        }
-      }
-    }
-
     #endregion
   }
 }

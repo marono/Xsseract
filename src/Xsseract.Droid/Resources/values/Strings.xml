@@ -5,4 +5,7 @@
   <string name="AlertTitle">A message from the underworld ...</string>
   <string name="label_Result">Result:</string>
   <string name="label_Initializing">Xsseract is initializing ...</string>
+  <string name="label_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
+  <string name="progress_OCR">Performing text recognition ...</string>
+  <string name="progress_ImageAdjust">Adjusting image ...</string>
 </resources>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Android.Content;
+using Android.OS;
 using Android.Util;
 using Newtonsoft.Json;
 using Xamarin;
@@ -20,10 +21,6 @@ namespace Xsseract.Droid
       public string InstallationId { get; set; }
     }
 
-    public class AppSettings
-    {
-      public string InsightsKey { get; set; }
-    }
     #endregion Inner classes
 
     private readonly XsseractApp context;
@@ -42,6 +39,8 @@ namespace Xsseract.Droid
       }
     }
 
+    public string DeviceName { get; private set; }
+
     public string InstallationId
     {
       get
@@ -58,6 +57,19 @@ namespace Xsseract.Droid
       get { return settings ?? (settings = GetAppSettings()); }
     }
 
+    public File PublicFilesPath
+    {
+      get { return new File(Android.OS.Environment.ExternalStorageDirectory, Path.Combine("Xsseract", "files")); }
+    }
+
+    public File TessDataFilesPath
+    {
+      get
+      {
+        return new File(PublicFilesPath, "tessdata");
+      }
+    }
+
     public AppContext(XsseractApp underlyingContext)
     {
       if (null == underlyingContext)
@@ -66,11 +78,27 @@ namespace Xsseract.Droid
       }
 
       context = underlyingContext;
+      DeviceName = GetDeviceName();
     }
 
     public void Initialize()
     {
       EnsureAppContextInitialized();
+    }
+
+    public void LogEvent(AppTrackingEvents @event)
+    {
+      Insights.Track(@event.ToString());
+    }
+
+    public void LogEvent(AppTrackingEvents @event, Dictionary<string, string> extraData)
+    {
+      Insights.Track(@event.ToString(), extraData);
+    }
+
+    public ITrackHandle LogTimedEvent(AppTrackingEvents @event)
+    {
+      return Insights.TrackTime(@event.ToString());
     }
 
     public void LogDebug(string message)
@@ -81,6 +109,26 @@ namespace Xsseract.Droid
     public void LogDebug(string format, params object[] args)
     {
       Log.Debug(TAG, format, args);
+    }
+
+    public void LogInfo(string message)
+    {
+      Log.Info(TAG, message);
+    }
+
+    public void LogInfo(string format, params object[] args)
+    {
+      Log.Info(TAG, format, args);
+    }
+
+    public void LogWarn(string message)
+    {
+      Log.Warn(TAG, message);
+    }
+
+    public void LogWarn(string format, params object[] args)
+    {
+      Log.Warn(TAG, format, args);
     }
 
     public void LogError(string message)
@@ -173,6 +221,51 @@ namespace Xsseract.Droid
       {
         return (AppSettings)serializer.Deserialize(stream, typeof(AppSettings));
       }
+    }
+
+    /** Returns the consumer friendly device name */
+    public static String GetDeviceName()
+    {
+      String manufacturer = Build.Manufacturer;
+      String model = Build.Model;
+      if (model.StartsWith(manufacturer))
+      {
+        return Capitalize(model);
+      }
+      if (0 == String.Compare(manufacturer, "HTC", StringComparison.OrdinalIgnoreCase))
+      {
+        // make sure "HTC" is fully capitalized.
+        return "HTC " + model;
+      }
+      return Capitalize(manufacturer) + " " + model;
+    }
+
+    private static String Capitalize(String str)
+    {
+      if (String.IsNullOrWhiteSpace(str))
+      {
+        return str;
+      }
+
+      var capitalizeNext = true;
+      String phrase = "";
+      foreach (char c in str)
+      {
+        if (capitalizeNext && Char.IsLetter(c))
+        {
+          phrase += Char.ToUpper(c);
+          capitalizeNext = false;
+          continue;
+        }
+
+        if (Char.IsWhiteSpace(c))
+        {
+          capitalizeNext = true;
+        }
+
+        phrase += c;
+      }
+      return phrase;
     }
   }
 }
