@@ -117,7 +117,7 @@ namespace Xsseract.Droid
         var imm = (InputMethodManager)GetSystemService(InputMethodService);
         imm.HideSoftInputFromWindow(txtEditResult.WindowToken, 0);
 
-        txtViewResult.Text = txtEditResult.Text;
+        txtViewResult.Text = result = txtEditResult.Text;
         txtViewResult.Visibility = ViewStates.Visible;
         txtEditResult.Visibility = ViewStates.Gone;
 
