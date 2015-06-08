@@ -9,17 +9,37 @@
         style="@style/FloatingActionButtonMain"
         android:src="@drawable/crop"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
     <com.refractored.fab.FloatingActionButton
         android:id="@+id/fabCamera"
         style="@style/FloatingActionButtonMain"
         android:src="@drawable/camera"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <com.refractored.fab.FloatingActionButton
-        android:id="@+id/fabAccept"
-        style="@style/FloatingActionButtonMain"
-        android:src="@drawable/accept"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+    <LinearLayout
+        android:id="@+id/acceptActionsContainer"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabShare"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabToClipboard"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/clipboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fabAccept"
+            style="@style/FloatingActionButtonMain"
+            android:src="@drawable/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

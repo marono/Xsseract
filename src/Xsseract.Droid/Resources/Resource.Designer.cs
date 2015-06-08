@@ -1668,49 +1668,55 @@ namespace Xsseract.Droid
 			public const int camera_crop_width = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int crop = 2130837567;
+			public const int clipboard = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int fab_shadow = 2130837568;
+			public const int crop = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int fab_shadow_mini = 2130837569;
+			public const int fab_shadow = 2130837569;
 			
 			// aapt resource value: 0x7f020042
-			public const int ic_action_swap_horiz = 2130837570;
+			public const int fab_shadow_mini = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int ic_action_swap_vert = 2130837571;
+			public const int ic_action_swap_horiz = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int icon = 2130837572;
+			public const int ic_action_swap_vert = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int indicator_autocrop = 2130837573;
+			public const int icon = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int monoandroidsplash = 2130837574;
+			public const int indicator_autocrop = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int pin_progress_pinned = 2130837575;
+			public const int monoandroidsplash = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int pin_progress_shadow = 2130837576;
+			public const int pin_progress_pinned = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int pin_progress_unpinned = 2130837577;
+			public const int pin_progress_shadow = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int ProgressBar = 2130837578;
+			public const int pin_progress_unpinned = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int scrubber_control_normal_holo = 2130837579;
+			public const int ProgressBar = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int scrubber_control_pressed_holo = 2130837580;
+			public const int scrubber_control_normal_holo = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int TestImg = 2130837581;
+			public const int scrubber_control_pressed_holo = 2130837581;
+			
+			// aapt resource value: 0x7f02004e
+			public const int share = 2130837582;
+			
+			// aapt resource value: 0x7f02004f
+			public const int TestImg = 2130837583;
 			
 			static Drawable()
 			{
@@ -1724,6 +1730,9 @@ namespace Xsseract.Droid
 		
 		public partial class Id
 		{
+			
+			// aapt resource value: 0x7f080068
+			public const int acceptActionsContainer = 2131230824;
 			
 			// aapt resource value: 0x7f08004f
 			public const int action_bar = 2131230799;
@@ -1845,14 +1854,20 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080046
 			public const int expanded_menu = 2131230790;
 			
-			// aapt resource value: 0x7f080068
-			public const int fabAccept = 2131230824;
+			// aapt resource value: 0x7f08006b
+			public const int fabAccept = 2131230827;
 			
 			// aapt resource value: 0x7f080067
 			public const int fabCamera = 2131230823;
 			
 			// aapt resource value: 0x7f080066
 			public const int fabCrop = 2131230822;
+			
+			// aapt resource value: 0x7f080069
+			public const int fabShare = 2131230825;
+			
+			// aapt resource value: 0x7f08006a
+			public const int fabToClipboard = 2131230826;
 			
 			// aapt resource value: 0x7f08002b
 			public const int fill = 2131230763;
@@ -2253,6 +2268,12 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0010
 			public const int abc_toolbar_collapse_description = 2131361808;
 			
+			// aapt resource value: 0x7f0a0018
+			public const int label_ClipboardLabel = 2131361816;
+			
+			// aapt resource value: 0x7f0a0017
+			public const int label_CopiedToClipboard = 2131361815;
+			
 			// aapt resource value: 0x7f0a0015
 			public const int label_Initializing = 2131361813;
 			
@@ -2262,11 +2283,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0016
 			public const int label_TapToEditResult = 2131361814;
 			
-			// aapt resource value: 0x7f0a0018
-			public const int progress_ImageAdjust = 2131361816;
+			// aapt resource value: 0x7f0a001a
+			public const int progress_ImageAdjust = 2131361818;
 			
-			// aapt resource value: 0x7f0a0017
-			public const int progress_OCR = 2131361815;
+			// aapt resource value: 0x7f0a0019
+			public const int progress_OCR = 2131361817;
 			
 			static String()
 			{

@@ -53,6 +53,7 @@ namespace Xsseract.Droid
 
       Toolbar.Camera += Toolbar_Camera;
       Toolbar.Crop += Toolbar_Crop;
+      Toolbar.CopyToClipboard += Toolbar_CopyToClipboard;
     }
 
     protected async override void OnResume()
@@ -64,6 +65,8 @@ namespace Xsseract.Droid
       cropRect = new Rect(Int32.Parse(cropRectString[0]), Int32.Parse(cropRectString[1]), Int32.Parse(cropRectString[2]), Int32.Parse(cropRectString[3]));
       orientation = (Android.Media.Orientation)Intent.GetIntExtra(Constants.Orientation, 0);
       txtEditResult.Visibility = ViewStates.Gone;
+
+      Toolbar.ShowResultTools(true);
 
       try
       {
@@ -224,6 +227,17 @@ namespace Xsseract.Droid
       SetResult(Result.Canceled, intent);
 
       Finish();
+    }
+
+    private void Toolbar_CopyToClipboard(object sender, EventArgs eventArgs)
+    {
+      var service = (ClipboardManager)GetSystemService(ClipboardService);
+      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), result);
+
+      service.PrimaryClip = data;
+
+      var toast = Toast.MakeText(this, Resource.String.label_CopiedToClipboard, ToastLength.Long);
+      toast.Show();
     }
   }
 }
