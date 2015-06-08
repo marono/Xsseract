@@ -4,9 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using com.refractored.fab;
-using Xsseract.Droid.Extensions;
 
 namespace Xsseract.Droid.Fragments
 {
@@ -18,10 +16,8 @@ namespace Xsseract.Droid.Fragments
     private FloatingActionButton fabAccept;
     private FloatingActionButton fabToClipboard;
     private FloatingActionButton fabShare;
-    private LinearLayout acceptActionsContainer;
 
     private List<FloatingActionButton> allFabs;
-    private List<FloatingActionButton> acceptActions;
 
     public event EventHandler<EventArgs> Camera;
     public event EventHandler<EventArgs> Crop;
@@ -42,15 +38,11 @@ namespace Xsseract.Droid.Fragments
       fabAccept = view.FindViewById<FloatingActionButton>(Resource.Id.fabAccept);
       fabToClipboard = view.FindViewById<FloatingActionButton>(Resource.Id.fabToClipboard);
       fabShare = view.FindViewById<FloatingActionButton>(Resource.Id.fabShare);
-      acceptActionsContainer = view.FindViewById<LinearLayout>(Resource.Id.acceptActionsContainer);
 
       HideFab(fabToClipboard, false);
       HideFab(fabShare, false);
-      //acceptActionsContainer.BringToFront();
-      acceptActionsContainer.Visibility = ViewStates.Gone;
 
-      allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept };
-      acceptActions = new List<FloatingActionButton> { fabToClipboard, fabShare };
+      allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept, fabToClipboard, fabShare };
 
       fabCamera.Click += fabCamera_Click;
       fabCrop.Click += fabCrop_Click;
@@ -62,19 +54,15 @@ namespace Xsseract.Droid.Fragments
     public void ShowCroppingTools(bool animate)
     {
       SetVisibleFabs(fabCrop, fabCamera);
-      acceptActionsContainer.Visibility = ViewStates.Gone;
     }
 
     public void ShowResultTools(bool animate)
     {
-      acceptActionsContainer.Visibility = ViewStates.Visible;
-      SetVisibleFabs(fabCrop, fabCamera, fabAccept);
+      SetVisibleFabs(fabToClipboard, fabShare);
     }
 
     public void HideAll()
     {
-      HideFabs(acceptActions, true);
-      acceptActionsContainer.Visibility = ViewStates.Gone;
       SetVisibleFabs();
     }
 
@@ -126,15 +114,6 @@ namespace Xsseract.Droid.Fragments
 
     private void fabAccept_Click(object sender, EventArgs eventArgs)
     {
-      if (fabToClipboard.Visible)
-      {
-        HideFabs(acceptActions, true);
-      }
-      else
-      {
-        ShowFabs(acceptActions, true);
-        //acceptActions.ForEach(f => f.BringToFront());
-      }
     }
 
     private void SetVisibleFabs(params FloatingActionButton[] visibleFabs)
@@ -159,50 +138,6 @@ namespace Xsseract.Droid.Fragments
           {
             ShowFab(f, true);
           }
-        }
-      }
-    }
-
-    private void SetFabsState(IEnumerable<FloatingActionButton> buttons, ViewStates visibility, bool animate)
-    {
-      foreach (var button in buttons)
-      {
-        if (button.WillShow(visibility))
-        {
-          button.Visibility = visibility;
-          button.Show(animate);
-
-          continue;
-        }
-
-        if(button.WillHide(visibility))
-        {
-          button.Hide(animate);
-          button.Visibility = visibility;
-        }
-      }
-    }
-
-    private void ShowFabs(IEnumerable<FloatingActionButton> buttons, bool animate)
-    {
-      foreach (var button in buttons)
-      {
-        if (!button.Visible)
-        {
-          button.Visibility = ViewStates.Visible;
-          button.Show(animate);
-        }
-      }
-    }
-
-    private void HideFabs(IEnumerable<FloatingActionButton> buttons, bool animate)
-    {
-      foreach (var button in buttons)
-      {
-        if (button.Visible)
-        {
-          button.Visibility = ViewStates.Gone;
-          button.Hide(animate);
         }
       }
     }

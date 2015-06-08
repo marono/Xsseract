@@ -1731,9 +1731,6 @@ namespace Xsseract.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080068
-			public const int acceptActionsContainer = 2131230824;
-			
 			// aapt resource value: 0x7f08004f
 			public const int action_bar = 2131230799;
 			
@@ -1854,8 +1851,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080046
 			public const int expanded_menu = 2131230790;
 			
-			// aapt resource value: 0x7f08006b
-			public const int fabAccept = 2131230827;
+			// aapt resource value: 0x7f08006a
+			public const int fabAccept = 2131230826;
 			
 			// aapt resource value: 0x7f080067
 			public const int fabCamera = 2131230823;
@@ -1863,11 +1860,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080066
 			public const int fabCrop = 2131230822;
 			
-			// aapt resource value: 0x7f080069
-			public const int fabShare = 2131230825;
+			// aapt resource value: 0x7f080068
+			public const int fabShare = 2131230824;
 			
-			// aapt resource value: 0x7f08006a
-			public const int fabToClipboard = 2131230826;
+			// aapt resource value: 0x7f080069
+			public const int fabToClipboard = 2131230825;
 			
 			// aapt resource value: 0x7f08002b
 			public const int fill = 2131230763;
