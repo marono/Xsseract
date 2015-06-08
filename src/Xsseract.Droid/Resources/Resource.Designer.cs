@@ -2277,17 +2277,26 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0015
 			public const int label_Initializing = 2131361813;
 			
+			// aapt resource value: 0x7f0a0019
+			public const int label_PrepareShare = 2131361817;
+			
 			// aapt resource value: 0x7f0a0014
 			public const int label_Result = 2131361812;
 			
 			// aapt resource value: 0x7f0a0016
 			public const int label_TapToEditResult = 2131361814;
 			
-			// aapt resource value: 0x7f0a001a
-			public const int progress_ImageAdjust = 2131361818;
+			// aapt resource value: 0x7f0a001d
+			public const int message_ShareInstructions = 2131361821;
 			
-			// aapt resource value: 0x7f0a0019
-			public const int progress_OCR = 2131361817;
+			// aapt resource value: 0x7f0a001b
+			public const int progress_ImageAdjust = 2131361819;
+			
+			// aapt resource value: 0x7f0a001a
+			public const int progress_OCR = 2131361818;
+			
+			// aapt resource value: 0x7f0a001c
+			public const int sendTo = 2131361820;
 			
 			static String()
 			{

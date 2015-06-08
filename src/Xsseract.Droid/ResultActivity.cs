@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Text.Method;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Java.IO;
+using Java.Util;
+using File = Java.IO.File;
 
 namespace Xsseract.Droid
 {
@@ -54,6 +60,7 @@ namespace Xsseract.Droid
       Toolbar.Camera += Toolbar_Camera;
       Toolbar.Crop += Toolbar_Crop;
       Toolbar.CopyToClipboard += Toolbar_CopyToClipboard;
+      Toolbar.Share += Toolbar_Share;
     }
 
     protected async override void OnResume()
@@ -173,7 +180,7 @@ namespace Xsseract.Droid
             // Rotate the crop rect so that we get the same as we've selected on the previous screent.
             // The rotation needs to happen in the original image space, and not in the cropped one's.
             var transformMatrix = new Matrix();
-            transformMatrix.SetRotate(angle, image.Width/2f, image.Height/2f);
+            transformMatrix.SetRotate(angle, image.Width / 2f, image.Height / 2f);
             var rf = new RectF(cropRect);
             transformMatrix.MapRect(rf);
 
@@ -194,6 +201,42 @@ namespace Xsseract.Droid
             image.Dispose();
           }
         });
+    }
+
+    private async Task<File> GetImageAttachmentAsync()
+    {
+      return await Task.Factory.StartNew(
+        () =>
+        {
+          var fileName = String.Format("{0}-cropped.png", System.IO.Path.GetFileNameWithoutExtension(imagePath));
+          var path = System.IO.Path.GetDirectoryName(imagePath);
+
+          var file = new File(System.IO.Path.Combine(path, fileName));
+          if (file.Exists())
+          {
+            file.Delete();
+          }
+
+          using (var fs = new FileStream(file.AbsolutePath, FileMode.Create, FileAccess.Write))
+          {
+            cropped.Compress(Bitmap.CompressFormat.Png, 100, fs);
+          }
+
+          file.DeleteOnExit();
+
+          return file;
+        });
+    }
+
+    private void CopyToClipboard()
+    {
+      var service = (ClipboardManager)GetSystemService(ClipboardService);
+      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), result);
+
+      service.PrimaryClip = data;
+
+      var toast = Toast.MakeText(this, Resource.String.label_CopiedToClipboard, ToastLength.Long);
+      toast.Show();
     }
 
     private void txtViewResult_Click(object sender, EventArgs eventArgs)
@@ -231,13 +274,39 @@ namespace Xsseract.Droid
 
     private void Toolbar_CopyToClipboard(object sender, EventArgs eventArgs)
     {
-      var service = (ClipboardManager)GetSystemService(ClipboardService);
-      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), result);
+      CopyToClipboard();
+    }
 
-      service.PrimaryClip = data;
+    private void Toolbar_Share(object sender, EventArgs eventArgs)
+    {
+      DisplayAlert(Resources.GetString(Resource.String.message_ShareInstructions),
+        async () =>
+        {
+          try
+          {
+            CopyToClipboard();
+            DisplayProgress(Resources.GetString(Resource.String.label_PrepareShare));
+            var attachment = await GetImageAttachmentAsync();
 
-      var toast = Toast.MakeText(this, Resource.String.label_CopiedToClipboard, ToastLength.Long);
-      toast.Show();
+            HideProgress();
+
+            var sendIntent = new Intent(Intent.ActionSendMultiple);
+            sendIntent.SetType("image/*");
+            sendIntent.PutExtra(Intent.ExtraSubject, result);
+            sendIntent.PutExtra(Intent.ExtraText, result);
+            sendIntent.PutParcelableArrayListExtra(Intent.ExtraStream, new JavaList<IParcelable>
+            {
+              Android.Net.Uri.FromFile(attachment)
+            });
+            sendIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
+            StartActivity(Intent.CreateChooser(sendIntent, Resources.GetString(Resource.String.sendTo)));
+          }
+          catch(Exception)
+          {
+            HideProgress();
+
+          }
+        });
     }
   }
 }

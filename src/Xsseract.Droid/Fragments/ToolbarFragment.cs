@@ -25,7 +25,8 @@ namespace Xsseract.Droid.Fragments
 
     public event EventHandler<EventArgs> Camera;
     public event EventHandler<EventArgs> Crop;
-    public event EventHandler<EventArgs> CopyToClipboard; 
+    public event EventHandler<EventArgs> CopyToClipboard;
+    public event EventHandler<EventArgs> Share;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -55,6 +56,7 @@ namespace Xsseract.Droid.Fragments
       fabCrop.Click += fabCrop_Click;
       fabAccept.Click += fabAccept_Click;
       fabToClipboard.Click += (sender, e) => OnCopyToClipboard(EventArgs.Empty);
+      fabShare.Click += (sender, e) => OnShare(EventArgs.Empty);
     }
 
     public void ShowCroppingTools(bool animate)
@@ -89,6 +91,15 @@ namespace Xsseract.Droid.Fragments
     {
       var handler = Camera;
       if (null != handler)
+      {
+        handler(this, e);
+      }
+    }
+
+    protected void OnShare(EventArgs e)
+    {
+      var handler = Share;
+      if(null != handler)
       {
         handler(this, e);
       }

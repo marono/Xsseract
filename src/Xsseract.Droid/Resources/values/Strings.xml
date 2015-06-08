@@ -8,6 +8,9 @@
   <string name="label_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
   <string name="label_CopiedToClipboard">The result has been copied to clipboard. You can now pasted in your app of chice.</string>
   <string name="label_ClipboardLabel">Xsseract result</string>
+  <string name="label_PrepareShare">Preparing content for sharing ...</string>
   <string name="progress_OCR">Performing text recognition ...</string>
   <string name="progress_ImageAdjust">Adjusting image ...</string>
+  <string name="sendTo">Xsseract just decoded the following image for me</string>
+  <string name="message_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
 </resources>

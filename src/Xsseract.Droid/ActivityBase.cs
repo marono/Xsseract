@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Xsseract.Droid.Fragments;
@@ -40,13 +41,19 @@ namespace Xsseract.Droid
     #endregion
 
     #region Protected methods
-
-    protected void DisplayAlert(string message)
+    protected void DisplayAlert(string message, Func<Task> callback)
     {
       new AlertDialog.Builder(this)
         .SetTitle(Resource.String.AlertTitle)
         .SetMessage(message)
-        .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
+        .SetPositiveButton(Android.Resource.String.Ok,
+          async (sender, e) =>
+          {
+            if(null != callback)
+            {
+              await callback();
+            }
+          })
         .Show();
     }
 
