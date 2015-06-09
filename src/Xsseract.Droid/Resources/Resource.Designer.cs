@@ -2265,6 +2265,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0010
 			public const int abc_toolbar_collapse_description = 2131361808;
 			
+			// aapt resource value: 0x7f0a001e
+			public const int intent_resolveText = 2131361822;
+			
 			// aapt resource value: 0x7f0a0018
 			public const int label_ClipboardLabel = 2131361816;
 			

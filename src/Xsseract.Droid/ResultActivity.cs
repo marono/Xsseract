@@ -26,15 +26,17 @@ namespace Xsseract.Droid
       public const string
         ImagePath = "ImagePath",
         CropRect = "CropRect",
+        PipeResult = "PipeResult",
         Orientation = "Orientation",
-        CancelAndReimage = "CancelAndReimage",
-        CancelAndResample = "CancelAndResample";
+        Accept = "Accept",
+        Result = "Result";
     }
 
     private Tesseractor tesseractor;
     private string imagePath;
     private Rect cropRect;
     private Android.Media.Orientation orientation;
+    private bool pipeResult;
 
     private ImageView imgResult;
     private TextView txtViewResult;
@@ -57,10 +59,9 @@ namespace Xsseract.Droid
       txtViewResult.LongClick += txtViewResult_Click;
       imgResult.Focusable = true;
 
-      Toolbar.Camera += Toolbar_Camera;
-      Toolbar.Crop += Toolbar_Crop;
       Toolbar.CopyToClipboard += Toolbar_CopyToClipboard;
       Toolbar.Share += Toolbar_Share;
+      Toolbar.Accept += Toolbar_Accept;
     }
 
     protected async override void OnResume()
@@ -71,9 +72,14 @@ namespace Xsseract.Droid
       var cropRectString = Intent.GetStringExtra(Constants.CropRect).Split(',');
       cropRect = new Rect(Int32.Parse(cropRectString[0]), Int32.Parse(cropRectString[1]), Int32.Parse(cropRectString[2]), Int32.Parse(cropRectString[3]));
       orientation = (Android.Media.Orientation)Intent.GetIntExtra(Constants.Orientation, 0);
+      pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
+
       txtEditResult.Visibility = ViewStates.Gone;
 
-      Toolbar.ShowResultTools(true);
+      if(!pipeResult)
+        Toolbar.ShowResultTools(true);
+      else
+        Toolbar.ShowResultToolsNoShare(true);
 
       try
       {
@@ -121,7 +127,10 @@ namespace Xsseract.Droid
         txtViewResult.Visibility = ViewStates.Visible;
         txtEditResult.Visibility = ViewStates.Gone;
 
-        Toolbar.ShowResultTools(false);
+        if(!pipeResult)
+          Toolbar.ShowResultTools(false);
+        else
+          Toolbar.ShowResultToolsNoShare(false);
       }
 
       return base.OnTouchEvent(e);
@@ -254,24 +263,6 @@ namespace Xsseract.Droid
       Toolbar.HideAll();
     }
 
-    private void Toolbar_Camera(object sender, EventArgs eventArgs)
-    {
-      var intent = new Intent();
-      intent.PutExtra(Constants.CancelAndReimage, true);
-      SetResult(Result.Canceled, intent);
-
-      Finish();
-    }
-
-    private void Toolbar_Crop(object sender, EventArgs eventArgs)
-    {
-      var intent = new Intent();
-      intent.PutExtra(Constants.CancelAndResample, true);
-      SetResult(Result.Canceled, intent);
-
-      Finish();
-    }
-
     private void Toolbar_CopyToClipboard(object sender, EventArgs eventArgs)
     {
       CopyToClipboard();
@@ -307,6 +298,16 @@ namespace Xsseract.Droid
 
           }
         });
+    }
+
+    private void Toolbar_Accept(object sender, EventArgs eventArgs)
+    {
+      var intent = new Intent();
+      intent.PutExtra(Constants.Accept, true);
+      intent.PutExtra(Constants.Result, result);
+      SetResult(Result.Ok, intent);
+
+      Finish();
     }
   }
 }

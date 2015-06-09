@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Bluetooth;
+using Android.Content;
 using Android.OS;
 using Android.Widget;
 
@@ -13,7 +14,7 @@ using Android.Widget;
 namespace Xsseract.Droid
 {
   // TODO: Investigate white screen before splashscreen.
-  [Activity(MainLauncher = true)]
+  [Activity(Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true)]
   public class LauncherActivity : ActivityBase
   {
     #region Protected methods
@@ -27,6 +28,12 @@ namespace Xsseract.Droid
       {
         SetContentView(Resource.Layout.Launcher);
       }
+    }
+
+    protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+    {
+      base.OnActivityResult(requestCode, resultCode, data);
+      Finish();
     }
 
     protected async override void OnResume()
@@ -43,7 +50,16 @@ namespace Xsseract.Droid
       var tessInitializer = new TessDataInitializer(ApplicationContext.AppContext);
       await tessInitializer.InitializeAsync();
 
-      StartActivity(typeof(CaptureActivity));
+      bool pipeResult = Intent.GetBooleanExtra("PipeResult", false);
+
+      var intent = new Intent(this, typeof(CaptureActivity));
+      if(pipeResult)
+      {
+        intent.PutExtra(CaptureActivity.Constants.PipeResult, true);
+        intent.AddFlags(ActivityFlags.ForwardResult);
+      }
+
+      StartActivity(intent);
       if(null != ApplicationContext.AppStartupTracker)
       {
         ApplicationContext.AppStartupTracker.Stop();
@@ -52,6 +68,8 @@ namespace Xsseract.Droid
 
         LogAppStatupTime(span);
       }
+
+      Finish();
     }
 
     #endregion

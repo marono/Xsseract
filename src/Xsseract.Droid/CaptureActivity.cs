@@ -32,6 +32,13 @@ namespace Xsseract.Droid
       Image = 1,
       Parse = 2
     }
+
+    public static class Constants
+    {
+      public const string PipeResult = "PipeResult",
+        Result = "Result";
+    }
+
     #region Fields
     private HighlightView crop;
     private Bitmap image;
@@ -40,6 +47,7 @@ namespace Xsseract.Droid
     private Uri prospectiveUri;
     private CropImageView imgPreview;
     private int imageSamplingRatio;
+    private bool pipeResult;
     #endregion
 
     #region Protected methods
@@ -60,21 +68,22 @@ namespace Xsseract.Droid
           await ProcessAndDisplayImage();
           break;
         case RequestCode.Parse:
-          if(resultCode == Result.Canceled)
+          if (resultCode == Result.Canceled)
           {
-            if(null == data)
+            if (null == data)
             {
               return;
             }
-
-            bool reimage = data.GetBooleanExtra(ResultActivity.Constants.CancelAndReimage, false);
-            if(reimage)
-              await AcquireNewImage();
-
-            bool resample = data.GetBooleanExtra(ResultActivity.Constants.CancelAndResample, false);
-            if(resample)
-              ResetHighlightView();
           }
+
+          bool accept = data.GetBooleanExtra(ResultActivity.Constants.Accept, false);
+          if (accept)
+          {
+            var resultIntent = new Intent();
+            resultIntent.PutExtra(Constants.Result, data.GetStringExtra(ResultActivity.Constants.Result));
+            SetResult(Result.Ok, resultIntent);
+            Finish();
+          };
           break;
       }
     }
@@ -85,6 +94,8 @@ namespace Xsseract.Droid
 
       SetContentView(Resource.Layout.Capture);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
+
+      pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
 
       Toolbar.Crop += Toolbar_Crop;
       Toolbar.Camera += Toolbar_Camera;
@@ -251,6 +262,7 @@ namespace Xsseract.Droid
       intent.PutExtra(ResultActivity.Constants.ImagePath, imageUri.Path);
       intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", crop.CropRect.Left * imageSamplingRatio, crop.CropRect.Top * imageSamplingRatio, crop.CropRect.Right * imageSamplingRatio, crop.CropRect.Bottom * imageSamplingRatio));
       intent.PutExtra(ResultActivity.Constants.Orientation, orientation);
+      intent.PutExtra(ResultActivity.Constants.PipeResult, pipeResult);
       StartActivityForResult(intent, (int)RequestCode.Parse);
     }
 

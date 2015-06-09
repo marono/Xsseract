@@ -13,4 +13,5 @@
   <string name="progress_ImageAdjust">Adjusting image ...</string>
   <string name="sendTo">Xsseract just decoded the following image for me</string>
   <string name="message_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
+  <string name="intent_resolveText">ro.onos.xsseract.ResolveImage</string>
 </resources>

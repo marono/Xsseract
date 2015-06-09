@@ -23,6 +23,7 @@ namespace Xsseract.Droid.Fragments
     public event EventHandler<EventArgs> Crop;
     public event EventHandler<EventArgs> CopyToClipboard;
     public event EventHandler<EventArgs> Share;
+    public event EventHandler<EventArgs> Accept;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -61,6 +62,11 @@ namespace Xsseract.Droid.Fragments
       SetVisibleFabs(fabToClipboard, fabShare);
     }
 
+    public void ShowResultToolsNoShare(bool animate)
+    {
+      SetVisibleFabs(fabAccept);
+    }
+
     public void HideAll()
     {
       SetVisibleFabs();
@@ -93,6 +99,15 @@ namespace Xsseract.Droid.Fragments
       }
     }
 
+    protected void OnAccept(EventArgs e)
+    {
+      var handler = Accept;
+      if(null != handler)
+      {
+        handler(this, e);
+      }
+    }
+
     protected void OnCopyToClipboard(EventArgs e)
     {
       var handler = CopyToClipboard;
@@ -114,6 +129,7 @@ namespace Xsseract.Droid.Fragments
 
     private void fabAccept_Click(object sender, EventArgs eventArgs)
     {
+      OnAccept(EventArgs.Empty);
     }
 
     private void SetVisibleFabs(params FloatingActionButton[] visibleFabs)
