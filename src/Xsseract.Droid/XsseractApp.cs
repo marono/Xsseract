@@ -16,6 +16,7 @@ using Xamarin;
 namespace Xsseract.Droid
 {
   // TODO: Add more analytics data.
+  // TODO: Validate app permissions again before release.
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application
   {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Android.App;
@@ -11,8 +10,7 @@ using Android.Text.Method;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-using Java.IO;
-using Java.Util;
+using ClipboardManager = Android.Content.ClipboardManager;
 using File = Java.IO.File;
 
 namespace Xsseract.Droid
@@ -27,7 +25,7 @@ namespace Xsseract.Droid
         ImagePath = "ImagePath",
         CropRect = "CropRect",
         PipeResult = "PipeResult",
-        Orientation = "Orientation",
+        Rotation = "Rotation",
         Accept = "Accept",
         Result = "Result";
     }
@@ -35,7 +33,7 @@ namespace Xsseract.Droid
     private Tesseractor tesseractor;
     private string imagePath;
     private Rect cropRect;
-    private Android.Media.Orientation orientation;
+    private float rotation;
     private bool pipeResult;
 
     private ImageView imgResult;
@@ -71,12 +69,13 @@ namespace Xsseract.Droid
       imagePath = Intent.GetStringExtra(Constants.ImagePath);
       var cropRectString = Intent.GetStringExtra(Constants.CropRect).Split(',');
       cropRect = new Rect(Int32.Parse(cropRectString[0]), Int32.Parse(cropRectString[1]), Int32.Parse(cropRectString[2]), Int32.Parse(cropRectString[3]));
-      orientation = (Android.Media.Orientation)Intent.GetIntExtra(Constants.Orientation, 0);
+
+      rotation = Intent.GetFloatExtra(Constants.Rotation, 0);
       pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
 
       txtEditResult.Visibility = ViewStates.Gone;
 
-      if(!pipeResult)
+      if (!pipeResult)
         Toolbar.ShowResultTools(true);
       else
         Toolbar.ShowResultToolsNoShare(true);
@@ -127,7 +126,7 @@ namespace Xsseract.Droid
         txtViewResult.Visibility = ViewStates.Visible;
         txtEditResult.Visibility = ViewStates.Gone;
 
-        if(!pipeResult)
+        if (!pipeResult)
           Toolbar.ShowResultTools(false);
         else
           Toolbar.ShowResultToolsNoShare(false);
@@ -182,24 +181,28 @@ namespace Xsseract.Droid
 
           try
           {
-            int width = cropRect.Width();
-            int height = cropRect.Height();
-
-            float angle = BitmapUtils.GetRotationAngle(orientation);
             // Rotate the crop rect so that we get the same as we've selected on the previous screent.
             // The rotation needs to happen in the original image space, and not in the cropped one's.
             var transformMatrix = new Matrix();
-            transformMatrix.SetRotate(angle, image.Width / 2f, image.Height / 2f);
+            transformMatrix.SetRotate(rotation, image.Width / 2f, image.Height / 2f);
+            var imgRect = new RectF(0, 0, image.Width, image.Height);
+            transformMatrix.MapRect(imgRect);
+
+            transformMatrix.PostTranslate(-1 * imgRect.Left, -1 * imgRect.Top);
+
             var rf = new RectF(cropRect);
             transformMatrix.MapRect(rf);
 
-            Bitmap croppedImage = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
+            Bitmap croppedImage = Bitmap.CreateBitmap((int)rf.Width(), (int)rf.Height(), Bitmap.Config.Argb8888);
             {
               var canvas = new Canvas(croppedImage);
-              var dstRect = new Rect(0, 0, width, height);
+              var dstRect = new RectF(0, 0, cropRect.Width(), cropRect.Height());
+              var dstTrans = new Matrix();
+              dstTrans.PostTranslate((croppedImage.Width - cropRect.Width()) / 2f, (croppedImage.Height - cropRect.Height()) / 2f);
+              dstTrans.MapRect(dstRect);
 
-              canvas.Rotate(angle, width / 2f, height / 2f);
-              canvas.DrawBitmap(image, new Rect((int)rf.Left, (int)rf.Top, (int)rf.Right, (int)rf.Bottom), dstRect, null);
+              canvas.Rotate(rotation, croppedImage.Width / 2f, croppedImage.Height / 2f);
+              canvas.DrawBitmap(image, cropRect, dstRect, null);
             }
 
             return croppedImage;
@@ -292,7 +295,7 @@ namespace Xsseract.Droid
             sendIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
             StartActivity(Intent.CreateChooser(sendIntent, Resources.GetString(Resource.String.sendTo)));
           }
-          catch(Exception)
+          catch (Exception)
           {
             HideProgress();
 

@@ -54,20 +54,20 @@ namespace Xsseract.Droid
       return 0;
     }
 
-    public static Matrix GetOrientationMatrix(Orientation orientation)
+    public static Matrix GetOrientationMatrix(Orientation orientation, float px, float py)
     {
       var matrix = new Matrix();
       switch (orientation)
       {
         case Orientation.Normal:
         case Orientation.Rotate90:
-          matrix.PostRotate(90);
+          matrix.PostRotate(90, px, py);
           break;
         case Orientation.Rotate270:
-          matrix.PostRotate(90);
+          matrix.PostRotate(90, px, py);
           break;
         case Orientation.Rotate180:
-          matrix.PostRotate(180);
+          matrix.PostRotate(180, px, py);
           break;
       }
 

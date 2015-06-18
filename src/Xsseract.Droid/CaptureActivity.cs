@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -42,7 +43,7 @@ namespace Xsseract.Droid
     #region Fields
     private HighlightView crop;
     private Bitmap image;
-    private int orientation;
+    private float rotation;
     private Uri imageUri;
     private Uri prospectiveUri;
     private CropImageView imgPreview;
@@ -51,6 +52,18 @@ namespace Xsseract.Droid
     #endregion
 
     #region Protected methods
+    protected override void OnCreate(Bundle bundle)
+    {
+      base.OnCreate(bundle);
+
+      SetContentView(Resource.Layout.Capture);
+      imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
+
+      pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
+
+      Toolbar.Crop += Toolbar_Crop;
+      Toolbar.Camera += Toolbar_Camera;
+    }
 
     protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
     {
@@ -88,19 +101,6 @@ namespace Xsseract.Droid
       }
     }
 
-    protected override void OnCreate(Bundle bundle)
-    {
-      base.OnCreate(bundle);
-
-      SetContentView(Resource.Layout.Capture);
-      imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
-
-      pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
-
-      Toolbar.Crop += Toolbar_Crop;
-      Toolbar.Camera += Toolbar_Camera;
-    }
-
     protected override async void OnResume()
     {
       base.OnResume();
@@ -113,7 +113,6 @@ namespace Xsseract.Droid
 
       await AcquireNewImage();
     }
-
     #endregion
 
     #region Private Methods
@@ -195,12 +194,13 @@ namespace Xsseract.Droid
           var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
-          var matrix = BitmapUtils.GetOrientationMatrix((Orientation)exifOrientation);
+          rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
+          var matrix = new Matrix();
+          matrix.PostRotate(rotation, original.Width / 2f, original.Height / 2f);
 
           var rotated = Bitmap.CreateBitmap(original, 0, 0, original.Width, original.Height, matrix, true);
           original.Recycle();
           original.Dispose();
-          orientation = exifOrientation;
 
           return rotated;
         });
@@ -208,8 +208,8 @@ namespace Xsseract.Droid
       imageUri = prospectiveUri;
       image = newImage;
 
-      ResetHighlightView();
       imgPreview.SetImageBitmapResetBase(image, true);
+      ResetHighlightView();
     }
 
     private void StartCameraActivity()
@@ -240,7 +240,8 @@ namespace Xsseract.Droid
         DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
         prospectiveUri = null;
         //StartCameraActivity();
-        prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
+        //prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
+        prospectiveUri = Uri.FromFile(new File("/storage/sdcard1/DCIM/Camera/IMG_20150609_172808052.jpg"));
         await ProcessAndDisplayImage();
 
         HideProgress();
@@ -260,8 +261,17 @@ namespace Xsseract.Droid
       var intent = new Intent(this, typeof(ResultActivity));
 
       intent.PutExtra(ResultActivity.Constants.ImagePath, imageUri.Path);
-      intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", crop.CropRect.Left * imageSamplingRatio, crop.CropRect.Top * imageSamplingRatio, crop.CropRect.Right * imageSamplingRatio, crop.CropRect.Bottom * imageSamplingRatio));
-      intent.PutExtra(ResultActivity.Constants.Orientation, orientation);
+      var cropRect = new RectF(crop.CropRect);
+
+      var matrix = new Matrix();
+      matrix.PostRotate(-1 * rotation, image.Width / 2f, image.Height / 2f);
+      var imgRect = new RectF(0, 0, image.Width, image.Height);
+      matrix.MapRect(imgRect);
+      matrix.PostTranslate(-1 * imgRect.Left, -1 * imgRect.Top);
+      matrix.MapRect(cropRect);
+
+      intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", cropRect.Left * imageSamplingRatio, cropRect.Top * imageSamplingRatio, cropRect.Right * imageSamplingRatio, cropRect.Bottom * imageSamplingRatio));
+      intent.PutExtra(ResultActivity.Constants.Rotation, rotation);
       intent.PutExtra(ResultActivity.Constants.PipeResult, pipeResult);
       StartActivityForResult(intent, (int)RequestCode.Parse);
     }
