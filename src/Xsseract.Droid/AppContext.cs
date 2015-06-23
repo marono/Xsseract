@@ -64,7 +64,13 @@ namespace Xsseract.Droid
 
     public bool IsFirstRun
     {
-      get { return Preferences.GetBoolean(PreferencesKeys.IsFirstRun, true); }
+      get
+      {
+#if DEBUG
+        return false;
+#endif
+        return Preferences.GetBoolean(PreferencesKeys.IsFirstRun, true);
+      }
     }
 
     public ISharedPreferences Preferences

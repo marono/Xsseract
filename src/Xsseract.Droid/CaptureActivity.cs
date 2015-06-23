@@ -10,7 +10,6 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
-using Android.Views;
 using Android.Widget;
 using Java.IO;
 using Xsseract.Droid.Fragments;
@@ -28,7 +27,7 @@ namespace Xsseract.Droid
   // TODO: Memory issue probably due to poor image manipulation.
   // TODO: Hitting back should exit the app somehow (double-tap?).
   [Activity]
-  public class CaptureActivity : ActivityBase
+  public class CaptureActivity : ContextualHelpActivity
   {
     internal enum RequestCode
     {
@@ -49,8 +48,6 @@ namespace Xsseract.Droid
     private Uri imageUri;
     private Uri prospectiveUri;
     private CropImageView imgPreview;
-    private FrameLayout frmCaptureHelp;
-    private HelpCapturePagerFragment helpFragment;
     private int imageSamplingRatio;
     private bool pipeResult;
     #endregion
@@ -62,13 +59,11 @@ namespace Xsseract.Droid
 
       SetContentView(Resource.Layout.Capture);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
-      frmCaptureHelp = FindViewById<FrameLayout>(Resource.Id.frmCaptureHelp);
 
       pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
 
       Toolbar.Crop += Toolbar_Crop;
       Toolbar.Camera += Toolbar_Camera;
-      Toolbar.Help += Toolbar_Help;
     }
 
     protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -120,6 +115,12 @@ namespace Xsseract.Droid
 
       await AcquireNewImage();
     }
+
+    protected override DismissableFragment GetHelpFragment()
+    {
+      return new HelpCapturePagerFragment(true);
+    }
+
     #endregion
 
     #region Private Methods
@@ -246,10 +247,10 @@ namespace Xsseract.Droid
       {
         DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
         prospectiveUri = null;
-        //StartCameraActivity();
+        StartCameraActivity();
         //prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-        prospectiveUri = Uri.FromFile(new File("/storage/sdcard1/DCIM/Camera/IMG_20150609_172808052.jpg"));
-        await ProcessAndDisplayImage();
+        //prospectiveUri = Uri.FromFile(new File("/storage/sdcard1/DCIM/Camera/IMG_20150609_172808052.jpg"));
+        //await ProcessAndDisplayImage();
 
         HideProgress();
       }
@@ -285,28 +286,6 @@ namespace Xsseract.Droid
     {
       await AcquireNewImage();
     }
-
-    private void Toolbar_Help(object sender, EventArgs e)
-    {
-      helpFragment = new HelpCapturePagerFragment(true);
-      var trans = SupportFragmentManager.BeginTransaction();
-      trans.Add(frmCaptureHelp.Id, helpFragment);
-      trans.Commit();
-
-      helpFragment.Dismissed += BtnGotIt_Click;
-
-      frmCaptureHelp.Clickable = true;
-      frmCaptureHelp.Visibility = ViewStates.Visible;
-    }
-
-    private void BtnGotIt_Click(object sender, EventArgs eventArgs)
-    {
-      helpFragment.Dismissed -= BtnGotIt_Click;
-      frmCaptureHelp.Visibility = ViewStates.Gone;
-      frmCaptureHelp.RemoveAllViews();
-      helpFragment = null;
-    }
-
     #endregion
   }
 }

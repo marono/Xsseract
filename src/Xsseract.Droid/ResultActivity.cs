@@ -10,6 +10,7 @@ using Android.Text.Method;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Xsseract.Droid.Fragments;
 using ClipboardManager = Android.Content.ClipboardManager;
 using File = Java.IO.File;
 
@@ -17,7 +18,7 @@ namespace Xsseract.Droid
 {
   // TODO: android.view.WindowLeaked: Activity md5b71b1bed33a31f85ecaffba202309a1f.ResultActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView{43b5f40 G.E..... R.....ID 0,0-1026,348} that was originally added here
   [Activity(WindowSoftInputMode = SoftInput.AdjustResize)]
-  public class ResultActivity : ActivityBase
+  public class ResultActivity : ContextualHelpActivity
   {
     public static class Constants
     {
@@ -157,6 +158,11 @@ namespace Xsseract.Droid
       base.OnDestroy();
     }
 
+    protected override DismissableFragment GetHelpFragment()
+    {
+      return new HelpResultsPagerFragment(true);
+    }
+
     private async Task InitializeTesseractAsync()
     {
       if (null == tesseractor)
@@ -256,8 +262,6 @@ namespace Xsseract.Droid
       txtEditResult.Text = txtViewResult.Text;
       txtViewResult.Visibility = ViewStates.Gone;
       txtEditResult.Visibility = ViewStates.Visible;
-
-      //txtEditResult.RequestFocus();
 
       var inputMethodManager = (InputMethodManager)BaseContext.GetSystemService(InputMethodService);
       inputMethodManager.ShowSoftInput(txtEditResult, ShowFlags.Forced);

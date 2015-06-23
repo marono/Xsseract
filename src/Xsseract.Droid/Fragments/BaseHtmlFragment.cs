@@ -1,5 +1,7 @@
 using System;
+using System.Threading;
 using Android.OS;
+using Android.Util;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
@@ -28,6 +30,7 @@ namespace Xsseract.Droid.Fragments
         webView.LayoutParameters = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
         webView.SetBackgroundColor(Resources.GetColor(Resource.Color.black));
         webView.SetBackgroundResource(Resource.Color.black);
+
         webView.LoadDataWithBaseURL(null, GetWrappedHtml(), "text/html;", "utf-8", null);
 
         container.AddView(webView);
