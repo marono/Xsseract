@@ -5,12 +5,14 @@ using System.Text;
 using Android.Content;
 using Android.OS;
 using Android.Util;
+using Java.Util.Prefs;
 using Newtonsoft.Json;
 using Xamarin;
 using File = Java.IO.File;
 
 namespace Xsseract.Droid
 {
+  // TODO: Detect version changes when initializing (store current version in the shared prefs).
   public class AppContext
   {
     private const string TAG = "Xsseract.App";
@@ -24,10 +26,18 @@ namespace Xsseract.Droid
     #endregion Inner classes
 
     private readonly XsseractApp context;
-    public static readonly string InstallationFile = "INSTALLATION";
+    public const string InstallationFile = "INSTALLATION";
+    private const string PreferencesFile = "Prefs";
+
+    private static class PreferencesKeys
+    {
+      public const string
+        IsFirstRun = "IsFirstRun";
+    }
 
     private string installationId;
     private AppSettings settings;
+    private ISharedPreferences preferences;
 
     public bool Initialized { get; private set; }
 
@@ -51,6 +61,19 @@ namespace Xsseract.Droid
     }
 
     public bool InitializeError { get; private set; }
+
+    public bool IsFirstRun
+    {
+      get { return Preferences.GetBoolean(PreferencesKeys.IsFirstRun, true); }
+    }
+
+    public ISharedPreferences Preferences
+    {
+      get
+      {
+        return preferences = preferences ?? context.GetSharedPreferences(PreferencesFile, FileCreationMode.Private);
+      }
+    }
 
     public AppSettings Settings
     {
@@ -99,6 +122,13 @@ namespace Xsseract.Droid
     public ITrackHandle LogTimedEvent(AppTrackingEvents @event)
     {
       return Insights.TrackTime(@event.ToString());
+    }
+
+    public void MarkHelpScreenCompleted()
+    {
+      var trans = Preferences.Edit();
+      trans.PutBoolean(PreferencesKeys.IsFirstRun, false);
+      trans.Commit();
     }
 
     public void LogDebug(string message)
@@ -183,9 +213,14 @@ namespace Xsseract.Droid
 
     private void CreateInstalationFile(File installation)
     {
+      var iid = Guid.NewGuid();
+#if DEBUG
+      // For insights reporting during debug.
+      iid = Guid.Empty;
+#endif
       var details = new InstallationDetails
       {
-        InstallationId = Guid.NewGuid().ToString()
+        InstallationId = iid.ToString()
       };
 
       var s = new JsonSerializer();

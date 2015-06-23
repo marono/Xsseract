@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
+using Android.App.Usage;
 using Android.OS;
 using Android.Views;
 using com.refractored.fab;
@@ -16,6 +17,7 @@ namespace Xsseract.Droid.Fragments
     private FloatingActionButton fabAccept;
     private FloatingActionButton fabToClipboard;
     private FloatingActionButton fabShare;
+    private FloatingActionButton fabHelp;
 
     private List<FloatingActionButton> allFabs;
 
@@ -24,6 +26,7 @@ namespace Xsseract.Droid.Fragments
     public event EventHandler<EventArgs> CopyToClipboard;
     public event EventHandler<EventArgs> Share;
     public event EventHandler<EventArgs> Accept;
+    public event EventHandler<EventArgs> Help;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -39,27 +42,29 @@ namespace Xsseract.Droid.Fragments
       fabAccept = view.FindViewById<FloatingActionButton>(Resource.Id.fabAccept);
       fabToClipboard = view.FindViewById<FloatingActionButton>(Resource.Id.fabToClipboard);
       fabShare = view.FindViewById<FloatingActionButton>(Resource.Id.fabShare);
+      fabHelp = view.FindViewById<FloatingActionButton>(Resource.Id.fabHelp);
 
       HideFab(fabToClipboard, false);
       HideFab(fabShare, false);
 
-      allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept, fabToClipboard, fabShare };
+      allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept, fabToClipboard, fabShare, fabHelp };
 
       fabCamera.Click += fabCamera_Click;
       fabCrop.Click += fabCrop_Click;
       fabAccept.Click += fabAccept_Click;
       fabToClipboard.Click += (sender, e) => OnCopyToClipboard(EventArgs.Empty);
       fabShare.Click += (sender, e) => OnShare(EventArgs.Empty);
+      fabHelp.Click += (sendner, e) => OnHelp(EventArgs.Empty);
     }
 
     public void ShowCroppingTools(bool animate)
     {
-      SetVisibleFabs(fabCrop, fabCamera);
+      SetVisibleFabs(fabCrop, fabCamera, fabHelp);
     }
 
     public void ShowResultTools(bool animate)
     {
-      SetVisibleFabs(fabToClipboard, fabShare);
+      SetVisibleFabs(fabToClipboard, fabShare, fabHelp);
     }
 
     public void ShowResultToolsNoShare(bool animate)
@@ -111,6 +116,15 @@ namespace Xsseract.Droid.Fragments
     protected void OnCopyToClipboard(EventArgs e)
     {
       var handler = CopyToClipboard;
+      if(null != handler)
+      {
+        handler(this, e);
+      }
+    }
+
+    protected void OnHelp(EventArgs e)
+    {
+      var handler = Help;
       if(null != handler)
       {
         handler(this, e);

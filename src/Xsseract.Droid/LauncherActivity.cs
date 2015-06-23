@@ -52,7 +52,13 @@ namespace Xsseract.Droid
 
       bool pipeResult = Intent.GetBooleanExtra("PipeResult", false);
 
-      var intent = new Intent(this, typeof(CaptureActivity));
+      var activityToStart = typeof(CaptureActivity);
+      if(ApplicationContext.AppContext.IsFirstRun)
+      {
+        activityToStart = typeof(HelpActivity);
+      }
+
+      var intent = new Intent(this, activityToStart);
       if(pipeResult)
       {
         intent.PutExtra(CaptureActivity.Constants.PipeResult, true);

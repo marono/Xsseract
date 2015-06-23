@@ -42,10 +42,8 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="com.refractored.monodroidtoolkit">
-      <HintPath>..\packages\MonoDroid.Toolkit.1.1.0.0\lib\MonoAndroid10\com.refractored.monodroidtoolkit.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
@@ -75,7 +73,18 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppTrackingEvents.cs" />
     <Compile Include="CaptureStates.cs" />
+    <Compile Include="Fragments\BaseHtmlFragment.cs" />
+    <Compile Include="Fragments\DismissableFragment.cs" />
+    <Compile Include="Fragments\HelpCapturePagerFragment.cs" />
+    <Compile Include="Fragments\HelpFinishPagerFragment.cs" />
+    <Compile Include="Fragments\HelpGeneralPagerFragment.cs" />
+    <Compile Include="Fragments\HelpResultsPagerFragment.cs" />
+    <Compile Include="Fragments\HelpWelcomeFragment.cs" />
+    <Compile Include="Views\CirclePageIndicator.cs" />
     <Compile Include="Extensions\FloatingActionButtonExtensions.cs" />
+    <Compile Include="GenericFragmentPagerAdaptor.cs" />
+    <Compile Include="HelpActivity.cs" />
+    <Compile Include="IPageIndicator.cs" />
     <Compile Include="ResultActivity.cs" />
     <Compile Include="Views\CropImageView.cs" />
     <Compile Include="Views\HighlightView.cs" />
@@ -98,7 +107,9 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Settings.DEBUG.json" />
     <AndroidAsset Include="Assets\Settings.RELEASE.json" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\Launcher.axml">
@@ -109,6 +120,24 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Toolbar.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\HelpCapture.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Help.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\HelpResult.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\HelpGeneral.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\HelpWelcome.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\HelpFinish.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -278,6 +307,35 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\clipboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\vpi__attrs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\vpi__colors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\vpi__defaults.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\vpi__styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

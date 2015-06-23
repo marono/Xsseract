@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -11,7 +10,10 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
+using Android.Views;
+using Android.Widget;
 using Java.IO;
+using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
 using Environment = Android.OS.Environment;
 using Orientation = Android.Media.Orientation;
@@ -47,6 +49,8 @@ namespace Xsseract.Droid
     private Uri imageUri;
     private Uri prospectiveUri;
     private CropImageView imgPreview;
+    private FrameLayout frmCaptureHelp;
+    private HelpCapturePagerFragment helpFragment;
     private int imageSamplingRatio;
     private bool pipeResult;
     #endregion
@@ -58,11 +62,13 @@ namespace Xsseract.Droid
 
       SetContentView(Resource.Layout.Capture);
       imgPreview = FindViewById<CropImageView>(Resource.Id.imgPreview);
+      frmCaptureHelp = FindViewById<FrameLayout>(Resource.Id.frmCaptureHelp);
 
       pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
 
       Toolbar.Crop += Toolbar_Crop;
       Toolbar.Camera += Toolbar_Camera;
+      Toolbar.Help += Toolbar_Help;
     }
 
     protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -105,6 +111,7 @@ namespace Xsseract.Droid
     {
       base.OnResume();
 
+      Toolbar.ShowCroppingTools(false);
       if (null != imageUri || null != prospectiveUri)
       {
         // Don't take another snap, as one is already present.
@@ -245,8 +252,6 @@ namespace Xsseract.Droid
         await ProcessAndDisplayImage();
 
         HideProgress();
-
-        Toolbar.ShowCroppingTools(false);
       }
       catch (Exception e)
       {
@@ -280,6 +285,28 @@ namespace Xsseract.Droid
     {
       await AcquireNewImage();
     }
+
+    private void Toolbar_Help(object sender, EventArgs e)
+    {
+      helpFragment = new HelpCapturePagerFragment(true);
+      var trans = SupportFragmentManager.BeginTransaction();
+      trans.Add(frmCaptureHelp.Id, helpFragment);
+      trans.Commit();
+
+      helpFragment.Dismissed += BtnGotIt_Click;
+
+      frmCaptureHelp.Clickable = true;
+      frmCaptureHelp.Visibility = ViewStates.Visible;
+    }
+
+    private void BtnGotIt_Click(object sender, EventArgs eventArgs)
+    {
+      helpFragment.Dismissed -= BtnGotIt_Click;
+      frmCaptureHelp.Visibility = ViewStates.Gone;
+      frmCaptureHelp.RemoveAllViews();
+      helpFragment = null;
+    }
+
     #endregion
   }
 }

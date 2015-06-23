@@ -26,111 +26,6 @@ namespace Xsseract.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circleColor = global::Xsseract.Droid.Resource.Attribute.circleColor;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circularProgressBarStyle = global::Xsseract.Droid.Resource.Attribute.circularProgressBarStyle;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_gravity = global::Xsseract.Droid.Resource.Attribute.circular_gravity;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_indeterminate = global::Xsseract.Droid.Resource.Attribute.circular_indeterminate;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_indeterminate_interval = global::Xsseract.Droid.Resource.Attribute.circular_indeterminate_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_marker_progress = global::Xsseract.Droid.Resource.Attribute.circular_marker_progress;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_progress = global::Xsseract.Droid.Resource.Attribute.circular_progress;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_progress_background_color = global::Xsseract.Droid.Resource.Attribute.circular_progress_background_color;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_progress_color = global::Xsseract.Droid.Resource.Attribute.circular_progress_color;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.circular_stroke_width = global::Xsseract.Droid.Resource.Attribute.circular_stroke_width;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.indeterminate = global::Xsseract.Droid.Resource.Attribute.indeterminate;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.indeterminate_interval = global::Xsseract.Droid.Resource.Attribute.indeterminate_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.innerSize = global::Xsseract.Droid.Resource.Attribute.innerSize;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.max = global::Xsseract.Droid.Resource.Attribute.max;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.pinned = global::Xsseract.Droid.Resource.Attribute.pinned;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.pinnedDrawable = global::Xsseract.Droid.Resource.Attribute.pinnedDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.progress = global::Xsseract.Droid.Resource.Attribute.progress;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.progressButtonStyle = global::Xsseract.Droid.Resource.Attribute.progressButtonStyle;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.progressColor = global::Xsseract.Droid.Resource.Attribute.progressColor;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.shadowDrawable = global::Xsseract.Droid.Resource.Attribute.shadowDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Attribute.unpinnedDrawable = global::Xsseract.Droid.Resource.Attribute.unpinnedDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Color.progress_default_circle_color = global::Xsseract.Droid.Resource.Color.progress_default_circle_color;
-			global::com.refractored.monodroidtoolkit.Resource.Color.progress_default_progress_color = global::Xsseract.Droid.Resource.Color.progress_default_progress_color;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_background_dark = global::Xsseract.Droid.Resource.Color.refractored_background_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_background_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_background_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_background_holo_light = global::Xsseract.Droid.Resource.Color.refractored_background_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_background_light = global::Xsseract.Droid.Resource.Color.refractored_background_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_dark = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_dark_disabled = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_dark_disabled;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_disabled_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_disabled_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_disabled_holo_light = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_disabled_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_holo_light = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_bright_foreground_light = global::Xsseract.Droid.Resource.Color.refractored_bright_foreground_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_dim_foreground_disabled_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_dim_foreground_disabled_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_dim_foreground_disabled_holo_light = global::Xsseract.Droid.Resource.Color.refractored_dim_foreground_disabled_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_dim_foreground_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_dim_foreground_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_dim_foreground_holo_light = global::Xsseract.Droid.Resource.Color.refractored_dim_foreground_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_highlighted_text_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_highlighted_text_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_highlighted_text_holo_light = global::Xsseract.Droid.Resource.Color.refractored_highlighted_text_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_hint_foreground_holo_dark = global::Xsseract.Droid.Resource.Color.refractored_hint_foreground_holo_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_hint_foreground_holo_light = global::Xsseract.Droid.Resource.Color.refractored_hint_foreground_holo_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_blue_bright = global::Xsseract.Droid.Resource.Color.refractored_holo_blue_bright;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_blue_dark = global::Xsseract.Droid.Resource.Color.refractored_holo_blue_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_blue_light = global::Xsseract.Droid.Resource.Color.refractored_holo_blue_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_green_dark = global::Xsseract.Droid.Resource.Color.refractored_holo_green_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_green_light = global::Xsseract.Droid.Resource.Color.refractored_holo_green_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_orange_dark = global::Xsseract.Droid.Resource.Color.refractored_holo_orange_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_orange_light = global::Xsseract.Droid.Resource.Color.refractored_holo_orange_light;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_purple = global::Xsseract.Droid.Resource.Color.refractored_holo_purple;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_red_dark = global::Xsseract.Droid.Resource.Color.refractored_holo_red_dark;
-			global::com.refractored.monodroidtoolkit.Resource.Color.refractored_holo_red_light = global::Xsseract.Droid.Resource.Color.refractored_holo_red_light;
-			global::com.refractored.monodroidtoolkit.Resource.Dimension.progress_inner_size = global::Xsseract.Droid.Resource.Dimension.progress_inner_size;
-			global::com.refractored.monodroidtoolkit.Resource.Drawable.pin_progress_pinned = global::Xsseract.Droid.Resource.Drawable.pin_progress_pinned;
-			global::com.refractored.monodroidtoolkit.Resource.Drawable.pin_progress_shadow = global::Xsseract.Droid.Resource.Drawable.pin_progress_shadow;
-			global::com.refractored.monodroidtoolkit.Resource.Drawable.pin_progress_unpinned = global::Xsseract.Droid.Resource.Drawable.pin_progress_unpinned;
-			global::com.refractored.monodroidtoolkit.Resource.Drawable.scrubber_control_normal_holo = global::Xsseract.Droid.Resource.Drawable.scrubber_control_normal_holo;
-			global::com.refractored.monodroidtoolkit.Resource.Drawable.scrubber_control_pressed_holo = global::Xsseract.Droid.Resource.Drawable.scrubber_control_pressed_holo;
-			global::com.refractored.monodroidtoolkit.Resource.Id.bottom = global::Xsseract.Droid.Resource.Id.bottom;
-			global::com.refractored.monodroidtoolkit.Resource.Id.center = global::Xsseract.Droid.Resource.Id.center;
-			global::com.refractored.monodroidtoolkit.Resource.Id.center_horizontal = global::Xsseract.Droid.Resource.Id.center_horizontal;
-			global::com.refractored.monodroidtoolkit.Resource.Id.center_vertical = global::Xsseract.Droid.Resource.Id.center_vertical;
-			global::com.refractored.monodroidtoolkit.Resource.Id.clip = global::Xsseract.Droid.Resource.Id.clip;
-			global::com.refractored.monodroidtoolkit.Resource.Id.clip_horizontal = global::Xsseract.Droid.Resource.Id.clip_horizontal;
-			global::com.refractored.monodroidtoolkit.Resource.Id.clip_vertical = global::Xsseract.Droid.Resource.Id.clip_vertical;
-			global::com.refractored.monodroidtoolkit.Resource.Id.end = global::Xsseract.Droid.Resource.Id.end;
-			global::com.refractored.monodroidtoolkit.Resource.Id.fill = global::Xsseract.Droid.Resource.Id.fill;
-			global::com.refractored.monodroidtoolkit.Resource.Id.fill_horizontal = global::Xsseract.Droid.Resource.Id.fill_horizontal;
-			global::com.refractored.monodroidtoolkit.Resource.Id.fill_vertical = global::Xsseract.Droid.Resource.Id.fill_vertical;
-			global::com.refractored.monodroidtoolkit.Resource.Id.left = global::Xsseract.Droid.Resource.Id.left;
-			global::com.refractored.monodroidtoolkit.Resource.Id.right = global::Xsseract.Droid.Resource.Id.right;
-			global::com.refractored.monodroidtoolkit.Resource.Id.start = global::Xsseract.Droid.Resource.Id.start;
-			global::com.refractored.monodroidtoolkit.Resource.Id.top = global::Xsseract.Droid.Resource.Id.top;
-			global::com.refractored.monodroidtoolkit.Resource.Integer.circular_indeterminent_interval = global::Xsseract.Droid.Resource.Integer.circular_indeterminent_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Integer.progressbutton_indeterminent_interval = global::Xsseract.Droid.Resource.Integer.progressbutton_indeterminent_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Style.CircularProgressBar = global::Xsseract.Droid.Resource.Style.CircularProgressBar;
-			global::com.refractored.monodroidtoolkit.Resource.Style.CircularProgressBarLight = global::Xsseract.Droid.Resource.Style.CircularProgressBarLight;
-			global::com.refractored.monodroidtoolkit.Resource.Style.ProgressButton = global::Xsseract.Droid.Resource.Style.ProgressButton;
-			global::com.refractored.monodroidtoolkit.Resource.Style.ProgressButton_Pin = global::Xsseract.Droid.Resource.Style.ProgressButton_Pin;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_gravity = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_gravity;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_indeterminate = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_indeterminate;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_indeterminate_interval = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_indeterminate_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_marker_progress = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_marker_progress;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_progress = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_progress;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_progress_background_color = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_progress_background_color;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_progress_color = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_progress_color;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.HoloCircularProgressBar_circular_stroke_width = global::Xsseract.Droid.Resource.Styleable.HoloCircularProgressBar_circular_stroke_width;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton = global::Xsseract.Droid.Resource.Styleable.ProgressButton;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_android_clickable = global::Xsseract.Droid.Resource.Styleable.ProgressButton_android_clickable;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_android_focusable = global::Xsseract.Droid.Resource.Styleable.ProgressButton_android_focusable;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_android_selectableItemBackground = global::Xsseract.Droid.Resource.Styleable.ProgressButton_android_selectableItemBackground;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_circleColor = global::Xsseract.Droid.Resource.Styleable.ProgressButton_circleColor;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_indeterminate = global::Xsseract.Droid.Resource.Styleable.ProgressButton_indeterminate;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_indeterminate_interval = global::Xsseract.Droid.Resource.Styleable.ProgressButton_indeterminate_interval;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_innerSize = global::Xsseract.Droid.Resource.Styleable.ProgressButton_innerSize;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_max = global::Xsseract.Droid.Resource.Styleable.ProgressButton_max;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_pinned = global::Xsseract.Droid.Resource.Styleable.ProgressButton_pinned;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_pinnedDrawable = global::Xsseract.Droid.Resource.Styleable.ProgressButton_pinnedDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_progress = global::Xsseract.Droid.Resource.Styleable.ProgressButton_progress;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_progressColor = global::Xsseract.Droid.Resource.Styleable.ProgressButton_progressColor;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_shadowDrawable = global::Xsseract.Droid.Resource.Styleable.ProgressButton_shadowDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.ProgressButton_unpinnedDrawable = global::Xsseract.Droid.Resource.Styleable.ProgressButton_unpinnedDrawable;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.Theme = global::Xsseract.Droid.Resource.Styleable.Theme;
-			global::com.refractored.monodroidtoolkit.Resource.Styleable.Theme_circularProgressBarStyle = global::Xsseract.Droid.Resource.Styleable.Theme_circularProgressBarStyle;
 			global::com.refractored.fab.Resource.Attribute.fab_colorDisabled = global::Xsseract.Droid.Resource.Attribute.fab_colorDisabled;
 			global::com.refractored.fab.Resource.Attribute.fab_colorNormal = global::Xsseract.Droid.Resource.Attribute.fab_colorNormal;
 			global::com.refractored.fab.Resource.Attribute.fab_colorPressed = global::Xsseract.Droid.Resource.Attribute.fab_colorPressed;
@@ -361,41 +256,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0100ae
 			public const int buttonStyleSmall = 2130772142;
 			
+			// aapt resource value: 0x7f0100ce
+			public const int centered = 2130772174;
+			
 			// aapt resource value: 0x7f0100af
 			public const int checkboxStyle = 2130772143;
 			
 			// aapt resource value: 0x7f0100b0
 			public const int checkedTextViewStyle = 2130772144;
-			
-			// aapt resource value: 0x7f0100d0
-			public const int circleColor = 2130772176;
-			
-			// aapt resource value: 0x7f0100e1
-			public const int circularProgressBarStyle = 2130772193;
-			
-			// aapt resource value: 0x7f0100d9
-			public const int circular_gravity = 2130772185;
-			
-			// aapt resource value: 0x7f0100df
-			public const int circular_indeterminate = 2130772191;
-			
-			// aapt resource value: 0x7f0100e0
-			public const int circular_indeterminate_interval = 2130772192;
-			
-			// aapt resource value: 0x7f0100dc
-			public const int circular_marker_progress = 2130772188;
-			
-			// aapt resource value: 0x7f0100db
-			public const int circular_progress = 2130772187;
-			
-			// aapt resource value: 0x7f0100de
-			public const int circular_progress_background_color = 2130772190;
-			
-			// aapt resource value: 0x7f0100dd
-			public const int circular_progress_color = 2130772189;
-			
-			// aapt resource value: 0x7f0100da
-			public const int circular_stroke_width = 2130772186;
 			
 			// aapt resource value: 0x7f01003a
 			public const int closeIcon = 2130772026;
@@ -523,6 +391,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0100cc
 			public const int fab_size = 2130772172;
 			
+			// aapt resource value: 0x7f0100cf
+			public const int fillColor = 2130772175;
+			
 			// aapt resource value: 0x7f010028
 			public const int gapBetweenBars = 2130772008;
 			
@@ -547,20 +418,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f010038
 			public const int iconifiedByDefault = 2130772024;
 			
-			// aapt resource value: 0x7f0100d7
-			public const int indeterminate = 2130772183;
-			
 			// aapt resource value: 0x7f010012
 			public const int indeterminateProgressStyle = 2130771986;
 			
-			// aapt resource value: 0x7f0100d8
-			public const int indeterminate_interval = 2130772184;
-			
 			// aapt resource value: 0x7f01001d
 			public const int initialActivityCount = 2130771997;
-			
-			// aapt resource value: 0x7f0100d5
-			public const int innerSize = 2130772181;
 			
 			// aapt resource value: 0x7f010002
 			public const int isLightTheme = 2130771970;
@@ -604,9 +466,6 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f01000a
 			public const int logo = 2130771978;
 			
-			// aapt resource value: 0x7f0100cf
-			public const int max = 2130772175;
-			
 			// aapt resource value: 0x7f0100bd
 			public const int maxButtonHeight = 2130772157;
 			
@@ -628,6 +487,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f010004
 			public const int navigationMode = 2130771972;
 			
+			// aapt resource value: 0x7f0100d1
+			public const int orientation = 2130772177;
+			
 			// aapt resource value: 0x7f010035
 			public const int overlapAnchor = 2130772021;
 			
@@ -637,6 +499,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0100c2
 			public const int paddingStart = 2130772162;
 			
+			// aapt resource value: 0x7f0100d0
+			public const int pageColor = 2130772176;
+			
 			// aapt resource value: 0x7f010098
 			public const int panelBackground = 2130772120;
 			
@@ -645,12 +510,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f010099
 			public const int panelMenuListWidth = 2130772121;
-			
-			// aapt resource value: 0x7f0100d6
-			public const int pinned = 2130772182;
-			
-			// aapt resource value: 0x7f0100d2
-			public const int pinnedDrawable = 2130772178;
 			
 			// aapt resource value: 0x7f010087
 			public const int popupMenuStyle = 2130772103;
@@ -667,20 +526,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f010034
 			public const int preserveIconSpacing = 2130772020;
 			
-			// aapt resource value: 0x7f0100ce
-			public const int progress = 2130772174;
-			
 			// aapt resource value: 0x7f010013
 			public const int progressBarPadding = 2130771987;
 			
 			// aapt resource value: 0x7f010011
 			public const int progressBarStyle = 2130771985;
-			
-			// aapt resource value: 0x7f0100cd
-			public const int progressButtonStyle = 2130772173;
-			
-			// aapt resource value: 0x7f0100d1
-			public const int progressColor = 2130772177;
 			
 			// aapt resource value: 0x7f010043
 			public const int prompt = 2130772035;
@@ -693,6 +543,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0100b2
 			public const int radioButtonStyle = 2130772146;
+			
+			// aapt resource value: 0x7f0100d2
+			public const int radius = 2130772178;
 			
 			// aapt resource value: 0x7f0100b3
 			public const int ratingBarStyle = 2130772147;
@@ -712,9 +565,6 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f010081
 			public const int selectableItemBackgroundBorderless = 2130772097;
 			
-			// aapt resource value: 0x7f0100d4
-			public const int shadowDrawable = 2130772180;
-			
 			// aapt resource value: 0x7f010030
 			public const int showAsAction = 2130772016;
 			
@@ -726,6 +576,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f010022
 			public const int singleChoiceItemLayout = 2130772002;
+			
+			// aapt resource value: 0x7f0100d3
+			public const int snap = 2130772179;
 			
 			// aapt resource value: 0x7f010026
 			public const int spinBars = 2130772006;
@@ -744,6 +597,12 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f010036
 			public const int state_above_anchor = 2130772022;
+			
+			// aapt resource value: 0x7f0100d4
+			public const int strokeColor = 2130772180;
+			
+			// aapt resource value: 0x7f0100d5
+			public const int strokeWidth = 2130772181;
 			
 			// aapt resource value: 0x7f010042
 			public const int submitBackground = 2130772034;
@@ -844,11 +703,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f010047
 			public const int track = 2130772039;
 			
-			// aapt resource value: 0x7f0100d3
-			public const int unpinnedDrawable = 2130772179;
-			
 			// aapt resource value: 0x7f01003e
 			public const int voiceIcon = 2130772030;
+			
+			// aapt resource value: 0x7f0100cd
+			public const int vpiCirclePageIndicatorStyle = 2130772173;
 			
 			// aapt resource value: 0x7f01004e
 			public const int windowActionBar = 2130772046;
@@ -914,6 +773,12 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f050006
 			public const int abc_config_showMenuShortcutsWhenKeyboardPresent = 2131034118;
 			
+			// aapt resource value: 0x7f050007
+			public const int default_circle_indicator_centered = 2131034119;
+			
+			// aapt resource value: 0x7f050008
+			public const int default_circle_indicator_snap = 2131034120;
+			
 			static Boolean()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -927,29 +792,29 @@ namespace Xsseract.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f06005c
-			public const int abc_background_cache_hint_selector_material_dark = 2131099740;
+			// aapt resource value: 0x7f06004a
+			public const int abc_background_cache_hint_selector_material_dark = 2131099722;
 			
-			// aapt resource value: 0x7f06005d
-			public const int abc_background_cache_hint_selector_material_light = 2131099741;
+			// aapt resource value: 0x7f06004b
+			public const int abc_background_cache_hint_selector_material_light = 2131099723;
 			
 			// aapt resource value: 0x7f060000
 			public const int abc_input_method_navigation_guard = 2131099648;
 			
-			// aapt resource value: 0x7f06005e
-			public const int abc_primary_text_disable_only_material_dark = 2131099742;
+			// aapt resource value: 0x7f06004c
+			public const int abc_primary_text_disable_only_material_dark = 2131099724;
 			
-			// aapt resource value: 0x7f06005f
-			public const int abc_primary_text_disable_only_material_light = 2131099743;
+			// aapt resource value: 0x7f06004d
+			public const int abc_primary_text_disable_only_material_light = 2131099725;
 			
-			// aapt resource value: 0x7f060060
-			public const int abc_primary_text_material_dark = 2131099744;
+			// aapt resource value: 0x7f06004e
+			public const int abc_primary_text_material_dark = 2131099726;
 			
-			// aapt resource value: 0x7f060061
-			public const int abc_primary_text_material_light = 2131099745;
+			// aapt resource value: 0x7f06004f
+			public const int abc_primary_text_material_light = 2131099727;
 			
-			// aapt resource value: 0x7f060062
-			public const int abc_search_url_text = 2131099746;
+			// aapt resource value: 0x7f060050
+			public const int abc_search_url_text = 2131099728;
 			
 			// aapt resource value: 0x7f060001
 			public const int abc_search_url_text_normal = 2131099649;
@@ -960,14 +825,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060003
 			public const int abc_search_url_text_selected = 2131099651;
 			
-			// aapt resource value: 0x7f060063
-			public const int abc_secondary_text_material_dark = 2131099747;
+			// aapt resource value: 0x7f060051
+			public const int abc_secondary_text_material_dark = 2131099729;
 			
-			// aapt resource value: 0x7f060064
-			public const int abc_secondary_text_material_light = 2131099748;
+			// aapt resource value: 0x7f060052
+			public const int abc_secondary_text_material_light = 2131099730;
 			
-			// aapt resource value: 0x7f060056
-			public const int accent = 2131099734;
+			// aapt resource value: 0x7f060037
+			public const int accent = 2131099703;
 			
 			// aapt resource value: 0x7f060004
 			public const int accent_material_dark = 2131099652;
@@ -986,6 +851,12 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f060009
 			public const int background_material_light = 2131099657;
+			
+			// aapt resource value: 0x7f06003e
+			public const int black = 2131099710;
+			
+			// aapt resource value: 0x7f06003d
+			public const int black_80 = 2131099709;
 			
 			// aapt resource value: 0x7f06000a
 			public const int bright_foreground_disabled_material_dark = 2131099658;
@@ -1011,6 +882,15 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060011
 			public const int button_material_light = 2131099665;
 			
+			// aapt resource value: 0x7f060047
+			public const int default_circle_indicator_fill_color = 2131099719;
+			
+			// aapt resource value: 0x7f060048
+			public const int default_circle_indicator_page_color = 2131099720;
+			
+			// aapt resource value: 0x7f060049
+			public const int default_circle_indicator_stroke_color = 2131099721;
+			
 			// aapt resource value: 0x7f060012
 			public const int dim_foreground_disabled_material_dark = 2131099666;
 			
@@ -1023,8 +903,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060015
 			public const int dim_foreground_material_light = 2131099669;
 			
-			// aapt resource value: 0x7f06005a
-			public const int divider = 2131099738;
+			// aapt resource value: 0x7f06003b
+			public const int divider = 2131099707;
 			
 			// aapt resource value: 0x7f060033
 			public const int fab_material_blue_500 = 2131099699;
@@ -1041,8 +921,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060019
 			public const int hint_foreground_material_light = 2131099673;
 			
-			// aapt resource value: 0x7f060059
-			public const int icons = 2131099737;
+			// aapt resource value: 0x7f06003a
+			public const int icons = 2131099706;
 			
 			// aapt resource value: 0x7f06001a
 			public const int link_text_material_dark = 2131099674;
@@ -1065,11 +945,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060020
 			public const int material_deep_teal_500 = 2131099680;
 			
-			// aapt resource value: 0x7f060053
-			public const int primary = 2131099731;
+			// aapt resource value: 0x7f060034
+			public const int primary = 2131099700;
 			
-			// aapt resource value: 0x7f060054
-			public const int primary_dark = 2131099732;
+			// aapt resource value: 0x7f060035
+			public const int primary_dark = 2131099701;
 			
 			// aapt resource value: 0x7f060021
 			public const int primary_dark_material_dark = 2131099681;
@@ -1077,8 +957,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060022
 			public const int primary_dark_material_light = 2131099682;
 			
-			// aapt resource value: 0x7f060055
-			public const int primary_light = 2131099733;
+			// aapt resource value: 0x7f060036
+			public const int primary_light = 2131099702;
 			
 			// aapt resource value: 0x7f060023
 			public const int primary_material_dark = 2131099683;
@@ -1086,8 +966,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060024
 			public const int primary_material_light = 2131099684;
 			
-			// aapt resource value: 0x7f060057
-			public const int primary_text = 2131099735;
+			// aapt resource value: 0x7f060038
+			public const int primary_text = 2131099704;
 			
 			// aapt resource value: 0x7f060025
 			public const int primary_text_default_material_dark = 2131099685;
@@ -1101,107 +981,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060028
 			public const int primary_text_disabled_material_light = 2131099688;
 			
-			// aapt resource value: 0x7f060034
-			public const int progress_default_circle_color = 2131099700;
-			
-			// aapt resource value: 0x7f060035
-			public const int progress_default_progress_color = 2131099701;
-			
-			// aapt resource value: 0x7f060036
-			public const int refractored_background_dark = 2131099702;
-			
-			// aapt resource value: 0x7f06003b
-			public const int refractored_background_holo_dark = 2131099707;
-			
-			// aapt resource value: 0x7f06003c
-			public const int refractored_background_holo_light = 2131099708;
-			
-			// aapt resource value: 0x7f060037
-			public const int refractored_background_light = 2131099703;
-			
-			// aapt resource value: 0x7f060038
-			public const int refractored_bright_foreground_dark = 2131099704;
-			
-			// aapt resource value: 0x7f06003a
-			public const int refractored_bright_foreground_dark_disabled = 2131099706;
-			
-			// aapt resource value: 0x7f06003f
-			public const int refractored_bright_foreground_disabled_holo_dark = 2131099711;
-			
-			// aapt resource value: 0x7f060040
-			public const int refractored_bright_foreground_disabled_holo_light = 2131099712;
-			
-			// aapt resource value: 0x7f06003d
-			public const int refractored_bright_foreground_holo_dark = 2131099709;
-			
-			// aapt resource value: 0x7f06003e
-			public const int refractored_bright_foreground_holo_light = 2131099710;
-			
-			// aapt resource value: 0x7f060039
-			public const int refractored_bright_foreground_light = 2131099705;
-			
-			// aapt resource value: 0x7f060042
-			public const int refractored_dim_foreground_disabled_holo_dark = 2131099714;
-			
-			// aapt resource value: 0x7f060045
-			public const int refractored_dim_foreground_disabled_holo_light = 2131099717;
-			
-			// aapt resource value: 0x7f060041
-			public const int refractored_dim_foreground_holo_dark = 2131099713;
-			
-			// aapt resource value: 0x7f060044
-			public const int refractored_dim_foreground_holo_light = 2131099716;
-			
-			// aapt resource value: 0x7f060047
-			public const int refractored_highlighted_text_holo_dark = 2131099719;
-			
-			// aapt resource value: 0x7f060048
-			public const int refractored_highlighted_text_holo_light = 2131099720;
-			
-			// aapt resource value: 0x7f060043
-			public const int refractored_hint_foreground_holo_dark = 2131099715;
-			
-			// aapt resource value: 0x7f060046
-			public const int refractored_hint_foreground_holo_light = 2131099718;
-			
-			// aapt resource value: 0x7f060052
-			public const int refractored_holo_blue_bright = 2131099730;
-			
-			// aapt resource value: 0x7f06004c
-			public const int refractored_holo_blue_dark = 2131099724;
-			
-			// aapt resource value: 0x7f060049
-			public const int refractored_holo_blue_light = 2131099721;
-			
-			// aapt resource value: 0x7f06004d
-			public const int refractored_holo_green_dark = 2131099725;
-			
-			// aapt resource value: 0x7f06004a
-			public const int refractored_holo_green_light = 2131099722;
-			
-			// aapt resource value: 0x7f060051
-			public const int refractored_holo_orange_dark = 2131099729;
-			
-			// aapt resource value: 0x7f060050
-			public const int refractored_holo_orange_light = 2131099728;
-			
-			// aapt resource value: 0x7f06004f
-			public const int refractored_holo_purple = 2131099727;
-			
-			// aapt resource value: 0x7f06004e
-			public const int refractored_holo_red_dark = 2131099726;
-			
-			// aapt resource value: 0x7f06004b
-			public const int refractored_holo_red_light = 2131099723;
-			
 			// aapt resource value: 0x7f060029
 			public const int ripple_material_dark = 2131099689;
 			
 			// aapt resource value: 0x7f06002a
 			public const int ripple_material_light = 2131099690;
 			
-			// aapt resource value: 0x7f060058
-			public const int secondary_text = 2131099736;
+			// aapt resource value: 0x7f060039
+			public const int secondary_text = 2131099705;
 			
 			// aapt resource value: 0x7f06002b
 			public const int secondary_text_default_material_dark = 2131099691;
@@ -1221,11 +1008,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060030
 			public const int switch_thumb_disabled_material_light = 2131099696;
 			
-			// aapt resource value: 0x7f060065
-			public const int switch_thumb_material_dark = 2131099749;
+			// aapt resource value: 0x7f060053
+			public const int switch_thumb_material_dark = 2131099731;
 			
-			// aapt resource value: 0x7f060066
-			public const int switch_thumb_material_light = 2131099750;
+			// aapt resource value: 0x7f060054
+			public const int switch_thumb_material_light = 2131099732;
 			
 			// aapt resource value: 0x7f060031
 			public const int switch_thumb_normal_material_dark = 2131099697;
@@ -1233,8 +1020,32 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060032
 			public const int switch_thumb_normal_material_light = 2131099698;
 			
-			// aapt resource value: 0x7f06005b
-			public const int white = 2131099739;
+			// aapt resource value: 0x7f06003f
+			public const int vpi__background_holo_dark = 2131099711;
+			
+			// aapt resource value: 0x7f060040
+			public const int vpi__background_holo_light = 2131099712;
+			
+			// aapt resource value: 0x7f060043
+			public const int vpi__bright_foreground_disabled_holo_dark = 2131099715;
+			
+			// aapt resource value: 0x7f060044
+			public const int vpi__bright_foreground_disabled_holo_light = 2131099716;
+			
+			// aapt resource value: 0x7f060041
+			public const int vpi__bright_foreground_holo_dark = 2131099713;
+			
+			// aapt resource value: 0x7f060042
+			public const int vpi__bright_foreground_holo_light = 2131099714;
+			
+			// aapt resource value: 0x7f060045
+			public const int vpi__bright_foreground_inverse_holo_dark = 2131099717;
+			
+			// aapt resource value: 0x7f060046
+			public const int vpi__bright_foreground_inverse_holo_light = 2131099718;
+			
+			// aapt resource value: 0x7f06003c
+			public const int white = 2131099708;
 			
 			static Color()
 			{
@@ -1429,6 +1240,12 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f07003b
 			public const int abc_text_size_title_material_toolbar = 2131165243;
 			
+			// aapt resource value: 0x7f070047
+			public const int default_circle_indicator_radius = 2131165255;
+			
+			// aapt resource value: 0x7f070048
+			public const int default_circle_indicator_stroke_width = 2131165256;
+			
 			// aapt resource value: 0x7f07003c
 			public const int dialog_fixed_height_major = 2131165244;
 			
@@ -1461,9 +1278,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f070042
 			public const int fab_size_normal = 2131165250;
-			
-			// aapt resource value: 0x7f070047
-			public const int progress_inner_size = 2131165255;
 			
 			static Dimension()
 			{
@@ -1680,43 +1494,31 @@ namespace Xsseract.Droid
 			public const int fab_shadow_mini = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int ic_action_swap_horiz = 2130837571;
+			public const int ic_action_help = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int ic_action_swap_vert = 2130837572;
+			public const int ic_action_swap_horiz = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int icon = 2130837573;
+			public const int ic_action_swap_vert = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int indicator_autocrop = 2130837574;
+			public const int icon = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int monoandroidsplash = 2130837575;
+			public const int indicator_autocrop = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int pin_progress_pinned = 2130837576;
+			public const int monoandroidsplash = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int pin_progress_shadow = 2130837577;
+			public const int ProgressBar = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int pin_progress_unpinned = 2130837578;
+			public const int share = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int ProgressBar = 2130837579;
-			
-			// aapt resource value: 0x7f02004c
-			public const int scrubber_control_normal_holo = 2130837580;
-			
-			// aapt resource value: 0x7f02004d
-			public const int scrubber_control_pressed_holo = 2130837581;
-			
-			// aapt resource value: 0x7f02004e
-			public const int share = 2130837582;
-			
-			// aapt resource value: 0x7f02004f
-			public const int TestImg = 2130837583;
+			public const int TestImg = 2130837579;
 			
 			static Drawable()
 			{
@@ -1731,29 +1533,29 @@ namespace Xsseract.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08004f
-			public const int action_bar = 2131230799;
+			// aapt resource value: 0x7f080043
+			public const int action_bar = 2131230787;
 			
 			// aapt resource value: 0x7f080000
 			public const int action_bar_activity_content = 2131230720;
 			
-			// aapt resource value: 0x7f08004e
-			public const int action_bar_container = 2131230798;
+			// aapt resource value: 0x7f080042
+			public const int action_bar_container = 2131230786;
 			
-			// aapt resource value: 0x7f08004a
-			public const int action_bar_root = 2131230794;
+			// aapt resource value: 0x7f08003e
+			public const int action_bar_root = 2131230782;
 			
 			// aapt resource value: 0x7f080001
 			public const int action_bar_spinner = 2131230721;
 			
-			// aapt resource value: 0x7f080033
-			public const int action_bar_subtitle = 2131230771;
+			// aapt resource value: 0x7f080027
+			public const int action_bar_subtitle = 2131230759;
 			
-			// aapt resource value: 0x7f080032
-			public const int action_bar_title = 2131230770;
+			// aapt resource value: 0x7f080026
+			public const int action_bar_title = 2131230758;
 			
-			// aapt resource value: 0x7f080050
-			public const int action_context_bar = 2131230800;
+			// aapt resource value: 0x7f080044
+			public const int action_context_bar = 2131230788;
 			
 			// aapt resource value: 0x7f080002
 			public const int action_menu_divider = 2131230722;
@@ -1761,20 +1563,20 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080003
 			public const int action_menu_presenter = 2131230723;
 			
-			// aapt resource value: 0x7f08004c
-			public const int action_mode_bar = 2131230796;
-			
-			// aapt resource value: 0x7f08004b
-			public const int action_mode_bar_stub = 2131230795;
-			
-			// aapt resource value: 0x7f080034
-			public const int action_mode_close_button = 2131230772;
-			
-			// aapt resource value: 0x7f080035
-			public const int activity_chooser_view_content = 2131230773;
+			// aapt resource value: 0x7f080040
+			public const int action_mode_bar = 2131230784;
 			
 			// aapt resource value: 0x7f08003f
-			public const int alertTitle = 2131230783;
+			public const int action_mode_bar_stub = 2131230783;
+			
+			// aapt resource value: 0x7f080028
+			public const int action_mode_close_button = 2131230760;
+			
+			// aapt resource value: 0x7f080029
+			public const int activity_chooser_view_content = 2131230761;
+			
+			// aapt resource value: 0x7f080033
+			public const int alertTitle = 2131230771;
 			
 			// aapt resource value: 0x7f080016
 			public const int always = 2131230742;
@@ -1782,53 +1584,35 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080013
 			public const int beginning = 2131230739;
 			
-			// aapt resource value: 0x7f080024
-			public const int bottom = 2131230756;
+			// aapt resource value: 0x7f080058
+			public const int btnGoIt = 2131230808;
 			
-			// aapt resource value: 0x7f080045
-			public const int buttonPanel = 2131230789;
+			// aapt resource value: 0x7f080039
+			public const int buttonPanel = 2131230777;
 			
-			// aapt resource value: 0x7f080025
-			public const int center = 2131230757;
-			
-			// aapt resource value: 0x7f080026
-			public const int center_horizontal = 2131230758;
-			
-			// aapt resource value: 0x7f080027
-			public const int center_vertical = 2131230759;
-			
-			// aapt resource value: 0x7f080047
-			public const int checkbox = 2131230791;
-			
-			// aapt resource value: 0x7f080028
-			public const int clip = 2131230760;
-			
-			// aapt resource value: 0x7f080029
-			public const int clip_horizontal = 2131230761;
-			
-			// aapt resource value: 0x7f08002a
-			public const int clip_vertical = 2131230762;
+			// aapt resource value: 0x7f08003b
+			public const int checkbox = 2131230779;
 			
 			// aapt resource value: 0x7f080017
 			public const int collapseActionView = 2131230743;
 			
-			// aapt resource value: 0x7f080063
-			public const int containerTextResult = 2131230819;
+			// aapt resource value: 0x7f08005c
+			public const int containerTextResult = 2131230812;
 			
-			// aapt resource value: 0x7f080040
-			public const int contentPanel = 2131230784;
-			
-			// aapt resource value: 0x7f080044
-			public const int custom = 2131230788;
-			
-			// aapt resource value: 0x7f080043
-			public const int customPanel = 2131230787;
-			
-			// aapt resource value: 0x7f08004d
-			public const int decor_content_parent = 2131230797;
+			// aapt resource value: 0x7f080034
+			public const int contentPanel = 2131230772;
 			
 			// aapt resource value: 0x7f080038
-			public const int default_activity_button = 2131230776;
+			public const int custom = 2131230776;
+			
+			// aapt resource value: 0x7f080037
+			public const int customPanel = 2131230775;
+			
+			// aapt resource value: 0x7f080041
+			public const int decor_content_parent = 2131230785;
+			
+			// aapt resource value: 0x7f08002c
+			public const int default_activity_button = 2131230764;
 			
 			// aapt resource value: 0x7f08001b
 			public const int dialog = 2131230747;
@@ -1839,41 +1623,38 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08001c
 			public const int dropdown = 2131230748;
 			
-			// aapt resource value: 0x7f080051
-			public const int edit_query = 2131230801;
+			// aapt resource value: 0x7f080045
+			public const int edit_query = 2131230789;
 			
 			// aapt resource value: 0x7f080014
 			public const int end = 2131230740;
 			
-			// aapt resource value: 0x7f080036
-			public const int expand_activities_button = 2131230774;
+			// aapt resource value: 0x7f08002a
+			public const int expand_activities_button = 2131230762;
 			
-			// aapt resource value: 0x7f080046
-			public const int expanded_menu = 2131230790;
+			// aapt resource value: 0x7f08003a
+			public const int expanded_menu = 2131230778;
 			
-			// aapt resource value: 0x7f08006a
-			public const int fabAccept = 2131230826;
+			// aapt resource value: 0x7f080062
+			public const int fabAccept = 2131230818;
 			
-			// aapt resource value: 0x7f080067
-			public const int fabCamera = 2131230823;
+			// aapt resource value: 0x7f08005f
+			public const int fabCamera = 2131230815;
 			
-			// aapt resource value: 0x7f080066
-			public const int fabCrop = 2131230822;
+			// aapt resource value: 0x7f080057
+			public const int fabCrop = 2131230807;
 			
-			// aapt resource value: 0x7f080068
-			public const int fabShare = 2131230824;
+			// aapt resource value: 0x7f080063
+			public const int fabHelp = 2131230819;
 			
-			// aapt resource value: 0x7f080069
-			public const int fabToClipboard = 2131230825;
+			// aapt resource value: 0x7f080060
+			public const int fabShare = 2131230816;
 			
-			// aapt resource value: 0x7f08002b
-			public const int fill = 2131230763;
+			// aapt resource value: 0x7f080061
+			public const int fabToClipboard = 2131230817;
 			
-			// aapt resource value: 0x7f08002c
-			public const int fill_horizontal = 2131230764;
-			
-			// aapt resource value: 0x7f08002d
-			public const int fill_vertical = 2131230765;
+			// aapt resource value: 0x7f080054
+			public const int frmCaptureHelp = 2131230804;
 			
 			// aapt resource value: 0x7f080004
 			public const int home = 2131230724;
@@ -1881,29 +1662,32 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08000d
 			public const int homeAsUp = 2131230733;
 			
-			// aapt resource value: 0x7f08003a
-			public const int icon = 2131230778;
+			// aapt resource value: 0x7f080024
+			public const int horizontal = 2131230756;
+			
+			// aapt resource value: 0x7f08002e
+			public const int icon = 2131230766;
 			
 			// aapt resource value: 0x7f080018
 			public const int ifRoom = 2131230744;
 			
-			// aapt resource value: 0x7f080037
-			public const int image = 2131230775;
+			// aapt resource value: 0x7f08002b
+			public const int image = 2131230763;
 			
-			// aapt resource value: 0x7f08005e
-			public const int imgPreview = 2131230814;
+			// aapt resource value: 0x7f080052
+			public const int imgPreview = 2131230802;
 			
-			// aapt resource value: 0x7f080062
-			public const int imgResult = 2131230818;
+			// aapt resource value: 0x7f08005b
+			public const int imgResult = 2131230811;
 			
-			// aapt resource value: 0x7f08002e
-			public const int left = 2131230766;
+			// aapt resource value: 0x7f080055
+			public const int indicator = 2131230805;
 			
 			// aapt resource value: 0x7f080009
 			public const int listMode = 2131230729;
 			
-			// aapt resource value: 0x7f080039
-			public const int list_item = 2131230777;
+			// aapt resource value: 0x7f08002d
+			public const int list_item = 2131230765;
 			
 			// aapt resource value: 0x7f080015
 			public const int middle = 2131230741;
@@ -1923,11 +1707,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08000a
 			public const int normal = 2131230730;
 			
-			// aapt resource value: 0x7f08003c
-			public const int parentPanel = 2131230780;
+			// aapt resource value: 0x7f080030
+			public const int parentPanel = 2131230768;
 			
-			// aapt resource value: 0x7f080060
-			public const int progressView = 2131230816;
+			// aapt resource value: 0x7f080059
+			public const int progressView = 2131230809;
 			
 			// aapt resource value: 0x7f080005
 			public const int progress_circular = 2131230725;
@@ -1935,53 +1719,50 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080006
 			public const int progress_horizontal = 2131230726;
 			
-			// aapt resource value: 0x7f080049
-			public const int radio = 2131230793;
-			
-			// aapt resource value: 0x7f08002f
-			public const int right = 2131230767;
+			// aapt resource value: 0x7f08003d
+			public const int radio = 2131230781;
 			
 			// aapt resource value: 0x7f08001f
 			public const int screen = 2131230751;
 			
-			// aapt resource value: 0x7f080041
-			public const int scrollView = 2131230785;
+			// aapt resource value: 0x7f080035
+			public const int scrollView = 2131230773;
 			
-			// aapt resource value: 0x7f080053
-			public const int search_badge = 2131230803;
+			// aapt resource value: 0x7f080047
+			public const int search_badge = 2131230791;
 			
-			// aapt resource value: 0x7f080052
-			public const int search_bar = 2131230802;
-			
-			// aapt resource value: 0x7f080054
-			public const int search_button = 2131230804;
-			
-			// aapt resource value: 0x7f080059
-			public const int search_close_btn = 2131230809;
-			
-			// aapt resource value: 0x7f080055
-			public const int search_edit_frame = 2131230805;
-			
-			// aapt resource value: 0x7f08005b
-			public const int search_go_btn = 2131230811;
-			
-			// aapt resource value: 0x7f080056
-			public const int search_mag_icon = 2131230806;
-			
-			// aapt resource value: 0x7f080057
-			public const int search_plate = 2131230807;
-			
-			// aapt resource value: 0x7f080058
-			public const int search_src_text = 2131230808;
-			
-			// aapt resource value: 0x7f08005c
-			public const int search_voice_btn = 2131230812;
-			
-			// aapt resource value: 0x7f08005d
-			public const int select_dialog_listview = 2131230813;
+			// aapt resource value: 0x7f080046
+			public const int search_bar = 2131230790;
 			
 			// aapt resource value: 0x7f080048
-			public const int shortcut = 2131230792;
+			public const int search_button = 2131230792;
+			
+			// aapt resource value: 0x7f08004d
+			public const int search_close_btn = 2131230797;
+			
+			// aapt resource value: 0x7f080049
+			public const int search_edit_frame = 2131230793;
+			
+			// aapt resource value: 0x7f08004f
+			public const int search_go_btn = 2131230799;
+			
+			// aapt resource value: 0x7f08004a
+			public const int search_mag_icon = 2131230794;
+			
+			// aapt resource value: 0x7f08004b
+			public const int search_plate = 2131230795;
+			
+			// aapt resource value: 0x7f08004c
+			public const int search_src_text = 2131230796;
+			
+			// aapt resource value: 0x7f080050
+			public const int search_voice_btn = 2131230800;
+			
+			// aapt resource value: 0x7f080051
+			public const int select_dialog_listview = 2131230801;
+			
+			// aapt resource value: 0x7f08003c
+			public const int shortcut = 2131230780;
 			
 			// aapt resource value: 0x7f08000f
 			public const int showCustom = 2131230735;
@@ -2004,47 +1785,47 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080022
 			public const int src_over = 2131230754;
 			
-			// aapt resource value: 0x7f080030
-			public const int start = 2131230768;
-			
-			// aapt resource value: 0x7f08005a
-			public const int submit_area = 2131230810;
+			// aapt resource value: 0x7f08004e
+			public const int submit_area = 2131230798;
 			
 			// aapt resource value: 0x7f08000b
 			public const int tabMode = 2131230731;
 			
-			// aapt resource value: 0x7f080042
-			public const int textSpacerNoButtons = 2131230786;
+			// aapt resource value: 0x7f080036
+			public const int textSpacerNoButtons = 2131230774;
 			
-			// aapt resource value: 0x7f08003b
-			public const int title = 2131230779;
+			// aapt resource value: 0x7f08002f
+			public const int title = 2131230767;
 			
-			// aapt resource value: 0x7f08003e
-			public const int title_template = 2131230782;
+			// aapt resource value: 0x7f080032
+			public const int title_template = 2131230770;
 			
-			// aapt resource value: 0x7f08005f
-			public const int toolbar = 2131230815;
+			// aapt resource value: 0x7f080053
+			public const int toolbar = 2131230803;
 			
 			// aapt resource value: 0x7f080031
-			public const int top = 2131230769;
+			public const int topPanel = 2131230769;
 			
-			// aapt resource value: 0x7f08003d
-			public const int topPanel = 2131230781;
+			// aapt resource value: 0x7f08005e
+			public const int txtEditResult = 2131230814;
 			
-			// aapt resource value: 0x7f080065
-			public const int txtEditResult = 2131230821;
+			// aapt resource value: 0x7f08005a
+			public const int txtViewDescription = 2131230810;
 			
-			// aapt resource value: 0x7f080061
-			public const int txtViewDescription = 2131230817;
-			
-			// aapt resource value: 0x7f080064
-			public const int txtViewResult = 2131230820;
+			// aapt resource value: 0x7f08005d
+			public const int txtViewResult = 2131230813;
 			
 			// aapt resource value: 0x7f080008
 			public const int up = 2131230728;
 			
 			// aapt resource value: 0x7f080012
 			public const int useLogo = 2131230738;
+			
+			// aapt resource value: 0x7f080025
+			public const int vertical = 2131230757;
+			
+			// aapt resource value: 0x7f080056
+			public const int viewPager = 2131230806;
 			
 			// aapt resource value: 0x7f08001a
 			public const int withText = 2131230746;
@@ -2074,11 +1855,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f090002
 			public const int abc_max_action_buttons = 2131296258;
 			
-			// aapt resource value: 0x7f090004
-			public const int circular_indeterminent_interval = 2131296260;
-			
 			// aapt resource value: 0x7f090003
-			public const int progressbutton_indeterminent_interval = 2131296259;
+			public const int default_circle_indicator_orientation = 2131296259;
 			
 			static Integer()
 			{
@@ -2172,25 +1950,43 @@ namespace Xsseract.Droid
 			public const int Capture = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int Launcher = 2130903066;
+			public const int Help = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int Result = 2130903067;
+			public const int HelpCapture = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int select_dialog_item_material = 2130903068;
+			public const int HelpFinish = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int select_dialog_multichoice_material = 2130903069;
+			public const int HelpGeneral = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int select_dialog_singlechoice_material = 2130903070;
+			public const int HelpResult = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int support_simple_spinner_dropdown_item = 2130903071;
+			public const int HelpWelcome = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public const int Toolbar = 2130903072;
+			public const int Launcher = 2130903072;
+			
+			// aapt resource value: 0x7f030021
+			public const int Result = 2130903073;
+			
+			// aapt resource value: 0x7f030022
+			public const int select_dialog_item_material = 2130903074;
+			
+			// aapt resource value: 0x7f030023
+			public const int select_dialog_multichoice_material = 2130903075;
+			
+			// aapt resource value: 0x7f030024
+			public const int select_dialog_singlechoice_material = 2130903076;
+			
+			// aapt resource value: 0x7f030025
+			public const int support_simple_spinner_dropdown_item = 2130903077;
+			
+			// aapt resource value: 0x7f030026
+			public const int Toolbar = 2130903078;
 			
 			static Layout()
 			{
@@ -2274,6 +2070,15 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0017
 			public const int label_CopiedToClipboard = 2131361815;
 			
+			// aapt resource value: 0x7f0a0029
+			public const int label_GotIt = 2131361833;
+			
+			// aapt resource value: 0x7f0a001f
+			public const int label_HelpCaptureDescr = 2131361823;
+			
+			// aapt resource value: 0x7f0a0022
+			public const int label_HelpResultDescr = 2131361826;
+			
 			// aapt resource value: 0x7f0a0015
 			public const int label_Initializing = 2131361813;
 			
@@ -2285,6 +2090,30 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0a0016
 			public const int label_TapToEditResult = 2131361814;
+			
+			// aapt resource value: 0x7f0a0025
+			public const int label_helpAcceptAction = 2131361829;
+			
+			// aapt resource value: 0x7f0a0020
+			public const int label_helpCameraAction = 2131361824;
+			
+			// aapt resource value: 0x7f0a0024
+			public const int label_helpClipboardAction = 2131361828;
+			
+			// aapt resource value: 0x7f0a0021
+			public const int label_helpCropAction = 2131361825;
+			
+			// aapt resource value: 0x7f0a0028
+			public const int label_helpHelp = 2131361832;
+			
+			// aapt resource value: 0x7f0a0026
+			public const int label_helpImageNotice = 2131361830;
+			
+			// aapt resource value: 0x7f0a0023
+			public const int label_helpShareAction = 2131361827;
+			
+			// aapt resource value: 0x7f0a0027
+			public const int label_helpWelcome = 2131361831;
 			
 			// aapt resource value: 0x7f0a001d
 			public const int message_ShareInstructions = 2131361821;
@@ -2323,14 +2152,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b0003
 			public const int Animation_AppCompat_DropDownUp = 2131427331;
 			
-			// aapt resource value: 0x7f0b011f
-			public const int AppTheme = 2131427615;
+			// aapt resource value: 0x7f0b011b
+			public const int AppTheme = 2131427611;
 			
-			// aapt resource value: 0x7f0b0121
-			public const int AppTheme_Base = 2131427617;
+			// aapt resource value: 0x7f0b011d
+			public const int AppTheme_Base = 2131427613;
 			
-			// aapt resource value: 0x7f0b0120
-			public const int AppTheme_Splash = 2131427616;
+			// aapt resource value: 0x7f0b011c
+			public const int AppTheme_Splash = 2131427612;
 			
 			// aapt resource value: 0x7f0b0004
 			public const int Base_AlertDialog_AppCompat = 2131427332;
@@ -2716,23 +2545,23 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b007d
 			public const int Base_Widget_AppCompat_Toolbar_Button_Navigation = 2131427453;
 			
-			// aapt resource value: 0x7f0b011d
-			public const int CircularProgressBar = 2131427613;
+			// aapt resource value: 0x7f0b0122
+			public const int FloatingActionButton = 2131427618;
+			
+			// aapt resource value: 0x7f0b011f
+			public const int FloatingActionButtonHelp = 2131427615;
 			
 			// aapt resource value: 0x7f0b011e
-			public const int CircularProgressBarLight = 2131427614;
+			public const int FloatingActionButtonMain = 2131427614;
 			
-			// aapt resource value: 0x7f0b0124
-			public const int FloatingActionButton = 2131427620;
+			// aapt resource value: 0x7f0b0121
+			public const int FloatingActionButtonTools = 2131427617;
 			
-			// aapt resource value: 0x7f0b0122
-			public const int FloatingActionButtonMain = 2131427618;
+			// aapt resource value: 0x7f0b0120
+			public const int HelpLabel = 2131427616;
 			
 			// aapt resource value: 0x7f0b0123
-			public const int FloatingActionButtonTools = 2131427619;
-			
-			// aapt resource value: 0x7f0b0125
-			public const int Mono_Android_Theme_Splash = 2131427621;
+			public const int Mono_Android_Theme_Splash = 2131427619;
 			
 			// aapt resource value: 0x7f0b007e
 			public const int Platform_AppCompat = 2131427454;
@@ -2763,12 +2592,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0b0116
 			public const int Platform_V14_AppCompat_Light = 2131427606;
-			
-			// aapt resource value: 0x7f0b011b
-			public const int ProgressButton = 2131427611;
-			
-			// aapt resource value: 0x7f0b011c
-			public const int ProgressButton_Pin = 2131427612;
 			
 			// aapt resource value: 0x7f0b0082
 			public const int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = 2131427458;
@@ -2983,6 +2806,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b00c8
 			public const int Theme_AppCompat_NoActionBar = 2131427528;
 			
+			// aapt resource value: 0x7f0b0124
+			public const int Theme_PageIndicatorDefaults = 2131427620;
+			
 			// aapt resource value: 0x7f0b00c9
 			public const int ThemeOverlay_AppCompat = 2131427529;
 			
@@ -2997,6 +2823,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0b00cd
 			public const int ThemeOverlay_AppCompat_Light = 2131427533;
+			
+			// aapt resource value: 0x7f0b0125
+			public const int Widget = 2131427621;
 			
 			// aapt resource value: 0x7f0b00ce
 			public const int Widget_AppCompat_ActionBar = 2131427534;
@@ -3192,6 +3021,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0b010e
 			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131427598;
+			
+			// aapt resource value: 0x7f0b0126
+			public const int Widget_CirclePageIndicator = 2131427622;
 			
 			static Style()
 			{
@@ -3402,6 +3234,40 @@ namespace Xsseract.Droid
 			// aapt resource value: 1
 			public const int AppCompatTextView_textAllCaps = 1;
 			
+			public static int[] CirclePageIndicator = new int[] {
+					2130772174,
+					2130772175,
+					2130772176,
+					2130772177,
+					2130772178,
+					2130772179,
+					2130772180,
+					2130772181};
+			
+			// aapt resource value: 0
+			public const int CirclePageIndicator_centered = 0;
+			
+			// aapt resource value: 1
+			public const int CirclePageIndicator_fillColor = 1;
+			
+			// aapt resource value: 3
+			public const int CirclePageIndicator_orientation = 3;
+			
+			// aapt resource value: 2
+			public const int CirclePageIndicator_pageColor = 2;
+			
+			// aapt resource value: 4
+			public const int CirclePageIndicator_radius = 4;
+			
+			// aapt resource value: 5
+			public const int CirclePageIndicator_snap = 5;
+			
+			// aapt resource value: 6
+			public const int CirclePageIndicator_strokeColor = 6;
+			
+			// aapt resource value: 7
+			public const int CirclePageIndicator_strokeWidth = 7;
+			
 			public static int[] DrawerArrowToggle = new int[] {
 					2130772005,
 					2130772006,
@@ -3461,40 +3327,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 5
 			public const int FloatingActionButton_fab_size = 5;
-			
-			public static int[] HoloCircularProgressBar = new int[] {
-					2130772185,
-					2130772186,
-					2130772187,
-					2130772188,
-					2130772189,
-					2130772190,
-					2130772191,
-					2130772192};
-			
-			// aapt resource value: 0
-			public const int HoloCircularProgressBar_circular_gravity = 0;
-			
-			// aapt resource value: 6
-			public const int HoloCircularProgressBar_circular_indeterminate = 6;
-			
-			// aapt resource value: 7
-			public const int HoloCircularProgressBar_circular_indeterminate_interval = 7;
-			
-			// aapt resource value: 3
-			public const int HoloCircularProgressBar_circular_marker_progress = 3;
-			
-			// aapt resource value: 2
-			public const int HoloCircularProgressBar_circular_progress = 2;
-			
-			// aapt resource value: 5
-			public const int HoloCircularProgressBar_circular_progress_background_color = 5;
-			
-			// aapt resource value: 4
-			public const int HoloCircularProgressBar_circular_progress_color = 4;
-			
-			// aapt resource value: 1
-			public const int HoloCircularProgressBar_circular_stroke_width = 1;
 			
 			public static int[] LinearLayoutCompat = new int[] {
 					16842927,
@@ -3707,64 +3539,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0
 			public const int PopupWindowBackgroundState_state_above_anchor = 0;
-			
-			public static int[] ProgressButton = new int[] {
-					16842970,
-					16842981,
-					16843534,
-					2130772174,
-					2130772175,
-					2130772176,
-					2130772177,
-					2130772178,
-					2130772179,
-					2130772180,
-					2130772181,
-					2130772182,
-					2130772183,
-					2130772184};
-			
-			// aapt resource value: 1
-			public const int ProgressButton_android_clickable = 1;
-			
-			// aapt resource value: 0
-			public const int ProgressButton_android_focusable = 0;
-			
-			// aapt resource value: 2
-			public const int ProgressButton_android_selectableItemBackground = 2;
-			
-			// aapt resource value: 5
-			public const int ProgressButton_circleColor = 5;
-			
-			// aapt resource value: 12
-			public const int ProgressButton_indeterminate = 12;
-			
-			// aapt resource value: 13
-			public const int ProgressButton_indeterminate_interval = 13;
-			
-			// aapt resource value: 10
-			public const int ProgressButton_innerSize = 10;
-			
-			// aapt resource value: 4
-			public const int ProgressButton_max = 4;
-			
-			// aapt resource value: 11
-			public const int ProgressButton_pinned = 11;
-			
-			// aapt resource value: 7
-			public const int ProgressButton_pinnedDrawable = 7;
-			
-			// aapt resource value: 3
-			public const int ProgressButton_progress = 3;
-			
-			// aapt resource value: 6
-			public const int ProgressButton_progressColor = 6;
-			
-			// aapt resource value: 9
-			public const int ProgressButton_shadowDrawable = 9;
-			
-			// aapt resource value: 8
-			public const int ProgressButton_unpinnedDrawable = 8;
 			
 			public static int[] SearchView = new int[] {
 					16842970,
@@ -4048,8 +3822,7 @@ namespace Xsseract.Droid
 					2130772146,
 					2130772147,
 					2130772148,
-					2130772149,
-					2130772193};
+					2130772149};
 			
 			// aapt resource value: 23
 			public const int Theme_actionBarDivider = 23;
@@ -4191,9 +3964,6 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 100
 			public const int Theme_checkedTextViewStyle = 100;
-			
-			// aapt resource value: 106
-			public const int Theme_circularProgressBarStyle = 106;
 			
 			// aapt resource value: 82
 			public const int Theme_colorAccent = 82;
@@ -4487,6 +4257,12 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 4
 			public const int View_theme = 4;
+			
+			public static int[] ViewPagerIndicator = new int[] {
+					2130772173};
+			
+			// aapt resource value: 0
+			public const int ViewPagerIndicator_vpiCirclePageIndicatorStyle = 0;
 			
 			public static int[] ViewStubCompat = new int[] {
 					16842960,
