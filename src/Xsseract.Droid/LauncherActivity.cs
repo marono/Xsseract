@@ -14,93 +14,92 @@ using Android.Widget;
 namespace Xsseract.Droid
 {
   // TODO: Investigate white screen before splashscreen.
-  [Activity(Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true)]
+  [Activity (Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true)]
   public class LauncherActivity : ActivityBase
   {
     #region Protected methods
 
-    protected override void OnCreate(Bundle bundle)
+    protected override void OnCreate (Bundle bundle)
     {
-      base.OnCreate(bundle);
+      base.OnCreate (bundle);
 
       // TODO: Review this code, tesseract init should only happen when it hasn't already been initialized.
-      if (!ApplicationContext.AppContext.Initialized)
-      {
-        SetContentView(Resource.Layout.Launcher);
+      if (!ApplicationContext.AppContext.Initialized) {
+        SetContentView (Resource.Layout.Launcher);
       }
     }
 
-    protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+    protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
     {
-      base.OnActivityResult(requestCode, resultCode, data);
-      Finish();
+      base.OnActivityResult (requestCode, resultCode, data);
+      Finish ();
     }
 
-    protected async override void OnResume()
+    protected async override void OnResume ()
     {
-      base.OnResume();
+      base.OnResume ();
 
       // TODO: Investigate exceptions on Tasks when the return is void!!!
       
-      if (!ApplicationContext.AppContext.Initialized)
-      {
-        await PerformInit();
+      if (!ApplicationContext.AppContext.Initialized) {
+        await PerformInit ();
       }
 
-      var tessInitializer = new TessDataInitializer(ApplicationContext.AppContext);
-      await tessInitializer.InitializeAsync();
+      try {
+        var tessInitializer = new TessDataInitializer (ApplicationContext.AppContext);
+        await tessInitializer.InitializeAsync ();
+      } catch (Exception e) {
+        LogError (e);
+        DisplayError (e);
+        Finish ();
+        return;
+      }
 
-      bool pipeResult = Intent.GetBooleanExtra("PipeResult", false);
+      bool pipeResult = Intent.GetBooleanExtra ("PipeResult", false);
 
       var activityToStart = typeof(CaptureActivity);
-      if(ApplicationContext.AppContext.IsFirstRun)
-      {
+      if (ApplicationContext.AppContext.IsFirstRun) {
         activityToStart = typeof(HelpActivity);
       }
 
-      var intent = new Intent(this, activityToStart);
-      if(pipeResult)
-      {
-        intent.PutExtra(CaptureActivity.Constants.PipeResult, true);
-        intent.AddFlags(ActivityFlags.ForwardResult);
+      var intent = new Intent (this, activityToStart);
+      if (pipeResult) {
+        intent.PutExtra (CaptureActivity.Constants.PipeResult, true);
+        intent.AddFlags (ActivityFlags.ForwardResult);
       }
 
-      StartActivity(intent);
-      if(null != ApplicationContext.AppStartupTracker)
-      {
-        ApplicationContext.AppStartupTracker.Stop();
+      StartActivity (intent);
+      if (null != ApplicationContext.AppStartupTracker) {
+        ApplicationContext.AppStartupTracker.Stop ();
         var span = ApplicationContext.AppStartupTracker.Elapsed;
         ApplicationContext.AppStartupTracker = null;
 
-        LogAppStatupTime(span);
+        LogAppStatupTime (span);
       }
 
-      Finish();
+      Finish ();
     }
 
     #endregion
 
-    private async Task PerformInit()
+    private async Task PerformInit ()
     {
-      var t1 = Task.Factory.StartNew(
-        () =>
-        {
-          ApplicationContext.AppContext.Initialize();
-          if (ApplicationContext.AppContext.InitializeError)
-          {
+      var t1 = Task.Factory.StartNew (
+              () => {
+          ApplicationContext.AppContext.Initialize ();
+          if (ApplicationContext.AppContext.InitializeError) {
             // TODO: Handle error during init.
           }
         });
 
-      await Task.WhenAll(t1);
+      await Task.WhenAll (t1);
     }
 
-    private void LogAppStatupTime(TimeSpan span)
+    private void LogAppStatupTime (TimeSpan span)
     {
-      ApplicationContext.AppContext.LogEvent(AppTrackingEvents.Startup,
-        new Dictionary<string, string>
-        {
-          { "Duration", span.TotalMilliseconds.ToString() },
+      ApplicationContext.AppContext.LogEvent (AppTrackingEvents.Startup,
+        new Dictionary<string, string> {
+          { "Duration", span.TotalMilliseconds.ToString () },
           { "Device", ApplicationContext.AppContext.DeviceName }
         });
     }

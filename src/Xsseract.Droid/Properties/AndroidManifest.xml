@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" android:installLocation="auto" package="ro.onos.xsseract">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" android:installLocation="auto" package="ro.onos.xsseract" android:debuggable="true">
 	<uses-sdk android:targetSdkVersion="21" android:minSdkVersion="19" />
 	<application android:label="@string/ApplicationName" android:icon="@drawable/icon" android:theme="@style/AppTheme">
 		<activity android:label="@string/ApplicationName" android:name="xsseract.droid.Launcher">

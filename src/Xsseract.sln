@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xsseract.Droid", "Xsseract.Droid\Xsseract.Droid.csproj", "{BB34A9CA-7CCA-46CF-9389-DD016359D69E}"
@@ -27,26 +27,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|ARM.ActiveCfg = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
-		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|x86.ActiveCfg = Release|Any CPU
 		{1026A8D5-3BAA-4722-8136-9FBB367E236D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1026A8D5-3BAA-4722-8136-9FBB367E236D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1026A8D5-3BAA-4722-8136-9FBB367E236D}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -77,6 +57,26 @@ Global
 		{4E012760-FBB5-4594-A259-27496F62948C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4E012760-FBB5-4594-A259-27496F62948C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4E012760-FBB5-4594-A259-27496F62948C}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{BB34A9CA-7CCA-46CF-9389-DD016359D69E}.Release|x86.ActiveCfg = Release|Any CPU
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -93,6 +93,21 @@ Global
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EFB459E0-0648-4AAE-AB15-DA707D5566B6}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 120
+		$1.TabWidth = 2
+		$1.IndentWidth = 2
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.AfterDelegateDeclarationParameterComma = True
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
