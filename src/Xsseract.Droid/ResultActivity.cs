@@ -32,9 +32,7 @@ namespace Xsseract.Droid
     }
 
     private Tesseractor tesseractor;
-    private string imagePath;
     private Rect cropRect;
-    private float rotation;
     private bool pipeResult;
 
     private ImageView imgResult;
@@ -67,11 +65,9 @@ namespace Xsseract.Droid
     {
       base.OnResume();
 
-      imagePath = Intent.GetStringExtra(Constants.ImagePath);
       var cropRectString = Intent.GetStringExtra(Constants.CropRect).Split(',');
       cropRect = new Rect(Int32.Parse(cropRectString[0]), Int32.Parse(cropRectString[1]), Int32.Parse(cropRectString[2]), Int32.Parse(cropRectString[3]));
 
-      rotation = Intent.GetFloatExtra(Constants.Rotation, 0);
       pipeResult = Intent.GetBooleanExtra(Constants.PipeResult, false);
 
       txtEditResult.Visibility = ViewStates.Gone;
@@ -81,30 +77,30 @@ namespace Xsseract.Droid
       else
         Toolbar.ShowResultToolsNoShare(true);
 
-      try
+      if (null == cropped)
       {
-        DisplayProgress(Resources.GetString(Resource.String.progress_OCR));
-        await InitializeTesseractAsync();
-
-        if (null == cropped)
+        try
         {
+          DisplayProgress(Resources.GetString(Resource.String.progress_OCR));
+          await InitializeTesseractAsync();
           await PerformOcrAsync();
+
+          HideProgress();
         }
+        catch (Exception e)
+        {
+          HideProgress();
 
-        imgResult.SetImageBitmap(cropped);
-        txtViewResult.Text = result;
-        HideProgress();
-
-        Toast t = Toast.MakeText(this, Resource.String.label_TapToEditResult, ToastLength.Short);
-        t.Show();
+          LogError(e);
+          DisplayError(e);
+        }
       }
-      catch (Exception e)
-      {
-        HideProgress();
 
-        LogError(e);
-        DisplayError(e);
-      }
+      imgResult.SetImageBitmap(cropped);
+      txtViewResult.Text = result;
+
+      Toast t = Toast.MakeText(this, Resource.String.label_TapToEditResult, ToastLength.Short);
+      t.Show();
     }
 
     public override bool OnTouchEvent(MotionEvent e)
@@ -175,7 +171,7 @@ namespace Xsseract.Droid
     private async Task PerformOcrAsync()
     {
       cropped = await GetImageAsync();
-      result = await tesseractor.RecognizeAsync(cropped);
+      result = await tesseractor.RecognizeAsync(ApplicationContext.AppContext.GetBitmap(), cropRect);
     }
 
     private async Task<Bitmap> GetImageAsync()
@@ -183,41 +179,31 @@ namespace Xsseract.Droid
       return await Task.Factory.StartNew(
         () =>
         {
-          Bitmap image = BitmapFactory.DecodeFile(imagePath);
+          var image = ApplicationContext.AppContext.GetBitmap();
+          float scale = 1;
+          Bitmap cropped = null;
 
-          try
+          do
           {
-            // Rotate the crop rect so that we get the same as we've selected on the previous screent.
-            // The rotation needs to happen in the original image space, and not in the cropped one's.
-            var transformMatrix = new Matrix();
-            transformMatrix.SetRotate(rotation, image.Width / 2f, image.Height / 2f);
-            var imgRect = new RectF(0, 0, image.Width, image.Height);
-            transformMatrix.MapRect(imgRect);
-
-            transformMatrix.PostTranslate(-1 * imgRect.Left, -1 * imgRect.Top);
-
-            var rf = new RectF(cropRect);
-            transformMatrix.MapRect(rf);
-
-            Bitmap croppedImage = Bitmap.CreateBitmap((int)rf.Width(), (int)rf.Height(), Bitmap.Config.Argb8888);
+            try
             {
-              var canvas = new Canvas(croppedImage);
-              var dstRect = new RectF(0, 0, cropRect.Width(), cropRect.Height());
-              var dstTrans = new Matrix();
-              dstTrans.PostTranslate((croppedImage.Width - cropRect.Width()) / 2f, (croppedImage.Height - cropRect.Height()) / 2f);
-              dstTrans.MapRect(dstRect);
+              Bitmap tmp = Bitmap.CreateBitmap((int)(cropRect.Width() / scale), (int)(cropRect.Height() / scale), Bitmap.Config.Argb8888);
+              {
+                var canvas = new Canvas(tmp);
+                var dstRect = new RectF(0, 0, cropRect.Width(), cropRect.Height());
 
-              canvas.Rotate(rotation, croppedImage.Width / 2f, croppedImage.Height / 2f);
-              canvas.DrawBitmap(image, cropRect, dstRect, null);
+                canvas.DrawBitmap(image, cropRect, dstRect, null);
+              }
+
+              cropped = tmp;
             }
+            catch (Java.Lang.OutOfMemoryError)
+            {
+              scale += 1;
+            }
+          } while (null == cropped);
 
-            return croppedImage;
-          }
-          finally
-          {
-            image.Recycle();
-            image.Dispose();
-          }
+          return cropped;
         });
     }
 
@@ -226,6 +212,7 @@ namespace Xsseract.Droid
       return await Task.Factory.StartNew(
         () =>
         {
+          var imagePath = ApplicationContext.AppContext.GetImageUri();
           var fileName = String.Format("{0}-cropped.png", System.IO.Path.GetFileNameWithoutExtension(imagePath));
           var path = System.IO.Path.GetDirectoryName(imagePath);
 

@@ -9,7 +9,7 @@ using com.refractored.fab;
 namespace Xsseract.Droid.Fragments
 {
   // TODO: Icons not suggestive enough.
-  public class ToolbarFragment : Fragment
+  public class ToolbarFragment : Android.Support.V4.App.Fragment
   {
     private FloatingActionButton fabCrop;
     private FloatingActionButton fabCamera;

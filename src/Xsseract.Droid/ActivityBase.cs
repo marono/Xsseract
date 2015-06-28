@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Xsseract.Droid.Fragments;
-using AlertDialog = Android.Support.V7.App.AlertDialog;
+using AlertDialog = Android.App.AlertDialog;
 using Environment = System.Environment;
 
 #endregion
@@ -13,7 +13,7 @@ using Environment = System.Environment;
 namespace Xsseract.Droid
 {
   public class ActivityBase : Android.Support.V4.App.FragmentActivity
-  {
+    {
     private ProgressDialog progressDialog;
     private ToolbarFragment toolbar;
 
@@ -33,7 +33,7 @@ namespace Xsseract.Droid
           return toolbar;
         }
 
-        toolbar = FragmentManager.FindFragmentById<ToolbarFragment>(Resource.Id.toolbar);
+        toolbar = SupportFragmentManager.FindFragmentById(Resource.Id.toolbar) as ToolbarFragment;
         return toolbar;
       }
     }

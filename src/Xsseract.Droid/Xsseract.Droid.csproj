@@ -86,6 +86,7 @@
     <Compile Include="Fragments\HelpGeneralPagerFragment.cs" />
     <Compile Include="Fragments\HelpResultsPagerFragment.cs" />
     <Compile Include="Fragments\HelpWelcomeFragment.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="Views\CirclePageIndicator.cs" />
     <Compile Include="Extensions\FloatingActionButtonExtensions.cs" />
     <Compile Include="GenericFragmentPagerAdaptor.cs" />

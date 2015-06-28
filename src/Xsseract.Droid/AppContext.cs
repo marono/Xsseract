@@ -9,6 +9,8 @@ using Java.Util.Prefs;
 using Newtonsoft.Json;
 using Xamarin;
 using File = Java.IO.File;
+using System.Threading.Tasks;
+using Android.Graphics;
 
 namespace Xsseract.Droid
 {
@@ -38,6 +40,7 @@ namespace Xsseract.Droid
     private string installationId;
     private AppSettings settings;
     private ISharedPreferences preferences;
+    private Image image;
 
     public bool Initialized { get; private set; }
 
@@ -88,7 +91,7 @@ namespace Xsseract.Droid
 
     public File PublicFilesPath
     {
-      get { return new File(Android.OS.Environment.ExternalStorageDirectory, Path.Combine("Xsseract", "files")); }
+      get { return new File(Android.OS.Environment.ExternalStorageDirectory, System.IO.Path.Combine("Xsseract", "files")); }
     }
 
     public File TessDataFilesPath
@@ -97,6 +100,11 @@ namespace Xsseract.Droid
       {
         return new File(PublicFilesPath, "tessdata");
       }
+    }
+
+    public bool HasImage
+    {
+      get { return image != null; }
     }
 
     public AppContext(XsseractApp underlyingContext)
@@ -184,6 +192,64 @@ namespace Xsseract.Droid
       // TODO: Disable DEBUG logging by configuration.
       Log.Error(TAG, e.ToString());
       Insights.Report(e, Insights.Severity.Warning);
+    }
+
+    public async Task<Bitmap> LoadImageAsync(string path, float rotation)
+    {
+      await DisposeImageAsync();
+      var tmpImg = await Task.Factory.StartNew(
+        () => {
+          var img = new Image(path, rotation);
+          return img;
+
+        });
+
+      this.image = tmpImg;
+      LogInfo("Image sampling is {0}", image.SampleSize);
+      return image.Bitmap;
+    }
+
+    public Bitmap LoadImage(string path, float rotation)
+    {
+      image?.Dispose();
+
+      image = new Image(path, rotation);
+      LogInfo("Image sampling is {0}", image.SampleSize);
+      return image.Bitmap;
+    }
+
+    public async Task DisposeImageAsync()
+    {
+      if(null == image)
+      {
+        await Task.Yield();
+        return;
+      }
+
+      await Task.Factory.StartNew(
+        () => {
+          image.Dispose();
+        });
+    }
+
+    public Bitmap GetBitmap()
+    {
+      if(null == image)
+      {
+        return null;
+      }
+
+      return image.Bitmap;
+    }
+
+    public string GetImageUri()
+    {
+      if(null == image)
+      {
+        return null;
+      }
+
+      return image.Path;
     }
 
     private void EnsureAppContextInitialized()

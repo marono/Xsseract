@@ -10,7 +10,6 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
-using Android.Widget;
 using Java.IO;
 using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
@@ -43,12 +42,8 @@ namespace Xsseract.Droid
 
     #region Fields
     private HighlightView crop;
-    private Bitmap image;
-    private float rotation;
-    private Uri imageUri;
     private Uri prospectiveUri;
     private CropImageView imgPreview;
-    private int imageSamplingRatio;
     private bool pipeResult;
     #endregion
 
@@ -107,7 +102,7 @@ namespace Xsseract.Droid
       base.OnResume();
 
       Toolbar.ShowCroppingTools(false);
-      if (null != imageUri || null != prospectiveUri)
+      if (ApplicationContext.AppContext.HasImage || null != prospectiveUri)
       {
         // Don't take another snap, as one is already present.
         return;
@@ -141,8 +136,9 @@ namespace Xsseract.Droid
 
       crop = new HighlightView(imgPreview);
 
-      int width = image.Width;
-      int height = image.Height;
+      var img = ApplicationContext.AppContext.GetBitmap();
+      int width = img.Width;
+      int height = img.Height;
 
       var imageRect = new Rect(0, 0, width, height);
 
@@ -181,42 +177,22 @@ namespace Xsseract.Droid
     private async Task ProcessAndDisplayImage()
     {
       imgPreview.SetImageBitmap(null);
-      if (null != image)
-      {
-        image.Recycle();
-        image.Dispose();
-        image = null;
-      }
 
+      await ApplicationContext.AppContext.DisposeImageAsync();
       var newImage = await Task.Factory.StartNew(
         () =>
         {
           string path = prospectiveUri.Path;
-          var options = BitmapUtils.GetBitmapOptionsNoLoad(path);
-
-          options.InSampleSize = imageSamplingRatio = BitmapUtils.CalculateSampleSize(options, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
-          options.InJustDecodeBounds = false;
-          var original = BitmapFactory.DecodeFile(path, options);
-
           var exif = new ExifInterface(path); //Since API Level 5
-          var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
+                var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
-          rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
-          var matrix = new Matrix();
-          matrix.PostRotate(rotation, original.Width / 2f, original.Height / 2f);
+          var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
 
-          var rotated = Bitmap.CreateBitmap(original, 0, 0, original.Width, original.Height, matrix, true);
-          original.Recycle();
-          original.Dispose();
-
-          return rotated;
+          return ApplicationContext.AppContext.LoadImage(path, rotation);
         });
 
-      imageUri = prospectiveUri;
-      image = newImage;
-
-      imgPreview.SetImageBitmapResetBase(image, true);
+      imgPreview.SetImageBitmapResetBase(newImage, true);
       ResetHighlightView();
     }
 
@@ -266,18 +242,9 @@ namespace Xsseract.Droid
     {
       var intent = new Intent(this, typeof(ResultActivity));
 
-      intent.PutExtra(ResultActivity.Constants.ImagePath, imageUri.Path);
       var cropRect = new RectF(crop.CropRect);
 
-      var matrix = new Matrix();
-      matrix.PostRotate(-1 * rotation, image.Width / 2f, image.Height / 2f);
-      var imgRect = new RectF(0, 0, image.Width, image.Height);
-      matrix.MapRect(imgRect);
-      matrix.PostTranslate(-1 * imgRect.Left, -1 * imgRect.Top);
-      matrix.MapRect(cropRect);
-
-      intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", cropRect.Left * imageSamplingRatio, cropRect.Top * imageSamplingRatio, cropRect.Right * imageSamplingRatio, cropRect.Bottom * imageSamplingRatio));
-      intent.PutExtra(ResultActivity.Constants.Rotation, rotation);
+      intent.PutExtra(ResultActivity.Constants.CropRect, String.Format("{0},{1},{2},{3}", cropRect.Left, cropRect.Top, cropRect.Right, cropRect.Bottom));
       intent.PutExtra(ResultActivity.Constants.PipeResult, pipeResult);
       StartActivityForResult(intent, (int)RequestCode.Parse);
     }
