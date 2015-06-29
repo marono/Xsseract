@@ -111,9 +111,13 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AndroidAsset Include="Assets\Settings.DEBUG.json" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AndroidAsset Include="Assets\Settings.RELEASE.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
