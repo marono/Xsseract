@@ -76,10 +76,31 @@ namespace Xsseract.Droid
           if (resultCode != Result.Ok)
           {
             prospectiveUri = null;
+
+            if(ApplicationContext.AppContext.HasImage)
+            {
+              return;
+            }
+
+            Toast.MakeText(this, Resource.String.label_ExitNotice, ToastLength.Short).Show();
+            SetResult(Result.Canceled);
+            Finish();
+
             return;
           }
 
-          await ProcessAndDisplayImage();
+          try
+          {
+            DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
+            await ProcessAndDisplayImage();
+            HideProgress();
+          }
+          catch (Exception)
+          {
+            HideProgress();
+            throw;
+          }
+
           break;
         case RequestCode.Parse:
           if (resultCode == Result.Canceled)

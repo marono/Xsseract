@@ -2061,29 +2061,32 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0010
 			public const int abc_toolbar_collapse_description = 2131361808;
 			
-			// aapt resource value: 0x7f0a001f
-			public const int intent_resolveText = 2131361823;
+			// aapt resource value: 0x7f0a0020
+			public const int intent_resolveText = 2131361824;
+			
+			// aapt resource value: 0x7f0a001a
+			public const int label_ClipboardLabel = 2131361818;
 			
 			// aapt resource value: 0x7f0a0019
-			public const int label_ClipboardLabel = 2131361817;
+			public const int label_CopiedToClipboard = 2131361817;
 			
 			// aapt resource value: 0x7f0a0018
-			public const int label_CopiedToClipboard = 2131361816;
+			public const int label_ExitNotice = 2131361816;
 			
-			// aapt resource value: 0x7f0a002a
-			public const int label_GotIt = 2131361834;
+			// aapt resource value: 0x7f0a002b
+			public const int label_GotIt = 2131361835;
 			
-			// aapt resource value: 0x7f0a0020
-			public const int label_HelpCaptureDescr = 2131361824;
+			// aapt resource value: 0x7f0a0021
+			public const int label_HelpCaptureDescr = 2131361825;
 			
-			// aapt resource value: 0x7f0a0023
-			public const int label_HelpResultDescr = 2131361827;
+			// aapt resource value: 0x7f0a0024
+			public const int label_HelpResultDescr = 2131361828;
 			
 			// aapt resource value: 0x7f0a0015
 			public const int label_Initializing = 2131361813;
 			
-			// aapt resource value: 0x7f0a001a
-			public const int label_PrepareShare = 2131361818;
+			// aapt resource value: 0x7f0a001b
+			public const int label_PrepareShare = 2131361819;
 			
 			// aapt resource value: 0x7f0a0014
 			public const int label_Result = 2131361812;
@@ -2094,41 +2097,41 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0017
 			public const int label_TapToExit = 2131361815;
 			
-			// aapt resource value: 0x7f0a0026
-			public const int label_helpAcceptAction = 2131361830;
-			
-			// aapt resource value: 0x7f0a0021
-			public const int label_helpCameraAction = 2131361825;
-			
-			// aapt resource value: 0x7f0a0025
-			public const int label_helpClipboardAction = 2131361829;
+			// aapt resource value: 0x7f0a0027
+			public const int label_helpAcceptAction = 2131361831;
 			
 			// aapt resource value: 0x7f0a0022
-			public const int label_helpCropAction = 2131361826;
+			public const int label_helpCameraAction = 2131361826;
 			
-			// aapt resource value: 0x7f0a0029
-			public const int label_helpHelp = 2131361833;
+			// aapt resource value: 0x7f0a0026
+			public const int label_helpClipboardAction = 2131361830;
 			
-			// aapt resource value: 0x7f0a0027
-			public const int label_helpImageNotice = 2131361831;
+			// aapt resource value: 0x7f0a0023
+			public const int label_helpCropAction = 2131361827;
 			
-			// aapt resource value: 0x7f0a0024
-			public const int label_helpShareAction = 2131361828;
+			// aapt resource value: 0x7f0a002a
+			public const int label_helpHelp = 2131361834;
 			
 			// aapt resource value: 0x7f0a0028
-			public const int label_helpWelcome = 2131361832;
+			public const int label_helpImageNotice = 2131361832;
 			
-			// aapt resource value: 0x7f0a001e
-			public const int message_ShareInstructions = 2131361822;
+			// aapt resource value: 0x7f0a0025
+			public const int label_helpShareAction = 2131361829;
 			
-			// aapt resource value: 0x7f0a001c
-			public const int progress_ImageAdjust = 2131361820;
+			// aapt resource value: 0x7f0a0029
+			public const int label_helpWelcome = 2131361833;
 			
-			// aapt resource value: 0x7f0a001b
-			public const int progress_OCR = 2131361819;
+			// aapt resource value: 0x7f0a001f
+			public const int message_ShareInstructions = 2131361823;
 			
 			// aapt resource value: 0x7f0a001d
-			public const int sendTo = 2131361821;
+			public const int progress_ImageAdjust = 2131361821;
+			
+			// aapt resource value: 0x7f0a001c
+			public const int progress_OCR = 2131361820;
+			
+			// aapt resource value: 0x7f0a001e
+			public const int sendTo = 2131361822;
 			
 			static String()
 			{
