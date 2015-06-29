@@ -49,6 +49,7 @@ namespace Xsseract.Droid
     private CropImageView imgPreview;
     private bool pipeResult;
     private DateTime lastBackHit;
+    private static readonly TimeSpan buttonHelpToastDelay = TimeSpan.FromMilliseconds(500);
     #endregion
 
     #region Protected methods
@@ -132,20 +133,16 @@ namespace Xsseract.Droid
       var now = DateTime.UtcNow;
       if (keyCode == Keycode.Back)
       {
-        if (now - lastBackHit > TimeSpan.FromSeconds(0.5))
+        if (now - lastBackHit > buttonHelpToastDelay)
         {
-          Task.Factory.StartNew(
-            () =>
-            {
-              Thread.Sleep(500);
-            }).ContinueWith(
-            t =>
+          Timer timer = new Timer(
+            (state) =>
             {
               if (!IsFinishing)
               {
-                Toast.MakeText(this, Resource.String.label_TapToExit, ToastLength.Long).Show();
+                RunOnUiThread(() => Toast.MakeText(this, Resource.String.label_TapToExit, ToastLength.Short).Show());
               }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, null, buttonHelpToastDelay, Timeout.InfiniteTimeSpan);
 
           lastBackHit = now;
 
@@ -159,7 +156,6 @@ namespace Xsseract.Droid
 
       return base.OnKeyDown(keyCode, e);
     }
-
     #endregion
 
     #region Private Methods
@@ -228,7 +224,7 @@ namespace Xsseract.Droid
         {
           string path = prospectiveUri.Path;
           var exif = new ExifInterface(path); //Since API Level 5
-          var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
+        var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
           var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
