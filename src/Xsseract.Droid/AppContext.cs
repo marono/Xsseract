@@ -41,6 +41,7 @@ namespace Xsseract.Droid
     private AppSettings settings;
     private ISharedPreferences preferences;
     private Image image;
+    private Tesseractor tesseractor;
 
     public bool Initialized { get; private set; }
 
@@ -121,6 +122,30 @@ namespace Xsseract.Droid
     public void Initialize()
     {
       EnsureAppContextInitialized();
+
+      if(null == tesseractor)
+      {
+        tesseractor = new Tesseractor(PublicFilesPath.AbsolutePath);
+        tesseractor.Initialize();
+      }
+    }
+
+    public async Task<Tesseractor> GetTessInstanceAsync()
+    {
+      if(null != tesseractor)
+      {
+        await Task.Yield();
+        return tesseractor;
+      }
+
+      tesseractor = new Tesseractor(PublicFilesPath.AbsolutePath);
+      var result = await tesseractor.InitializeAsync();
+      if(!result)
+      {
+        throw new ApplicationException("Error initializing tesseract.");
+      }
+
+      return tesseractor;
     }
 
     public void LogEvent(AppTrackingEvents @event)

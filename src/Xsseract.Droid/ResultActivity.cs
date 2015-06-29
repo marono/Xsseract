@@ -31,7 +31,6 @@ namespace Xsseract.Droid
         Result = "Result";
     }
 
-    private Tesseractor tesseractor;
     private Rect cropRect;
     private bool pipeResult;
 
@@ -82,7 +81,6 @@ namespace Xsseract.Droid
         try
         {
           DisplayProgress(Resources.GetString(Resource.String.progress_OCR));
-          await InitializeTesseractAsync();
           await PerformOcrAsync();
 
           HideProgress();
@@ -134,13 +132,6 @@ namespace Xsseract.Droid
 
     protected override void OnDestroy()
     {
-      // TODO: Move tesseractor to the App so that we don't need to reinitialize it each time, try initializing it on start-up(?).
-      if (null != tesseractor)
-      {
-        tesseractor.Dispose();
-        tesseractor = null;
-      }
-
       if (null != cropped)
       {
         imgResult.SetImageBitmap(null);
@@ -159,19 +150,11 @@ namespace Xsseract.Droid
       return new HelpResultsPagerFragment(true);
     }
 
-    private async Task InitializeTesseractAsync()
-    {
-      if (null == tesseractor)
-      {
-        tesseractor = new Tesseractor(ApplicationContext.AppContext.PublicFilesPath.AbsolutePath);
-        await tesseractor.InitializeAsync();
-      }
-    }
-
     private async Task PerformOcrAsync()
     {
       cropped = await GetImageAsync();
-      result = await tesseractor.RecognizeAsync(ApplicationContext.AppContext.GetBitmap(), cropRect);
+      var tess = await ApplicationContext.AppContext.GetTessInstanceAsync();
+      result = await tess.RecognizeAsync(ApplicationContext.AppContext.GetBitmap(), cropRect);
     }
 
     private async Task<Bitmap> GetImageAsync()
@@ -181,7 +164,7 @@ namespace Xsseract.Droid
         {
           var image = ApplicationContext.AppContext.GetBitmap();
           float scale = 1;
-          Bitmap cropped = null;
+          Bitmap res = null;
 
           do
           {
@@ -195,15 +178,15 @@ namespace Xsseract.Droid
                 canvas.DrawBitmap(image, cropRect, dstRect, null);
               }
 
-              cropped = tmp;
+              res = tmp;
             }
             catch (Java.Lang.OutOfMemoryError)
             {
               scale += 1;
             }
-          } while (null == cropped);
+          } while (null == res);
 
-          return cropped;
+          return res;
         });
     }
 
