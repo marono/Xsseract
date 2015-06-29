@@ -6,6 +6,7 @@
   <string name="label_Result">Result:</string>
   <string name="label_Initializing">Xsseract is initializing ...</string>
   <string name="label_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
+  <string name="label_TapToExit">Press Back twice to exit</string>
   <string name="label_CopiedToClipboard">The result has been copied to clipboard. PASTE it in your app of chice.</string>
   <string name="label_ClipboardLabel">Xsseract result</string>
   <string name="label_PrepareShare">Preparing content for sharing ...</string>

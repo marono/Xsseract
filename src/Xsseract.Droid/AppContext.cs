@@ -198,7 +198,8 @@ namespace Xsseract.Droid
     {
       await DisposeImageAsync();
       var tmpImg = await Task.Factory.StartNew(
-        () => {
+        () =>
+        {
           var img = new Image(path, rotation);
           return img;
 
@@ -220,21 +221,23 @@ namespace Xsseract.Droid
 
     public async Task DisposeImageAsync()
     {
-      if(null == image)
+      if (null == image)
       {
         await Task.Yield();
         return;
       }
 
       await Task.Factory.StartNew(
-        () => {
+        () =>
+        {
           image.Dispose();
+          image = null;
         });
     }
 
     public Bitmap GetBitmap()
     {
-      if(null == image)
+      if (null == image)
       {
         return null;
       }
@@ -244,7 +247,7 @@ namespace Xsseract.Droid
 
     public string GetImageUri()
     {
-      if(null == image)
+      if (null == image)
       {
         return null;
       }

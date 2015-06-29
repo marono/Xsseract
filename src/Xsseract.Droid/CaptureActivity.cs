@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -10,6 +11,8 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
+using Android.Views;
+using Android.Widget;
 using Java.IO;
 using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
@@ -45,6 +48,7 @@ namespace Xsseract.Droid
     private Uri prospectiveUri;
     private CropImageView imgPreview;
     private bool pipeResult;
+    private DateTime lastBackHit;
     #endregion
 
     #region Protected methods
@@ -92,12 +96,12 @@ namespace Xsseract.Droid
             resultIntent.PutExtra(Constants.Result, data.GetStringExtra(ResultActivity.Constants.Result));
             SetResult(Result.Ok, resultIntent);
             Finish();
-          };
+          }
           break;
       }
     }
 
-    protected override async void OnResume()
+    protected override void OnResume()
     {
       base.OnResume();
 
@@ -108,12 +112,52 @@ namespace Xsseract.Droid
         return;
       }
 
-      await AcquireNewImage();
+      AcquireNewImage();
+    }
+
+    protected async override void OnDestroy()
+    {
+      base.OnDestroy();
+
+      await ApplicationContext.AppContext.DisposeImageAsync();
     }
 
     protected override DismissableFragment GetHelpFragment()
     {
       return new HelpCapturePagerFragment(true);
+    }
+
+    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+    {
+      var now = DateTime.UtcNow;
+      if (keyCode == Keycode.Back)
+      {
+        if (now - lastBackHit > TimeSpan.FromSeconds(0.5))
+        {
+          Task.Factory.StartNew(
+            () =>
+            {
+              Thread.Sleep(500);
+            }).ContinueWith(
+            t =>
+            {
+              if (!IsFinishing)
+              {
+                Toast.MakeText(this, Resource.String.label_TapToExit, ToastLength.Long).Show();
+              }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+          lastBackHit = now;
+
+          return true;
+        }
+
+        Finish();
+        return true;
+      }
+
+
+      return base.OnKeyDown(keyCode, e);
     }
 
     #endregion
@@ -184,7 +228,7 @@ namespace Xsseract.Droid
         {
           string path = prospectiveUri.Path;
           var exif = new ExifInterface(path); //Since API Level 5
-                var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
+          var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
           var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
@@ -217,7 +261,7 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, (int)RequestCode.Image);
     }
 
-    private async Task AcquireNewImage()
+    private void AcquireNewImage()
     {
       try
       {
@@ -249,9 +293,9 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, (int)RequestCode.Parse);
     }
 
-    private async void Toolbar_Camera(object sender, EventArgs eventArgs)
+    private void Toolbar_Camera(object sender, EventArgs eventArgs)
     {
-      await AcquireNewImage();
+      AcquireNewImage();
     }
     #endregion
   }
