@@ -15,19 +15,19 @@ namespace Xsseract.Droid
   {
     #region Fields
 
-    private static string[] CUBE_DATA_FILES =
-    {
-      ".cube.bigrams",
-      ".cube.fold",
-      ".cube.lm",
-      ".cube.nn",
-      ".cube.params",
-      //".cube.size", // This file is not available for Hindi
-      ".cube.word-freq",
-      ".tesseract_cube.nn",
-      ".traineddata"
-    };
-    private readonly string destinationDirBase;
+    //private static string[] cubeDataFiles =
+    //{
+    //  ".cube.bigrams",
+    //  ".cube.fold",
+    //  ".cube.lm",
+    //  ".cube.nn",
+    //  ".cube.params",
+    //  //".cube.size", // This file is not available for Hindi
+    //  ".cube.word-freq",
+    //  ".tesseract_cube.nn",
+    //  ".traineddata"
+    //};
+    private readonly string baseDir;
 
     private static string languageCode = "eng";
     private int ocrEngineMode = TessBaseAPI.OemTesseractOnly;
@@ -35,16 +35,19 @@ namespace Xsseract.Droid
 
     #endregion
 
+    public event EventHandler<EventArgs> DownloadingDataFiles;
+    public event EventHandler<EventArgs> DataFilesDownloadDone;
+
     #region .ctors
 
-    public Tesseractor(string destinationDirBase)
+    public Tesseractor(string baseDir)
     {
-      if (String.IsNullOrWhiteSpace(destinationDirBase))
+      if (String.IsNullOrWhiteSpace(baseDir))
       {
-        throw new ArgumentException("The detination dir must be specified.", "destinationDirBase");
+        throw new ArgumentException("The detination dir must be specified.", nameof(baseDir));
       }
 
-      this.destinationDirBase = destinationDirBase;
+      this.baseDir = baseDir;
     }
 
     #endregion
@@ -57,15 +60,35 @@ namespace Xsseract.Droid
       tesseract.Dispose();
     }
 
-    public async Task<bool> InitializeAsync()
+    public async Task<bool> InitializeAsync(AppContext context)
     {
-      return await Task.Factory.StartNew(() => Initialize());
+      return await Task.Factory.StartNew(() => Initialize(context));
     }
 
-    public bool Initialize()
+    public bool Initialize(AppContext context)
     {
+      var tessDataInit = new TessDataInitializer(context);
+      bool downloading = false;
+      tessDataInit.DownloadingDataFiles +=
+        (sender, e) =>
+        {
+          downloading = true;
+          DownloadingDataFiles?.Invoke(this, EventArgs.Empty);
+        };
+      try
+      {
+        tessDataInit.Initialize();
+      }
+      finally
+      {
+        if (downloading)
+        {
+          DataFilesDownloadDone?.Invoke(this, EventArgs.Empty);
+        }
+      }
+
       tesseract = new TessBaseAPI();
-      return tesseract.Init(destinationDirBase + File.Separator, languageCode, ocrEngineMode);
+      return tesseract.Init(baseDir + File.Separator, languageCode, ocrEngineMode);
     }
 
     public async Task<string> RecognizeAsync(Bitmap bitmap, Rect target)

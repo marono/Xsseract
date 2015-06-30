@@ -91,6 +91,9 @@ namespace Xsseract.Droid
 
           LogError(e);
           DisplayError(e);
+          Finish();
+
+          return;
         }
       }
 

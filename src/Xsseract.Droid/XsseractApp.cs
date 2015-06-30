@@ -22,16 +22,12 @@ namespace Xsseract.Droid
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application
   {
-    private readonly ParserContext parserContext = new ParserContext();
     private readonly AppContext appContext;
 
     #region Properties
 
     public string DestinationDirBase { get; private set; }
-    public ParserContext ParserContext
-    {
-      get { return parserContext; }
-    }
+
     public AppContext AppContext
     {
       get { return appContext; }

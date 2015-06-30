@@ -5,7 +5,6 @@ using System.Text;
 using Android.Content;
 using Android.OS;
 using Android.Util;
-using Java.Util.Prefs;
 using Newtonsoft.Json;
 using Xamarin;
 using File = Java.IO.File;
@@ -17,7 +16,7 @@ namespace Xsseract.Droid
   // TODO: Detect version changes when initializing (store current version in the shared prefs).
   public class AppContext
   {
-    private const string TAG = "Xsseract.App";
+    private const string tag = "Xsseract.App";
 
     #region Inner classes
     private class InstallationDetails
@@ -25,11 +24,18 @@ namespace Xsseract.Droid
       public string InstallationId { get; set; }
     }
 
+    public enum AppContextState
+    {
+      None,
+      Initializing,
+      Initialized,
+      InitializationErrors
+    }
     #endregion Inner classes
 
     private readonly XsseractApp context;
     public const string InstallationFile = "INSTALLATION";
-    private const string PreferencesFile = "Prefs";
+    private const string preferencesFile = "Prefs";
 
     private static class PreferencesKeys
     {
@@ -43,15 +49,11 @@ namespace Xsseract.Droid
     private Image image;
     private Tesseractor tesseractor;
 
-    public bool Initialized { get; private set; }
+    public event EventHandler<EventArgs> FirstTimeInitialize;
 
-    public string DeviceId
-    {
-      get
-      {
-        return Android.Provider.Settings.Secure.AndroidId;
-      }
-    }
+    public AppContextState State { get; private set; }
+
+    public string DeviceId => Android.Provider.Settings.Secure.AndroidId;
 
     public string DeviceName { get; private set; }
 
@@ -64,16 +66,16 @@ namespace Xsseract.Droid
       }
     }
 
-    public bool InitializeError { get; private set; }
-
     public bool IsFirstRun
     {
       get
       {
 #if DEBUG
+        // ReSharper disable once ConvertPropertyToExpressionBody
         return false;
-#endif
+#elif RELEASE
         return Preferences.GetBoolean(PreferencesKeys.IsFirstRun, true);
+#endif
       }
     }
 
@@ -81,38 +83,20 @@ namespace Xsseract.Droid
     {
       get
       {
-        return preferences = preferences ?? context.GetSharedPreferences(PreferencesFile, FileCreationMode.Private);
+        return preferences = preferences ?? context.GetSharedPreferences(preferencesFile, FileCreationMode.Private);
       }
     }
 
-    public AppSettings Settings
-    {
-      get { return settings ?? (settings = GetAppSettings()); }
-    }
-
-    public File PublicFilesPath
-    {
-      get { return new File(Android.OS.Environment.ExternalStorageDirectory, System.IO.Path.Combine("Xsseract", "files")); }
-    }
-
-    public File TessDataFilesPath
-    {
-      get
-      {
-        return new File(PublicFilesPath, "tessdata");
-      }
-    }
-
-    public bool HasImage
-    {
-      get { return image != null; }
-    }
+    public AppSettings Settings => settings ?? (settings = GetAppSettings());
+    public File PublicFilesPath => new File(Android.OS.Environment.ExternalStorageDirectory, System.IO.Path.Combine("Xsseract", "files"));
+    public File TessDataFilesPath => new File(PublicFilesPath, "tessdata");
+    public bool HasImage => image != null;
 
     public AppContext(XsseractApp underlyingContext)
     {
       if (null == underlyingContext)
       {
-        throw new ArgumentNullException("underlyingContext");
+        throw new ArgumentNullException(nameof(underlyingContext));
       }
 
       context = underlyingContext;
@@ -121,26 +105,39 @@ namespace Xsseract.Droid
 
     public void Initialize()
     {
-      EnsureAppContextInitialized();
-
-      if(null == tesseractor)
+      if(State != AppContextState.None)
       {
+        return;
+      }
+
+      try
+      {
+        State = AppContextState.Initializing;
+        EnsureAppContextInitialized();
+
         tesseractor = new Tesseractor(PublicFilesPath.AbsolutePath);
-        tesseractor.Initialize();
+        tesseractor.DownloadingDataFiles += (sender, e) => FirstTimeInitialize?.Invoke(this, EventArgs.Empty);
+        tesseractor.Initialize(this);
+        State = AppContextState.Initialized;
+      }
+      catch(Exception)
+      {
+        State = AppContextState.InitializationErrors;
+        // TODO: Log error.
       }
     }
 
     public async Task<Tesseractor> GetTessInstanceAsync()
     {
-      if(null != tesseractor)
+      if (null != tesseractor)
       {
         await Task.Yield();
         return tesseractor;
       }
 
       tesseractor = new Tesseractor(PublicFilesPath.AbsolutePath);
-      var result = await tesseractor.InitializeAsync();
-      if(!result)
+      var result = await tesseractor.InitializeAsync(this);
+      if (!result)
       {
         throw new ApplicationException("Error initializing tesseract.");
       }
@@ -172,37 +169,37 @@ namespace Xsseract.Droid
 
     public void LogDebug(string message)
     {
-      Log.Debug(TAG, message);
+      Log.Debug(tag, message);
     }
 
     public void LogDebug(string format, params object[] args)
     {
-      Log.Debug(TAG, format, args);
+      Log.Debug(tag, format, args);
     }
 
     public void LogInfo(string message)
     {
-      Log.Info(TAG, message);
+      Log.Info(tag, message);
     }
 
     public void LogInfo(string format, params object[] args)
     {
-      Log.Info(TAG, format, args);
+      Log.Info(tag, format, args);
     }
 
     public void LogWarn(string message)
     {
-      Log.Warn(TAG, message);
+      Log.Warn(tag, message);
     }
 
     public void LogWarn(string format, params object[] args)
     {
-      Log.Warn(TAG, format, args);
+      Log.Warn(tag, format, args);
     }
 
     public void LogError(string message)
     {
-      Log.Error(TAG, message);
+      Log.Error(tag, message);
       Insights.Report(new ApplicationException(message), Insights.Severity.Warning);
     }
 
@@ -215,7 +212,7 @@ namespace Xsseract.Droid
       }
 
       // TODO: Disable DEBUG logging by configuration.
-      Log.Error(TAG, e.ToString());
+      Log.Error(tag, e.ToString());
       Insights.Report(e, Insights.Severity.Warning);
     }
 
@@ -262,61 +259,43 @@ namespace Xsseract.Droid
 
     public Bitmap GetBitmap()
     {
-      if (null == image)
-      {
-        return null;
-      }
-
-      return image.Bitmap;
+      return image?.Bitmap;
     }
 
     public string GetImageUri()
     {
-      if (null == image)
-      {
-        return null;
-      }
-
-      return image.Path;
+      return image?.Path;
     }
 
     private void EnsureAppContextInitialized()
     {
-      if (Initialized || InitializeError)
+      if (State != AppContextState.None)
       {
         return;
       }
 
-      try
+      using (File f = new File(context.FilesDir, InstallationFile))
       {
-        using (File f = new File(context.FilesDir, InstallationFile))
+        if (!f.Exists())
         {
-          if (!f.Exists())
-          {
-            CreateInstalationFile(f);
-          }
-          else
-          {
-            ReadInstallationFile(f);
-          }
+          CreateInstalationFile(f);
         }
+        else
+        {
+          ReadInstallationFile(f);
+        }
+      }
 
-        Insights.Identify(installationId, "UserId", String.Empty);
-      }
-      catch (Exception e)
-      {
-        InitializeError = true;
-        // TODO: Log error.
-        //throw new ApplicationException("Could not initialize installation: " + e.Message, e);
-      }
+      Insights.Identify(installationId, "UserId", String.Empty);
     }
 
     private void CreateInstalationFile(File installation)
     {
-      var iid = Guid.NewGuid();
 #if DEBUG
       // For insights reporting during debug.
-      iid = Guid.Empty;
+      var iid = Guid.Empty;
+#elif RELASE
+      var iid = Guid.NewGuid();
 #endif
       var details = new InstallationDetails
       {
@@ -346,9 +325,10 @@ namespace Xsseract.Droid
 
     private AppSettings GetAppSettings()
     {
-      string fileName = "Settings.RELEASE.json";
 #if DEBUG
-      fileName = "Settings.DEBUG.json";
+      string fileName = "Settings.DEBUG.json";
+#elif RELEASE
+      string fileName = "Settings.RELEASE.json";
 #endif
       var serializer = new JsonSerializer();
       using (var file = context.Assets.Open(fileName))

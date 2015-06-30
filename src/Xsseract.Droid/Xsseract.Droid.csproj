@@ -77,7 +77,6 @@
     <Compile Include="AppContext.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppTrackingEvents.cs" />
-    <Compile Include="CaptureStates.cs" />
     <Compile Include="ContextualHelpActivity.cs" />
     <Compile Include="Fragments\BaseHtmlFragment.cs" />
     <Compile Include="Fragments\DismissableFragment.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="BitmapUtils.cs" />
     <Compile Include="LauncherActivity.cs" />
     <Compile Include="Views\RotateBitmap.cs" />
-    <Compile Include="ParserContext.cs" />
     <Compile Include="Fragments\ToolbarFragment.cs" />
     <Compile Include="TessDataInitializer.cs" />
     <Compile Include="Tesseractor.cs" />

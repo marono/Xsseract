@@ -41,6 +41,15 @@ namespace Xsseract.Droid
     #endregion
 
     #region Protected methods
+    protected void DisplayAlert(string message, Action callback)
+    {
+      new AlertDialog.Builder(this)
+        .SetTitle(Resource.String.AlertTitle)
+        .SetMessage(message)
+        .SetPositiveButton(Android.Resource.String.Ok, delegate { callback?.Invoke(); })
+        .Show();
+    }
+
     protected void DisplayAlert(string message, Func<Task> callback)
     {
       new AlertDialog.Builder(this)
@@ -59,12 +68,17 @@ namespace Xsseract.Droid
 
     protected void DisplayError(Exception e)
     {
-      string message = String.Format("{0}{1}{2}", e.Message, Environment.NewLine, e.StackTrace[0]);
+      DisplayError(e, null);
+    }
+
+    protected void DisplayError(Exception exception, Action dismissDelegate)
+    {
+      string message = $"{exception.Message}{Environment.NewLine}{exception.StackTrace[0]}";
 
       new AlertDialog.Builder(this)
         .SetTitle(Resource.String.ErrorTitle)
         .SetMessage(message)
-        .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
+        .SetPositiveButton(Android.Resource.String.Ok, (sender, e) => dismissDelegate?.Invoke())
         .Show();
     }
 
