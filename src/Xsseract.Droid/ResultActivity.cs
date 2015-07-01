@@ -117,20 +117,21 @@ namespace Xsseract.Droid
 
       if (!rect.Contains((int)e.GetX(), (int)e.GetY()))
       {
-        var imm = (InputMethodManager)GetSystemService(InputMethodService);
-        imm.HideSoftInputFromWindow(txtEditResult.WindowToken, 0);
-
-        txtViewResult.Text = result = txtEditResult.Text;
-        txtViewResult.Visibility = ViewStates.Visible;
-        txtEditResult.Visibility = ViewStates.Gone;
-
-        if (!pipeResult)
-          Toolbar.ShowResultTools(false);
-        else
-          Toolbar.ShowResultToolsNoShare(false);
+        ResumeResultView();
       }
 
       return base.OnTouchEvent(e);
+    }
+
+    public override bool OnKeyDown([GeneratedEnum]Keycode keyCode, KeyEvent e)
+    {
+      if(keyCode == Keycode.Back && txtEditResult.Visibility == ViewStates.Visible)
+      {
+        ResumeResultView();
+        return true;
+      }
+
+      return base.OnKeyDown(keyCode, e);
     }
 
     protected override void OnDestroy()
@@ -228,6 +229,21 @@ namespace Xsseract.Droid
 
       var toast = Toast.MakeText(this, Resource.String.label_CopiedToClipboard, ToastLength.Long);
       toast.Show();
+    }
+
+    private void ResumeResultView()
+    {
+      var imm = (InputMethodManager)GetSystemService(InputMethodService);
+      imm.HideSoftInputFromWindow(txtEditResult.WindowToken, 0);
+
+      txtViewResult.Text = result = txtEditResult.Text;
+      txtViewResult.Visibility = ViewStates.Visible;
+      txtEditResult.Visibility = ViewStates.Gone;
+
+      if (!pipeResult)
+        Toolbar.ShowResultTools(false);
+      else
+        Toolbar.ShowResultToolsNoShare(false);
     }
 
     private void txtViewResult_Click(object sender, EventArgs eventArgs)
