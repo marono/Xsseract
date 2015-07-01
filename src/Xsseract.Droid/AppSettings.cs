@@ -22,6 +22,8 @@ namespace Xsseract.Droid
         tessDataFiles = value;
       }
     }
+
+    public string FeedbackEmailAddress { get; set; }
   }
 
   public class TessDataFile

@@ -3,7 +3,7 @@ using Android.Views;
 
 namespace Xsseract.Droid.Fragments
 {
-  public class HelpWelcomeFragment : BaseHtmlFragment
+  public class HelpWelcomeFragment : HtmlFragmentBase
   {
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

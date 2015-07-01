@@ -12,6 +12,11 @@ namespace Xsseract.Droid
   [Activity(NoHistory = true)]
   public class HelpActivity : ActivityBase
   {
+    public static class Constants
+    {
+      public const string
+        FinishOnClose = "FinishOnClose";
+    }
     private GenericFragmentPagerAdaptor pageViewAdapter;
     protected override void OnCreate(Bundle bundle)
     {
@@ -48,6 +53,13 @@ namespace Xsseract.Droid
     private void finishFrag_GotIt(object sender, EventArgs eventArgs)
     {
       ApplicationContext.AppContext.MarkHelpScreenCompleted();
+
+      if(Intent.GetBooleanExtra(Constants.FinishOnClose, false))
+      {
+        Finish();
+        return;
+      }
+
       var intent = new Intent(this, typeof(CaptureActivity));
 
       if(null != Intent && null != Intent.Extras)

@@ -4,7 +4,7 @@ using Android.Views;
 
 namespace Xsseract.Droid.Fragments
 {
-  public class HelpGeneralPagerFragment : BaseHtmlFragment
+  public class HelpGeneralPagerFragment : HtmlFragmentBase
   {
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

@@ -15,11 +15,19 @@
   <string name="label_PrepareShare">Preparing content for sharing ...</string>
   <string name="label_FirstTimeInitialize">Xsseract is running for the first time (downloading the OCR training files, it will take a while)...</string>
   <string name="label_InitializeFailedOnPrevAttempt">There was an error initializing on a previous attempt. Kill the app and try again...</string>
+  <string name="label_Version">Version:</string>
+  <string name="label_InstanceId">InstanceId:</string>
   <string name="progress_OCR">Performing text recognition ...</string>
   <string name="progress_ImageAdjust">Adjusting image ...</string>
   <string name="sendTo">Xsseract just decoded the following image for me</string>
   <string name="message_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
   <string name="message_MobileDataDownload">Xsseract requires a larger download on first startup, will you allow us to do it over your mobile data connection?</string>
+  <string name="menu_About">About</string>
+  <string name="menu_Tutorial">Tutorial</string>
+  <string name="menu_Feedback">Feedback</string>
+  <string name="menu_RateUs">Rate Us!</string>
+  <string name="text_FeedbackEmailSubject">Xsseract feedback</string>
+  <string name="text_FeedbackChooserTitle">Send feedback</string>
   <string name="intent_resolveText">ro.onos.xsseract.ResolveImage</string>
   <string name="label_HelpCaptureDescr"><![CDATA[
     <h3>Capture view</h3>

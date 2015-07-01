@@ -1,14 +1,12 @@
 using System;
-using System.Threading;
 using Android.OS;
-using Android.Util;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 
 namespace Xsseract.Droid.Fragments
 {
-  public abstract class BaseHtmlFragment : Android.Support.V4.App.Fragment
+  public abstract class HtmlFragmentBase : Android.Support.V4.App.Fragment
   {
     private WebView webView;
 

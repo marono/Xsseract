@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace Xsseract.Droid.Fragments
 {
-  public abstract class DismissableFragment : BaseHtmlFragment
+  public abstract class DismissableFragment : HtmlFragmentBase
   {
     private Button btnGotIt;
     private readonly bool allowDismissal;

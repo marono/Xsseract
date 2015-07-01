@@ -275,7 +275,6 @@ namespace Xsseract.Droid
           catch (Exception)
           {
             HideProgress();
-
           }
         });
     }

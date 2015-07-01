@@ -116,7 +116,6 @@ namespace Xsseract.Droid
 
       try
       {
-        State = AppContextState.Initializing;
         EnsureAppContextInitialized();
 
         tesseractor = new Tesseractor(PublicFilesPath.AbsolutePath);
@@ -312,6 +311,7 @@ namespace Xsseract.Droid
         return;
       }
 
+      State = AppContextState.Initializing;
       using (File f = new File(context.FilesDir, InstallationFile))
       {
         if (!f.Exists())

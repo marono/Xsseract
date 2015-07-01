@@ -4,6 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using com.refractored.fab;
 
 namespace Xsseract.Droid.Fragments
@@ -17,7 +18,9 @@ namespace Xsseract.Droid.Fragments
     private FloatingActionButton fabToClipboard;
     private FloatingActionButton fabShare;
     private FloatingActionButton fabHelp;
+    private ImageButton btnOptions;
 
+    private View contextMenuHost;
     private List<FloatingActionButton> allFabs;
 
     public event EventHandler<EventArgs> Camera;
@@ -42,107 +45,84 @@ namespace Xsseract.Droid.Fragments
       fabToClipboard = view.FindViewById<FloatingActionButton>(Resource.Id.fabToClipboard);
       fabShare = view.FindViewById<FloatingActionButton>(Resource.Id.fabShare);
       fabHelp = view.FindViewById<FloatingActionButton>(Resource.Id.fabHelp);
+      btnOptions = view.FindViewById<ImageButton>(Resource.Id.btnOptions);
 
       HideFab(fabToClipboard, false);
       HideFab(fabShare, false);
 
       allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept, fabToClipboard, fabShare, fabHelp };
 
-      fabCamera.Click += fabCamera_Click;
-      fabCrop.Click += fabCrop_Click;
-      fabAccept.Click += fabAccept_Click;
+      fabCamera.Click += (sender, e) => OnCamera(EventArgs.Empty);
+      fabCrop.Click += (sender, e) => OnCrop(EventArgs.Empty);
+      fabAccept.Click += (sender, e) => OnAccept(EventArgs.Empty);
       fabToClipboard.Click += (sender, e) => OnCopyToClipboard(EventArgs.Empty);
       fabShare.Click += (sender, e) => OnShare(EventArgs.Empty);
       fabHelp.Click += (sendner, e) => OnHelp(EventArgs.Empty);
+      btnOptions.Click += (sender, e) => Activity.OpenContextMenu(contextMenuHost);
+
+      btnOptions.Visibility = contextMenuHost != null ? ViewStates.Visible : ViewStates.Gone;
+    }
+
+    public void EnableOptionsMenu(View view)
+    {
+      contextMenuHost = view;
+      RegisterForContextMenu(contextMenuHost);
+
+      ResumeOptionsButtonVisibility();
     }
 
     public void ShowCroppingTools(bool animate)
     {
       SetVisibleFabs(fabCrop, fabCamera, fabHelp);
+      ResumeOptionsButtonVisibility();
     }
 
     public void ShowResultTools(bool animate)
     {
       SetVisibleFabs(fabToClipboard, fabShare, fabHelp);
+      ResumeOptionsButtonVisibility();
     }
 
     public void ShowResultToolsNoShare(bool animate)
     {
       SetVisibleFabs(fabAccept);
+      ResumeOptionsButtonVisibility();
     }
 
     public void HideAll()
     {
       SetVisibleFabs();
+      btnOptions.Visibility = ViewStates.Gone;
     }
 
     protected void OnCrop(EventArgs e)
     {
-      var handler = Crop;
-      if (null != handler)
-      {
-        handler(this, e);
-      }
+      Crop?.Invoke(this, e);
     }
 
     protected void OnCamera(EventArgs e)
     {
-      var handler = Camera;
-      if (null != handler)
-      {
-        handler(this, e);
-      }
+      Camera?.Invoke(this, e);
     }
 
     protected void OnShare(EventArgs e)
     {
-      var handler = Share;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
+      Share?.Invoke(this, e);
     }
 
     protected void OnAccept(EventArgs e)
     {
-      var handler = Accept;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
+      Accept?.Invoke(this, e);
     }
 
     protected void OnCopyToClipboard(EventArgs e)
     {
-      var handler = CopyToClipboard;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
+      CopyToClipboard?.Invoke(this, e);
     }
 
     protected void OnHelp(EventArgs e)
     {
-      var handler = Help;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
-    }
-
-    private void fabCrop_Click(object sender, EventArgs eventArgs)
-    {
-      OnCrop(EventArgs.Empty);
-    }
-
-    private void fabCamera_Click(object sender, EventArgs e)
-    {
-      OnCamera(EventArgs.Empty);
-    }
-
-    private void fabAccept_Click(object sender, EventArgs eventArgs)
-    {
-      OnAccept(EventArgs.Empty);
+      Help?.Invoke(this, e);
     }
 
     private void SetVisibleFabs(params FloatingActionButton[] visibleFabs)
@@ -181,6 +161,11 @@ namespace Xsseract.Droid.Fragments
     {
       button.Hide(animate);
       button.Visibility = ViewStates.Gone;
+    }
+
+    private void ResumeOptionsButtonVisibility()
+    {
+      btnOptions.Visibility = contextMenuHost != null ? ViewStates.Visible : ViewStates.Gone;
     }
   }
 }

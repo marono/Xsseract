@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace Xsseract.Droid.Fragments
 {
-  public class HelpFinishPagerFragment : BaseHtmlFragment
+  public class HelpFinishPagerFragment : HtmlFragmentBase
   {
     private Button btnGotIt;
 

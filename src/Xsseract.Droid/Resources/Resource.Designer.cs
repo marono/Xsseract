@@ -792,29 +792,29 @@ namespace Xsseract.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f06004a
-			public const int abc_background_cache_hint_selector_material_dark = 2131099722;
-			
 			// aapt resource value: 0x7f06004b
-			public const int abc_background_cache_hint_selector_material_light = 2131099723;
+			public const int abc_background_cache_hint_selector_material_dark = 2131099723;
+			
+			// aapt resource value: 0x7f06004c
+			public const int abc_background_cache_hint_selector_material_light = 2131099724;
 			
 			// aapt resource value: 0x7f060000
 			public const int abc_input_method_navigation_guard = 2131099648;
 			
-			// aapt resource value: 0x7f06004c
-			public const int abc_primary_text_disable_only_material_dark = 2131099724;
-			
 			// aapt resource value: 0x7f06004d
-			public const int abc_primary_text_disable_only_material_light = 2131099725;
+			public const int abc_primary_text_disable_only_material_dark = 2131099725;
 			
 			// aapt resource value: 0x7f06004e
-			public const int abc_primary_text_material_dark = 2131099726;
+			public const int abc_primary_text_disable_only_material_light = 2131099726;
 			
 			// aapt resource value: 0x7f06004f
-			public const int abc_primary_text_material_light = 2131099727;
+			public const int abc_primary_text_material_dark = 2131099727;
 			
 			// aapt resource value: 0x7f060050
-			public const int abc_search_url_text = 2131099728;
+			public const int abc_primary_text_material_light = 2131099728;
+			
+			// aapt resource value: 0x7f060051
+			public const int abc_search_url_text = 2131099729;
 			
 			// aapt resource value: 0x7f060001
 			public const int abc_search_url_text_normal = 2131099649;
@@ -825,11 +825,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060003
 			public const int abc_search_url_text_selected = 2131099651;
 			
-			// aapt resource value: 0x7f060051
-			public const int abc_secondary_text_material_dark = 2131099729;
-			
 			// aapt resource value: 0x7f060052
-			public const int abc_secondary_text_material_light = 2131099730;
+			public const int abc_secondary_text_material_dark = 2131099730;
+			
+			// aapt resource value: 0x7f060053
+			public const int abc_secondary_text_material_light = 2131099731;
 			
 			// aapt resource value: 0x7f060037
 			public const int accent = 2131099703;
@@ -882,14 +882,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060011
 			public const int button_material_light = 2131099665;
 			
-			// aapt resource value: 0x7f060047
-			public const int default_circle_indicator_fill_color = 2131099719;
-			
 			// aapt resource value: 0x7f060048
-			public const int default_circle_indicator_page_color = 2131099720;
+			public const int default_circle_indicator_fill_color = 2131099720;
 			
 			// aapt resource value: 0x7f060049
-			public const int default_circle_indicator_stroke_color = 2131099721;
+			public const int default_circle_indicator_page_color = 2131099721;
+			
+			// aapt resource value: 0x7f06004a
+			public const int default_circle_indicator_stroke_color = 2131099722;
 			
 			// aapt resource value: 0x7f060012
 			public const int dim_foreground_disabled_material_dark = 2131099666;
@@ -1008,11 +1008,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f060030
 			public const int switch_thumb_disabled_material_light = 2131099696;
 			
-			// aapt resource value: 0x7f060053
-			public const int switch_thumb_material_dark = 2131099731;
-			
 			// aapt resource value: 0x7f060054
-			public const int switch_thumb_material_light = 2131099732;
+			public const int switch_thumb_material_dark = 2131099732;
+			
+			// aapt resource value: 0x7f060055
+			public const int switch_thumb_material_light = 2131099733;
 			
 			// aapt resource value: 0x7f060031
 			public const int switch_thumb_normal_material_dark = 2131099697;
@@ -1021,28 +1021,31 @@ namespace Xsseract.Droid
 			public const int switch_thumb_normal_material_light = 2131099698;
 			
 			// aapt resource value: 0x7f06003f
-			public const int vpi__background_holo_dark = 2131099711;
+			public const int transparent = 2131099711;
 			
 			// aapt resource value: 0x7f060040
-			public const int vpi__background_holo_light = 2131099712;
-			
-			// aapt resource value: 0x7f060043
-			public const int vpi__bright_foreground_disabled_holo_dark = 2131099715;
-			
-			// aapt resource value: 0x7f060044
-			public const int vpi__bright_foreground_disabled_holo_light = 2131099716;
+			public const int vpi__background_holo_dark = 2131099712;
 			
 			// aapt resource value: 0x7f060041
-			public const int vpi__bright_foreground_holo_dark = 2131099713;
+			public const int vpi__background_holo_light = 2131099713;
 			
-			// aapt resource value: 0x7f060042
-			public const int vpi__bright_foreground_holo_light = 2131099714;
+			// aapt resource value: 0x7f060044
+			public const int vpi__bright_foreground_disabled_holo_dark = 2131099716;
 			
 			// aapt resource value: 0x7f060045
-			public const int vpi__bright_foreground_inverse_holo_dark = 2131099717;
+			public const int vpi__bright_foreground_disabled_holo_light = 2131099717;
+			
+			// aapt resource value: 0x7f060042
+			public const int vpi__bright_foreground_holo_dark = 2131099714;
+			
+			// aapt resource value: 0x7f060043
+			public const int vpi__bright_foreground_holo_light = 2131099715;
 			
 			// aapt resource value: 0x7f060046
-			public const int vpi__bright_foreground_inverse_holo_light = 2131099718;
+			public const int vpi__bright_foreground_inverse_holo_dark = 2131099718;
+			
+			// aapt resource value: 0x7f060047
+			public const int vpi__bright_foreground_inverse_holo_light = 2131099719;
 			
 			// aapt resource value: 0x7f06003c
 			public const int white = 2131099708;
@@ -1503,22 +1506,25 @@ namespace Xsseract.Droid
 			public const int ic_action_swap_vert = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int icon = 2130837574;
+			public const int ic_options = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int indicator_autocrop = 2130837575;
+			public const int icon = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int monoandroidsplash = 2130837576;
+			public const int indicator_autocrop = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int ProgressBar = 2130837577;
+			public const int monoandroidsplash = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int share = 2130837578;
+			public const int ProgressBar = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int TestImg = 2130837579;
+			public const int share = 2130837579;
+			
+			// aapt resource value: 0x7f02004c
+			public const int TestImg = 2130837580;
 			
 			static Drawable()
 			{
@@ -1532,6 +1538,9 @@ namespace Xsseract.Droid
 		
 		public partial class Id
 		{
+			
+			// aapt resource value: 0x7f080061
+			public const int about = 2131230817;
 			
 			// aapt resource value: 0x7f080043
 			public const int action_bar = 2131230787;
@@ -1584,8 +1593,11 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080013
 			public const int beginning = 2131230739;
 			
-			// aapt resource value: 0x7f080058
-			public const int btnGoIt = 2131230808;
+			// aapt resource value: 0x7f08005b
+			public const int btnGoIt = 2131230811;
+			
+			// aapt resource value: 0x7f08006c
+			public const int btnOptions = 2131230828;
 			
 			// aapt resource value: 0x7f080039
 			public const int buttonPanel = 2131230777;
@@ -1596,8 +1608,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080017
 			public const int collapseActionView = 2131230743;
 			
-			// aapt resource value: 0x7f08005c
-			public const int containerTextResult = 2131230812;
+			// aapt resource value: 0x7f080063
+			public const int containerTextResult = 2131230819;
 			
 			// aapt resource value: 0x7f080034
 			public const int contentPanel = 2131230772;
@@ -1635,26 +1647,29 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08003a
 			public const int expanded_menu = 2131230778;
 			
-			// aapt resource value: 0x7f080062
-			public const int fabAccept = 2131230818;
+			// aapt resource value: 0x7f08006a
+			public const int fabAccept = 2131230826;
 			
-			// aapt resource value: 0x7f08005f
-			public const int fabCamera = 2131230815;
+			// aapt resource value: 0x7f080067
+			public const int fabCamera = 2131230823;
 			
-			// aapt resource value: 0x7f080057
-			public const int fabCrop = 2131230807;
+			// aapt resource value: 0x7f08005a
+			public const int fabCrop = 2131230810;
 			
-			// aapt resource value: 0x7f080063
-			public const int fabHelp = 2131230819;
+			// aapt resource value: 0x7f08006b
+			public const int fabHelp = 2131230827;
+			
+			// aapt resource value: 0x7f080068
+			public const int fabShare = 2131230824;
+			
+			// aapt resource value: 0x7f080069
+			public const int fabToClipboard = 2131230825;
 			
 			// aapt resource value: 0x7f080060
-			public const int fabShare = 2131230816;
+			public const int feedback = 2131230816;
 			
-			// aapt resource value: 0x7f080061
-			public const int fabToClipboard = 2131230817;
-			
-			// aapt resource value: 0x7f080054
-			public const int frmCaptureHelp = 2131230804;
+			// aapt resource value: 0x7f080057
+			public const int frmCaptureHelp = 2131230807;
 			
 			// aapt resource value: 0x7f080004
 			public const int home = 2131230724;
@@ -1674,14 +1689,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08002b
 			public const int image = 2131230763;
 			
-			// aapt resource value: 0x7f080053
-			public const int imgPreview = 2131230803;
+			// aapt resource value: 0x7f080056
+			public const int imgPreview = 2131230806;
 			
-			// aapt resource value: 0x7f08005b
-			public const int imgResult = 2131230811;
+			// aapt resource value: 0x7f080062
+			public const int imgResult = 2131230818;
 			
-			// aapt resource value: 0x7f080055
-			public const int indicator = 2131230805;
+			// aapt resource value: 0x7f080058
+			public const int indicator = 2131230808;
 			
 			// aapt resource value: 0x7f080009
 			public const int listMode = 2131230729;
@@ -1707,11 +1722,14 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f08000a
 			public const int normal = 2131230730;
 			
+			// aapt resource value: 0x7f080054
+			public const int optionsMenuHost = 2131230804;
+			
 			// aapt resource value: 0x7f080030
 			public const int parentPanel = 2131230768;
 			
-			// aapt resource value: 0x7f080059
-			public const int progressView = 2131230809;
+			// aapt resource value: 0x7f08005c
+			public const int progressView = 2131230812;
 			
 			// aapt resource value: 0x7f080005
 			public const int progress_circular = 2131230725;
@@ -1721,6 +1739,9 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f08003d
 			public const int radio = 2131230781;
+			
+			// aapt resource value: 0x7f08005f
+			public const int rateUs = 2131230815;
 			
 			// aapt resource value: 0x7f08001f
 			public const int screen = 2131230751;
@@ -1800,20 +1821,32 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080032
 			public const int title_template = 2131230770;
 			
-			// aapt resource value: 0x7f080052
-			public const int toolbar = 2131230802;
+			// aapt resource value: 0x7f080055
+			public const int toolbar = 2131230805;
+			
+			// aapt resource value: 0x7f080066
+			public const int toolbatActionsContainer = 2131230822;
 			
 			// aapt resource value: 0x7f080031
 			public const int topPanel = 2131230769;
 			
 			// aapt resource value: 0x7f08005e
-			public const int txtEditResult = 2131230814;
+			public const int tutorial = 2131230814;
 			
-			// aapt resource value: 0x7f08005a
-			public const int txtViewDescription = 2131230810;
+			// aapt resource value: 0x7f080065
+			public const int txtEditResult = 2131230821;
+			
+			// aapt resource value: 0x7f080053
+			public const int txtInstanceId = 2131230803;
+			
+			// aapt resource value: 0x7f080052
+			public const int txtVersion = 2131230802;
 			
 			// aapt resource value: 0x7f08005d
-			public const int txtViewResult = 2131230813;
+			public const int txtViewDescription = 2131230813;
+			
+			// aapt resource value: 0x7f080064
+			public const int txtViewResult = 2131230820;
 			
 			// aapt resource value: 0x7f080008
 			public const int up = 2131230728;
@@ -1824,8 +1857,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f080025
 			public const int vertical = 2131230757;
 			
-			// aapt resource value: 0x7f080056
-			public const int viewPager = 2131230806;
+			// aapt resource value: 0x7f080059
+			public const int viewPager = 2131230809;
 			
 			// aapt resource value: 0x7f08001a
 			public const int withText = 2131230746;
@@ -1947,46 +1980,52 @@ namespace Xsseract.Droid
 			public const int abc_simple_dropdown_hint = 2130903064;
 			
 			// aapt resource value: 0x7f030019
-			public const int Capture = 2130903065;
+			public const int About = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int Help = 2130903066;
+			public const int Capture = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int HelpCapture = 2130903067;
+			public const int Help = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int HelpFinish = 2130903068;
+			public const int HelpCapture = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int HelpGeneral = 2130903069;
+			public const int HelpFinish = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int HelpResult = 2130903070;
+			public const int HelpGeneral = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int HelpWelcome = 2130903071;
+			public const int HelpResult = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public const int Launcher = 2130903072;
+			public const int HelpWelcome = 2130903072;
 			
 			// aapt resource value: 0x7f030021
-			public const int Result = 2130903073;
+			public const int Launcher = 2130903073;
 			
 			// aapt resource value: 0x7f030022
-			public const int select_dialog_item_material = 2130903074;
+			public const int OptionsMenu = 2130903074;
 			
 			// aapt resource value: 0x7f030023
-			public const int select_dialog_multichoice_material = 2130903075;
+			public const int Result = 2130903075;
 			
 			// aapt resource value: 0x7f030024
-			public const int select_dialog_singlechoice_material = 2130903076;
+			public const int select_dialog_item_material = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int support_simple_spinner_dropdown_item = 2130903077;
+			public const int select_dialog_multichoice_material = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int Toolbar = 2130903078;
+			public const int select_dialog_singlechoice_material = 2130903078;
+			
+			// aapt resource value: 0x7f030027
+			public const int support_simple_spinner_dropdown_item = 2130903079;
+			
+			// aapt resource value: 0x7f030028
+			public const int Toolbar = 2130903080;
 			
 			static Layout()
 			{
@@ -2067,8 +2106,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0014
 			public const int action_Yes = 2131361812;
 			
-			// aapt resource value: 0x7f0a0025
-			public const int intent_resolveText = 2131361829;
+			// aapt resource value: 0x7f0a002d
+			public const int intent_resolveText = 2131361837;
 			
 			// aapt resource value: 0x7f0a001c
 			public const int label_ClipboardLabel = 2131361820;
@@ -2082,20 +2121,23 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a001e
 			public const int label_FirstTimeInitialize = 2131361822;
 			
-			// aapt resource value: 0x7f0a0030
-			public const int label_GotIt = 2131361840;
+			// aapt resource value: 0x7f0a0038
+			public const int label_GotIt = 2131361848;
 			
-			// aapt resource value: 0x7f0a0026
-			public const int label_HelpCaptureDescr = 2131361830;
+			// aapt resource value: 0x7f0a002e
+			public const int label_HelpCaptureDescr = 2131361838;
 			
-			// aapt resource value: 0x7f0a0029
-			public const int label_HelpResultDescr = 2131361833;
+			// aapt resource value: 0x7f0a0031
+			public const int label_HelpResultDescr = 2131361841;
 			
 			// aapt resource value: 0x7f0a001f
 			public const int label_InitializeFailedOnPrevAttempt = 2131361823;
 			
 			// aapt resource value: 0x7f0a0017
 			public const int label_Initializing = 2131361815;
+			
+			// aapt resource value: 0x7f0a0021
+			public const int label_InstanceId = 2131361825;
 			
 			// aapt resource value: 0x7f0a001d
 			public const int label_PrepareShare = 2131361821;
@@ -2109,44 +2151,65 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0019
 			public const int label_TapToExit = 2131361817;
 			
-			// aapt resource value: 0x7f0a002c
-			public const int label_helpAcceptAction = 2131361836;
+			// aapt resource value: 0x7f0a0020
+			public const int label_Version = 2131361824;
 			
-			// aapt resource value: 0x7f0a0027
-			public const int label_helpCameraAction = 2131361831;
-			
-			// aapt resource value: 0x7f0a002b
-			public const int label_helpClipboardAction = 2131361835;
-			
-			// aapt resource value: 0x7f0a0028
-			public const int label_helpCropAction = 2131361832;
+			// aapt resource value: 0x7f0a0034
+			public const int label_helpAcceptAction = 2131361844;
 			
 			// aapt resource value: 0x7f0a002f
-			public const int label_helpHelp = 2131361839;
+			public const int label_helpCameraAction = 2131361839;
 			
-			// aapt resource value: 0x7f0a002d
-			public const int label_helpImageNotice = 2131361837;
+			// aapt resource value: 0x7f0a0033
+			public const int label_helpClipboardAction = 2131361843;
+			
+			// aapt resource value: 0x7f0a0030
+			public const int label_helpCropAction = 2131361840;
+			
+			// aapt resource value: 0x7f0a0037
+			public const int label_helpHelp = 2131361847;
+			
+			// aapt resource value: 0x7f0a0035
+			public const int label_helpImageNotice = 2131361845;
+			
+			// aapt resource value: 0x7f0a0032
+			public const int label_helpShareAction = 2131361842;
+			
+			// aapt resource value: 0x7f0a0036
+			public const int label_helpWelcome = 2131361846;
+			
+			// aapt resource value: 0x7f0a0027
+			public const int menu_About = 2131361831;
+			
+			// aapt resource value: 0x7f0a0029
+			public const int menu_Feedback = 2131361833;
 			
 			// aapt resource value: 0x7f0a002a
-			public const int label_helpShareAction = 2131361834;
+			public const int menu_RateUs = 2131361834;
 			
-			// aapt resource value: 0x7f0a002e
-			public const int label_helpWelcome = 2131361838;
+			// aapt resource value: 0x7f0a0028
+			public const int menu_Tutorial = 2131361832;
 			
-			// aapt resource value: 0x7f0a0024
-			public const int message_MobileDataDownload = 2131361828;
+			// aapt resource value: 0x7f0a0026
+			public const int message_MobileDataDownload = 2131361830;
+			
+			// aapt resource value: 0x7f0a0025
+			public const int message_ShareInstructions = 2131361829;
 			
 			// aapt resource value: 0x7f0a0023
-			public const int message_ShareInstructions = 2131361827;
-			
-			// aapt resource value: 0x7f0a0021
-			public const int progress_ImageAdjust = 2131361825;
-			
-			// aapt resource value: 0x7f0a0020
-			public const int progress_OCR = 2131361824;
+			public const int progress_ImageAdjust = 2131361827;
 			
 			// aapt resource value: 0x7f0a0022
-			public const int sendTo = 2131361826;
+			public const int progress_OCR = 2131361826;
+			
+			// aapt resource value: 0x7f0a0024
+			public const int sendTo = 2131361828;
+			
+			// aapt resource value: 0x7f0a002c
+			public const int text_FeedbackChooserTitle = 2131361836;
+			
+			// aapt resource value: 0x7f0a002b
+			public const int text_FeedbackEmailSubject = 2131361835;
 			
 			static String()
 			{
