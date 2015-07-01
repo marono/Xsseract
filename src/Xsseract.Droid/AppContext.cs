@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using Android.Content;
 using Android.OS;
@@ -10,6 +11,7 @@ using Xamarin;
 using File = Java.IO.File;
 using System.Threading.Tasks;
 using Android.Graphics;
+using Android.Net;
 
 namespace Xsseract.Droid
 {
@@ -50,6 +52,8 @@ namespace Xsseract.Droid
     private Tesseractor tesseractor;
 
     public event EventHandler<EventArgs> FirstTimeInitialize;
+
+    public Func<bool> MeteredConnectionPermissionCallback;
 
     public AppContextState State { get; private set; }
 
@@ -120,10 +124,17 @@ namespace Xsseract.Droid
         tesseractor.Initialize(this);
         State = AppContextState.Initialized;
       }
+      catch(WebException e)
+      {
+        State = AppContextState.InitializationErrors;
+        // TODO: To resources.
+        throw new DataConnectionException("Could not connect to the server for the tess data files download.", e);
+      }
       catch(Exception)
       {
         State = AppContextState.InitializationErrors;
         // TODO: Log error.
+        throw;
       }
     }
 
@@ -265,6 +276,33 @@ namespace Xsseract.Droid
     public string GetImageUri()
     {
       return image?.Path;
+    }
+
+    public bool IsDataConnectionAvailable()
+    {
+      ConnectivityManager cm = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
+      return cm.ActiveNetworkInfo?.IsConnected == true;
+    }
+
+    public void AskForMeteredConnectionPermission()
+    {
+      ConnectivityManager cm = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
+      if(!cm.IsActiveNetworkMetered)
+      {
+        return;
+      }
+
+      if(null == MeteredConnectionPermissionCallback)
+      {
+        // TODO: To resources.
+        throw new DataConnectionException("A metered data connection is active. Xsseract needs to download some rather large files, come back when you've hit WiFi.");
+      }
+
+      if(!MeteredConnectionPermissionCallback())
+      {
+        // TODO: To resources.
+        throw new DataConnectionException("User denied data usage over a metered connection.");
+      }
     }
 
     private void EnsureAppContextInitialized()

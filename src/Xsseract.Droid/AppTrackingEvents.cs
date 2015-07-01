@@ -6,6 +6,8 @@ namespace Xsseract.Droid
     PrepareTessDataFiles,
     PrepareTessOrientationFiles,
     RestoredOutOfSyncDataFiles,
-    RestoredOutOfSyncOrientationFiles
+    RestoredOutOfSyncOrientationFiles,
+    ErrorDownloadingDataFiles,
+    ErrorDownloadingOrientationFiles
   }
 }

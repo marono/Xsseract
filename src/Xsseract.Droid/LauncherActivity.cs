@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -51,7 +52,12 @@ namespace Xsseract.Droid
             ResumeApplication();
             break;
           case AppContext.AppContextState.InitializationErrors:
-            DisplayAlert(Resources.GetString(Resource.String.label_InitializeFailedOnPrevAttempt), () => Finish());
+            DisplayAlert(Resources.GetString(Resource.String.label_InitializeFailedOnPrevAttempt),
+              () =>
+              {
+                SetResult(Result.Canceled);
+                Finish();
+              });
             return;
         }
         return;
@@ -60,20 +66,54 @@ namespace Xsseract.Droid
       try
       {
         ApplicationContext.AppContext.FirstTimeInitialize += AppContext_FirstTimeInitialize;
+        ApplicationContext.AppContext.MeteredConnectionPermissionCallback = MeteredConnectionPermissionCallback;
         await PerformInit();
       }
       catch (Exception e)
       {
-        // TODO: Exception during initialize, Insights may not be available for error reporting.
-        DisplayError(e, Finish);
+        DisplayError(e,
+          () =>
+          {
+            SetResult(Result.Canceled);
+            Finish();
+          });
+
         return;
       }
       finally
       {
+        ApplicationContext.AppContext.MeteredConnectionPermissionCallback = null;
         ApplicationContext.AppContext.FirstTimeInitialize -= AppContext_FirstTimeInitialize;
       }
 
       ResumeApplication();
+    }
+
+    private bool MeteredConnectionPermissionCallback()
+    {
+      ManualResetEvent waitHandle = new ManualResetEvent(false);
+      bool result = false;
+      RunOnUiThread(
+        () =>
+        {
+          new AlertDialog.Builder(this)
+        .SetTitle(Resource.String.AlertTitle)
+        .SetMessage(Resources.GetString(Resource.String.message_MobileDataDownload))
+        .SetPositiveButton(Resource.String.action_Yes, delegate
+        {
+          result = true;
+          waitHandle.Set();
+        })
+        .SetNegativeButton(Resource.String.action_No, delegate
+        {
+          result = false;
+          waitHandle.Set();
+        })
+        .Show();
+        });
+      waitHandle.WaitOne();
+
+      return result;
     }
 
     private void ResumeApplication()

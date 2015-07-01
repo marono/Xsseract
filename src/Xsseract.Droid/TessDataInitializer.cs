@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using Java.Lang;
 using Java.Util.Zip;
 using Org.Xeustechnologies.Jtar;
 using Xamarin;
@@ -19,6 +20,8 @@ namespace Xsseract.Droid
     private readonly AppContext context;
 
     public event EventHandler<EventArgs> DownloadingDataFiles;
+
+    public Func<bool> RestrictedUseAcknowledgeCallback;
 
     private File publicFilesPath;
 
@@ -103,6 +106,16 @@ namespace Xsseract.Droid
         }
       }
 
+      if(shouldRefreshDataFiles || shouldRefreshOrientationFiles)
+      {
+        if(!context.IsDataConnectionAvailable())
+        {
+          // TODO: To resources.
+          throw new ApplicationException("There's no data connection. Can't do first-time initialize without an active data connection.");
+        }
+        context.AskForMeteredConnectionPermission();
+      }
+
       if (shouldRefreshDataFiles)
       {
         ITrackHandle handle = null;
@@ -111,14 +124,18 @@ namespace Xsseract.Droid
           handle = context.LogTimedEvent(AppTrackingEvents.PrepareTessDataFiles);
           handle.Start();
           EnsureTessDataFiles(tessDataSrc, destination);
-        }
-        finally
-        {
+
           handle?.Stop();
-          if (tessDataFiles?.Count > 0 || dstFiles?.Length > 0)
+          if(tessDataFiles?.Count > 0 || dstFiles?.Length > 0)
           {
             context.LogEvent(AppTrackingEvents.RestoredOutOfSyncDataFiles);
           }
+        }
+        catch
+        {
+          handle?.Dispose();
+          context.LogEvent(AppTrackingEvents.ErrorDownloadingDataFiles);
+          throw;
         }
       }
 
@@ -130,14 +147,18 @@ namespace Xsseract.Droid
           handle = context.LogTimedEvent(AppTrackingEvents.PrepareTessOrientationFiles);
           handle.Start();
           EnsureTessDataFiles(tessOrientationSrc, destination);
-        }
-        finally
-        {
+
           handle?.Stop();
-          if (tessOrientationFiles?.Count > 0 || dstFiles?.Length > 0)
+          if(tessOrientationFiles?.Count > 0 || dstFiles?.Length > 0)
           {
             context.LogEvent(AppTrackingEvents.RestoredOutOfSyncOrientationFiles);
           }
+        }
+        catch
+        {
+          handle?.Dispose();
+          context.LogEvent(AppTrackingEvents.ErrorDownloadingOrientationFiles);
+          throw;
         }
       }
     }
