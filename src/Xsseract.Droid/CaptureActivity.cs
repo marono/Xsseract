@@ -77,7 +77,7 @@ namespace Xsseract.Droid
           {
             prospectiveUri = null;
 
-            if(ApplicationContext.AppContext.HasImage)
+            if(XsseractContext.HasImage)
             {
               return;
             }
@@ -128,7 +128,7 @@ namespace Xsseract.Droid
       base.OnResume();
 
       Toolbar.ShowCroppingTools(false);
-      if (ApplicationContext.AppContext.HasImage || null != prospectiveUri)
+      if (XsseractContext.HasImage || null != prospectiveUri)
       {
         // Don't take another snap, as one is already present.
         return;
@@ -141,7 +141,7 @@ namespace Xsseract.Droid
     {
       base.OnDestroy();
 
-      await ApplicationContext.AppContext.DisposeImageAsync();
+      await XsseractContext.DisposeImageAsync();
     }
 
     protected override DismissableFragment GetHelpFragment()
@@ -197,7 +197,7 @@ namespace Xsseract.Droid
 
       crop = new HighlightView(imgPreview);
 
-      var img = ApplicationContext.AppContext.GetBitmap();
+      var img = XsseractContext.GetBitmap();
       int width = img.Width;
       int height = img.Height;
 
@@ -239,7 +239,7 @@ namespace Xsseract.Droid
     {
       imgPreview.SetImageBitmap(null);
 
-      await ApplicationContext.AppContext.DisposeImageAsync();
+      await XsseractContext.DisposeImageAsync();
       var newImage = await Task.Factory.StartNew(
         () =>
         {
@@ -250,7 +250,7 @@ namespace Xsseract.Droid
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
           var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
 
-          return ApplicationContext.AppContext.LoadImage(path, rotation);
+          return XsseractContext.LoadImage(path, rotation);
         });
 
       imgPreview.SetImageBitmapResetBase(newImage, true);

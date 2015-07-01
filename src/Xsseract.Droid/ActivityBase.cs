@@ -21,7 +21,9 @@ namespace Xsseract.Droid
 
     #region Properties
 
-    protected XsseractApp ApplicationContext => (XsseractApp)BaseContext.ApplicationContext;
+    protected XsseractContext XsseractContext => XsseractApplication?.XsseractContext;
+
+    protected XsseractApp XsseractApplication => BaseContext.ApplicationContext as XsseractApp;
 
     protected ToolbarFragment Toolbar
     {
@@ -64,7 +66,7 @@ namespace Xsseract.Droid
           StartRateApplicationActivity();
           break;
         case Resource.Id.feedback:
-          Intent feedbackIntent = new Intent(Intent.ActionSendto, Android.Net.Uri.FromParts("mailto", ApplicationContext.AppContext.Settings.FeedbackEmailAddress, null));
+          Intent feedbackIntent = new Intent(Intent.ActionSendto, Android.Net.Uri.FromParts("mailto", XsseractContext.Settings.FeedbackEmailAddress, null));
           feedbackIntent.PutExtra(Intent.ExtraSubject, Resources.GetString(Resource.String.text_FeedbackEmailSubject));
 
           StartActivity(Intent.CreateChooser(feedbackIntent, Resources.GetString(Resource.String.text_FeedbackChooserTitle)));
@@ -169,17 +171,17 @@ namespace Xsseract.Droid
 
     public void LogDebug(string message)
     {
-      ApplicationContext.AppContext.LogDebug(message);
+      XsseractContext.LogDebug(message);
     }
 
     public void LogDebug(string format, params object[] args)
     {
-      ApplicationContext.AppContext.LogDebug(format, args);
+      XsseractContext.LogDebug(format, args);
     }
 
     public void LogError(Exception e)
     {
-      ApplicationContext.AppContext.LogError(e);
+      XsseractContext.LogError(e);
     }
 
     #endregion

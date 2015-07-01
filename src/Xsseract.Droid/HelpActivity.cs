@@ -52,7 +52,7 @@ namespace Xsseract.Droid
 
     private void finishFrag_GotIt(object sender, EventArgs eventArgs)
     {
-      ApplicationContext.AppContext.MarkHelpScreenCompleted();
+      XsseractContext.MarkHelpScreenCompleted();
 
       if(Intent.GetBooleanExtra(Constants.FinishOnClose, false))
       {

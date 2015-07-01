@@ -81,7 +81,7 @@
   <ItemGroup>
     <Compile Include="AboutActivity.cs" />
     <Compile Include="ActivityBase.cs" />
-    <Compile Include="AppContext.cs" />
+    <Compile Include="XsseractContext.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppTrackingEvents.cs" />
     <Compile Include="ContextualHelpActivity.cs" />

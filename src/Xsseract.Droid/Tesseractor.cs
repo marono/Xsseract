@@ -60,12 +60,12 @@ namespace Xsseract.Droid
       tesseract.Dispose();
     }
 
-    public async Task<bool> InitializeAsync(AppContext context)
+    public async Task<bool> InitializeAsync(XsseractContext context)
     {
       return await Task.Factory.StartNew(() => Initialize(context));
     }
 
-    public bool Initialize(AppContext context)
+    public bool Initialize(XsseractContext context)
     {
       var tessDataInit = new TessDataInitializer(context);
       bool downloading = false;

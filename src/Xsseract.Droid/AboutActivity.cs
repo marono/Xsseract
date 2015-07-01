@@ -16,7 +16,7 @@ namespace Xsseract.Droid
       var package = PackageManager.GetPackageInfo(PackageName, 0);
       
       FindViewById<TextView>(Resource.Id.txtVersion).Text = $"{package.VersionName} ({package.VersionCode})";
-      FindViewById<TextView>(Resource.Id.txtInstanceId).Text = ApplicationContext.AppContext.InstallationId;
+      FindViewById<TextView>(Resource.Id.txtInstanceId).Text = XsseractContext.InstallationId;
     }
   }
 }

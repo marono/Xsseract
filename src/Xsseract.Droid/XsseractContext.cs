@@ -16,7 +16,7 @@ using Android.Net;
 namespace Xsseract.Droid
 {
   // TODO: Detect version changes when initializing (store current version in the shared prefs).
-  public class AppContext
+  public class XsseractContext
   {
     private const string tag = "Xsseract.App";
 
@@ -96,7 +96,7 @@ namespace Xsseract.Droid
     public File TessDataFilesPath => new File(PublicFilesPath, "tessdata");
     public bool HasImage => image != null;
 
-    public AppContext(XsseractApp underlyingContext)
+    public XsseractContext(XsseractApp underlyingContext)
     {
       if (null == underlyingContext)
       {

@@ -25,7 +25,7 @@ namespace Xsseract.Droid
       base.OnCreate(bundle);
 
       // TODO: Review this code, tesseract init should only happen when it hasn't already been initialized.
-      if (ApplicationContext.AppContext.State == AppContext.AppContextState.None)
+      if (XsseractContext.State == XsseractContext.AppContextState.None)
       {
         SetContentView(Resource.Layout.Launcher);
       }
@@ -44,14 +44,14 @@ namespace Xsseract.Droid
       base.OnResume();
 
       // TODO: Investigate exceptions on Tasks when the return is void!!!
-      if (ApplicationContext.AppContext.State != AppContext.AppContextState.None)
+      if (XsseractContext.State != XsseractContext.AppContextState.None)
       {
-        switch (ApplicationContext.AppContext.State)
+        switch (XsseractContext.State)
         {
-          case AppContext.AppContextState.Initialized:
+          case XsseractContext.AppContextState.Initialized:
             ResumeApplication();
             break;
-          case AppContext.AppContextState.InitializationErrors:
+          case XsseractContext.AppContextState.InitializationErrors:
             DisplayAlert(Resources.GetString(Resource.String.label_InitializeFailedOnPrevAttempt),
               () =>
               {
@@ -65,8 +65,8 @@ namespace Xsseract.Droid
 
       try
       {
-        ApplicationContext.AppContext.FirstTimeInitialize += AppContext_FirstTimeInitialize;
-        ApplicationContext.AppContext.MeteredConnectionPermissionCallback = MeteredConnectionPermissionCallback;
+        XsseractContext.FirstTimeInitialize += AppContext_FirstTimeInitialize;
+        XsseractContext.MeteredConnectionPermissionCallback = MeteredConnectionPermissionCallback;
         await PerformInit();
       }
       catch (Exception e)
@@ -82,8 +82,8 @@ namespace Xsseract.Droid
       }
       finally
       {
-        ApplicationContext.AppContext.MeteredConnectionPermissionCallback = null;
-        ApplicationContext.AppContext.FirstTimeInitialize -= AppContext_FirstTimeInitialize;
+        XsseractContext.MeteredConnectionPermissionCallback = null;
+        XsseractContext.FirstTimeInitialize -= AppContext_FirstTimeInitialize;
       }
 
       ResumeApplication();
@@ -121,7 +121,7 @@ namespace Xsseract.Droid
       bool pipeResult = Intent.GetBooleanExtra("PipeResult", false);
 
       var activityToStart = typeof(CaptureActivity);
-      if (ApplicationContext.AppContext.IsFirstRun)
+      if (XsseractContext.IsFirstRun)
       {
         activityToStart = typeof(HelpActivity);
       }
@@ -134,11 +134,11 @@ namespace Xsseract.Droid
       }
 
       StartActivity(intent);
-      if (null != ApplicationContext.AppStartupTracker)
+      if (null != XsseractApplication.AppStartupTracker)
       {
-        ApplicationContext.AppStartupTracker.Stop();
-        var span = ApplicationContext.AppStartupTracker.Elapsed;
-        ApplicationContext.AppStartupTracker = null;
+        XsseractApplication.AppStartupTracker.Stop();
+        var span = XsseractApplication.AppStartupTracker.Elapsed;
+        XsseractApplication.AppStartupTracker = null;
 
         LogAppStatupTime(span);
       }
@@ -158,17 +158,17 @@ namespace Xsseract.Droid
       await Task.Factory.StartNew(
         () =>
         {
-          ApplicationContext.AppContext.Initialize();
+          XsseractContext.Initialize();
           // TODO: Handle error during init.
         });
     }
 
     private void LogAppStatupTime(TimeSpan span)
     {
-      ApplicationContext.AppContext.LogEvent(AppTrackingEvents.Startup,
+      XsseractContext.LogEvent(AppTrackingEvents.Startup,
         new Dictionary<string, string> {
           { "Duration", span.TotalMilliseconds.ToString () },
-          { "Device", ApplicationContext.AppContext.DeviceName }
+          { "Device", XsseractContext.DeviceName }
         });
     }
   }

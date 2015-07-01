@@ -156,8 +156,8 @@ namespace Xsseract.Droid
     private async Task PerformOcrAsync()
     {
       cropped = await GetImageAsync();
-      var tess = await ApplicationContext.AppContext.GetTessInstanceAsync();
-      result = await tess.RecognizeAsync(ApplicationContext.AppContext.GetBitmap(), cropRect);
+      var tess = await XsseractContext.GetTessInstanceAsync();
+      result = await tess.RecognizeAsync(XsseractContext.GetBitmap(), cropRect);
     }
 
     private async Task<Bitmap> GetImageAsync()
@@ -165,7 +165,7 @@ namespace Xsseract.Droid
       return await Task.Factory.StartNew(
         () =>
         {
-          var image = ApplicationContext.AppContext.GetBitmap();
+          var image = XsseractContext.GetBitmap();
           float scale = 1;
           Bitmap res = null;
 
@@ -198,7 +198,7 @@ namespace Xsseract.Droid
       return await Task.Factory.StartNew(
         () =>
         {
-          var imagePath = ApplicationContext.AppContext.GetImageUri();
+          var imagePath = XsseractContext.GetImageUri();
           var fileName = String.Format("{0}-cropped.png", System.IO.Path.GetFileNameWithoutExtension(imagePath));
           var path = System.IO.Path.GetDirectoryName(imagePath);
 

@@ -23,13 +23,13 @@ namespace Xsseract.Droid
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application
   {
-    private readonly AppContext appContext;
+    private readonly XsseractContext appContext;
 
     #region Properties
 
     public string DestinationDirBase { get; private set; }
 
-    public AppContext AppContext
+    public XsseractContext XsseractContext
     {
       get { return appContext; }
     }
@@ -42,7 +42,7 @@ namespace Xsseract.Droid
     protected XsseractApp(IntPtr javaReference, JniHandleOwnership transfer)
       : base(javaReference, transfer)
     {
-      appContext = new AppContext(this);
+      appContext = new XsseractContext(this);
     }
 
     #endregion
@@ -51,7 +51,7 @@ namespace Xsseract.Droid
     public override void OnCreate()
     {
       AppStartupTracker = Stopwatch.StartNew();
-      if (!String.IsNullOrWhiteSpace(AppContext.Settings.InsightsKey))
+      if (!String.IsNullOrWhiteSpace(XsseractContext.Settings.InsightsKey))
       {
         Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
         {
@@ -61,7 +61,7 @@ namespace Xsseract.Droid
           }
         };
 
-        Insights.Initialize(AppContext.Settings.InsightsKey, this);
+        Insights.Initialize(XsseractContext.Settings.InsightsKey, this);
       }
 
       base.OnCreate();

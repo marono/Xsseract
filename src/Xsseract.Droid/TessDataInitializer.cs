@@ -17,7 +17,7 @@ namespace Xsseract.Droid
   // TODO: Invalid data files URL takes a long time to trigger an error.
   public class TessDataInitializer
   {
-    private readonly AppContext context;
+    private readonly XsseractContext context;
 
     public event EventHandler<EventArgs> DownloadingDataFiles;
 
@@ -25,7 +25,7 @@ namespace Xsseract.Droid
 
     private File publicFilesPath;
 
-    public TessDataInitializer(AppContext context)
+    public TessDataInitializer(XsseractContext context)
     {
       if (null == context)
       {
