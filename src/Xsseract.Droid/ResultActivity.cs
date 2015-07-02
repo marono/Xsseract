@@ -20,7 +20,7 @@ using Xsseract.Droid.Extensions;
 namespace Xsseract.Droid
 {
   // TODO: android.view.WindowLeaked: Activity md5b71b1bed33a31f85ecaffba202309a1f.ResultActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView{43b5f40 G.E..... R.....ID 0,0-1026,348} that was originally added here
-  [Activity(WindowSoftInputMode = SoftInput.AdjustResize)]
+  [Activity(WindowSoftInputMode = SoftInput.AdjustResize, Theme = "@style/AppTheme")]
   public class ResultActivity : ContextualHelpActivity
   {
     public static class Constants

@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
   <style name="AppTheme" parent="AppTheme.Base">
+    <item name="android:windowBackground">@color/white</item>
   </style>
   <style name="AppTheme.Splash" parent="AppTheme.Base">
     <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@color/primary</item>
     <!--<item name="android:windowBackground">@color/launcher_background</item>
     <item name="android:textColorPrimary">@color/white</item>-->
   </style>

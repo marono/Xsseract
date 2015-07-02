@@ -9,7 +9,7 @@ using Xamarin;
 
 namespace Xsseract.Droid
 {
-  [Activity(NoHistory = true)]
+  [Activity(NoHistory = true, Theme = "@style/AppTheme")]
   public class HelpActivity : ActivityBase
   {
     public static class Constants

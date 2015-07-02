@@ -4,7 +4,7 @@ using Android.Widget;
 
 namespace Xsseract.Droid
 {
-  [Activity(Label = "AboutActivity")]
+  [Activity(Label = "AboutActivity", Theme = "@style/AppTheme")]
   public class AboutActivity : ActivityBase
   {
     protected override void OnCreate(Bundle bundle)

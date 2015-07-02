@@ -27,7 +27,7 @@ using Xsseract.Droid.Extensions;
 namespace Xsseract.Droid
 {
   // TODO: Memory issue probably due to poor image manipulation.
-  [Activity]
+  [Activity(Theme = "@style/AppTheme")]
   public class CaptureActivity : ContextualHelpActivity
   {
     internal enum RequestCode
