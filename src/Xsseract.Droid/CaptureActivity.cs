@@ -24,10 +24,7 @@ using Uri = Android.Net.Uri;
 
 namespace Xsseract.Droid
 {
-  // TODO: Add help screen.
-  // TODO: Add toasts explaining what to do on each screen.
   // TODO: Memory issue probably due to poor image manipulation.
-  // TODO: Hitting back should exit the app somehow (double-tap?).
   [Activity]
   public class CaptureActivity : ContextualHelpActivity
   {

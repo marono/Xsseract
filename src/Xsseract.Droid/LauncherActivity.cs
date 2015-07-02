@@ -24,7 +24,6 @@ namespace Xsseract.Droid
     {
       base.OnCreate(bundle);
 
-      // TODO: Review this code, tesseract init should only happen when it hasn't already been initialized.
       if (XsseractContext.State == XsseractContext.AppContextState.None)
       {
         SetContentView(Resource.Layout.Launcher);

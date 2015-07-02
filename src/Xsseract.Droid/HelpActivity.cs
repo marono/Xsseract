@@ -8,7 +8,6 @@ using Xsseract.Droid.Views;
 
 namespace Xsseract.Droid
 {
-  // TODO: Add Toolbar for About and Tutorial actions.
   [Activity(NoHistory = true)]
   public class HelpActivity : ActivityBase
   {

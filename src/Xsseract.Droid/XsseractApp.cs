@@ -18,7 +18,6 @@ namespace Xsseract.Droid
   // TODO: Add more analytics data.
   // TODO: Validate app permissions again before release.
   // TODO: Cleanup unused files.
-  // TODO: Feedback form.
   // TODO: Rename strings so that they follow ONE naming convention.
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application

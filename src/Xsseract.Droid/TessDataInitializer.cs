@@ -14,7 +14,6 @@ using String = System.String;
 
 namespace Xsseract.Droid
 {
-  // TODO: Invalid data files URL takes a long time to trigger an error.
   public class TessDataInitializer
   {
     private readonly XsseractContext context;
@@ -173,7 +172,6 @@ namespace Xsseract.Droid
         dataFile.Delete();
       }
 
-      // TODO: Only download over wifi, or ask.
       DownloadFile(sourceUri, dataFile.AbsolutePath);
       ExtractTo(dataFile, destination);
     }
