@@ -33,12 +33,14 @@ namespace Xsseract.Droid
 
     private Rect cropRect;
     private bool pipeResult;
+    private Func<Task> toDoOnResume;
 
     private ImageView imgResult;
     private TextView txtViewResult;
     private EditText txtEditResult;
     private Bitmap cropped;
     private string result;
+    private bool ratingAskedForThisImage;
 
     protected override void OnCreate(Bundle bundle)
     {
@@ -83,6 +85,7 @@ namespace Xsseract.Droid
           DisplayProgress(Resources.GetString(Resource.String.progress_OCR));
           await PerformOcrAsync();
 
+          XsseractContext.IncrementSuccessCounter();
           HideProgress();
         }
         catch (Exception e)
@@ -100,8 +103,16 @@ namespace Xsseract.Droid
       imgResult.SetImageBitmap(cropped);
       txtViewResult.Text = result;
 
-      Toast t = Toast.MakeText(this, Resource.String.label_TapToEditResult, ToastLength.Short);
-      t.Show();
+      if (null != toDoOnResume)
+      {
+        await toDoOnResume.Invoke();
+        toDoOnResume = null;
+      }
+      else
+      {
+        Toast t = Toast.MakeText(this, Resource.String.label_TapToEditResult, ToastLength.Short);
+        t.Show();
+      }
     }
 
     public override bool OnTouchEvent(MotionEvent e)
@@ -125,13 +136,27 @@ namespace Xsseract.Droid
 
     public override bool OnKeyDown([GeneratedEnum]Keycode keyCode, KeyEvent e)
     {
-      if(keyCode == Keycode.Back && txtEditResult.Visibility == ViewStates.Visible)
+      if (keyCode != Keycode.Back)
+      {
+        return base.OnKeyDown(keyCode, e);
+      }
+
+      if (txtEditResult.Visibility == ViewStates.Visible)
       {
         ResumeResultView();
         return true;
       }
+      else
+      {
+        AskForRating(async () =>
+         {
+           await Task.Yield();
+           SetResult(Result.Canceled);
+           Finish();
+         });
 
-      return base.OnKeyDown(keyCode, e);
+        return true;
+      }
     }
 
     protected override void OnDestroy()
@@ -223,7 +248,7 @@ namespace Xsseract.Droid
     private void CopyToClipboard()
     {
       var service = (ClipboardManager)GetSystemService(ClipboardService);
-      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), result);
+      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), $"{Resources.GetString(Resource.String.text_SendToSubject)}: {System.Environment.NewLine}{result}");
 
       service.PrimaryClip = data;
 
@@ -246,6 +271,71 @@ namespace Xsseract.Droid
         Toolbar.ShowResultToolsNoShare(false);
     }
 
+    private void AskForRating(Func<Task> callback)
+    {
+      if (ratingAskedForThisImage || !XsseractContext.ShouldAskForRating())
+      {
+        callback?.Invoke();
+        return;
+      }
+
+      ratingAskedForThisImage = true;
+      ShowRatingDialog(callback);
+      return;
+    }
+
+    private void ShowRatingDialog(Func<Task> callback)
+    {
+      Dialog d = new Dialog(this);
+      d.SetTitle(Resource.String.text_RatingPromptTitle);
+      d.SetContentView(Resource.Layout.RatingDialog);
+
+      var btnNow = d.FindViewById<Button>(Resource.Id.btnNow);
+      var btnLater = d.FindViewById<Button>(Resource.Id.btnLater);
+      var btnNever = d.FindViewById<Button>(Resource.Id.btnNever);
+
+      btnNow.Click += (sender, e) =>
+      {
+        toDoOnResume = callback;
+        d.Hide();
+        StartRateApplicationActivity();
+      };
+      btnLater.Click += async (sender, e) =>
+      {
+        d.Hide();
+        await callback?.Invoke();
+      };
+      btnNever.Click += async (sender, e) =>
+      {
+        XsseractContext.SetDontRateFlag();
+
+        d.Hide();
+        await callback?.Invoke();
+      };
+
+      d.Show();
+    }
+
+    private async Task ShareResult()
+    {
+      CopyToClipboard();
+      DisplayProgress(Resources.GetString(Resource.String.label_PrepareShare));
+      var attachment = await GetImageAttachmentAsync();
+
+      HideProgress();
+
+      var sendIntent = new Intent(Intent.ActionSendMultiple);
+      sendIntent.SetType("image/*");
+      sendIntent.PutExtra(Intent.ExtraSubject, Resource.String.text_SendToSubject);
+      sendIntent.PutExtra(Intent.ExtraText, $"{Resources.GetString(Resource.String.text_SendToSubject)}: {System.Environment.NewLine}{result}");
+      sendIntent.PutParcelableArrayListExtra(Intent.ExtraStream, new JavaList<IParcelable>
+            {
+              Android.Net.Uri.FromFile(attachment)
+            });
+      sendIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
+      StartActivity(Intent.CreateChooser(sendIntent, Resources.GetString(Resource.String.text_SendToTitle)));
+    }
+
     private void txtViewResult_Click(object sender, EventArgs eventArgs)
     {
       txtEditResult.Text = txtViewResult.Text;
@@ -261,48 +351,34 @@ namespace Xsseract.Droid
 
     private void Toolbar_CopyToClipboard(object sender, EventArgs eventArgs)
     {
-      CopyToClipboard();
+      AskForRating(async () =>
+      {
+        await Task.Yield();
+        CopyToClipboard();
+      });
     }
 
-    private void Toolbar_Share(object sender, EventArgs eventArgs)
+    private async void Toolbar_Share(object sender, EventArgs eventArgs)
     {
-      DisplayAlert(Resources.GetString(Resource.String.message_ShareInstructions),
-        async () =>
-        {
-          try
-          {
-            CopyToClipboard();
-            DisplayProgress(Resources.GetString(Resource.String.label_PrepareShare));
-            var attachment = await GetImageAttachmentAsync();
-
-            HideProgress();
-
-            var sendIntent = new Intent(Intent.ActionSendMultiple);
-            sendIntent.SetType("image/*");
-            sendIntent.PutExtra(Intent.ExtraSubject, result);
-            sendIntent.PutExtra(Intent.ExtraText, result);
-            sendIntent.PutParcelableArrayListExtra(Intent.ExtraStream, new JavaList<IParcelable>
-            {
-              Android.Net.Uri.FromFile(attachment)
-            });
-            sendIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
-            StartActivity(Intent.CreateChooser(sendIntent, Resources.GetString(Resource.String.sendTo)));
-          }
-          catch (Exception)
-          {
-            HideProgress();
-          }
-        });
+      AskForRating(async () =>
+      {
+        await ShareResult();
+      });
     }
 
     private void Toolbar_Accept(object sender, EventArgs eventArgs)
     {
-      var intent = new Intent();
-      intent.PutExtra(Constants.Accept, true);
-      intent.PutExtra(Constants.Result, result);
-      SetResult(Result.Ok, intent);
+      AskForRating(async () =>
+      {
+        await Task.Yield();
 
-      Finish();
+        var intent = new Intent();
+        intent.PutExtra(Constants.Accept, true);
+        intent.PutExtra(Constants.Result, result);
+        SetResult(Result.Ok, intent);
+
+        Finish();
+      });
     }
   }
 }

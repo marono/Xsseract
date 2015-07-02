@@ -165,6 +165,19 @@ namespace Xsseract.Droid
       progressDialog.Hide();
       progressDialog = null;
     }
+
+    protected void StartRateApplicationActivity()
+    {
+      try
+      {
+        var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + PackageName));
+        StartActivity(intent);
+      }
+      catch (ActivityNotFoundException e)
+      {
+        StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + PackageName)));
+      }
+    }
     #endregion
 
     #region Public methods
@@ -185,17 +198,5 @@ namespace Xsseract.Droid
     }
 
     #endregion
-
-    private void StartRateApplicationActivity()
-    {
-      try
-      {
-        StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + PackageName)));
-      }
-      catch (ActivityNotFoundException e)
-      {
-        StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + PackageName)));
-      }
-    }
   }
 }

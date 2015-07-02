@@ -197,6 +197,8 @@ FakesAssemblies/
 
 # Resharper
 .DotSettings
+*.DotSettings
 
 # Dummy Android Studio Project just for template editing
 Xsseract_AndroidStudio/
+.DS_Store

@@ -42,7 +42,9 @@ namespace Xsseract.Droid
     private static class PreferencesKeys
     {
       public const string
-        IsFirstRun = "IsFirstRun";
+        IsFirstRun = "IsFirstRun",
+        SuccessfullImages = "SuccessfullImages",
+        DontRate = "DontRate";
     }
 
     private string installationId;
@@ -302,6 +304,34 @@ namespace Xsseract.Droid
         // TODO: To resources.
         throw new DataConnectionException("User denied data usage over a metered connection.");
       }
+    }
+
+    public void IncrementSuccessCounter()
+    {
+      var trans = Preferences.Edit();
+
+      int val = Preferences.GetInt(PreferencesKeys.SuccessfullImages, 0);
+      trans.PutInt(PreferencesKeys.SuccessfullImages, val + 1);
+
+      trans.Commit();
+    }
+
+    public void SetDontRateFlag()
+    {
+      var trans = Preferences.Edit();
+      trans.PutBoolean(PreferencesKeys.DontRate, true);
+      trans.Commit();
+    }
+
+    public bool ShouldAskForRating()
+    {
+      if(Preferences.GetBoolean(PreferencesKeys.DontRate, false) || 0 == Settings.SuccessCountForRatingPrompt)
+      {
+        return false;
+      }
+
+      var count = Preferences.GetInt(PreferencesKeys.SuccessfullImages, 0);
+      return 0 != count && 0 == count % Settings.SuccessCountForRatingPrompt;
     }
 
     private void EnsureAppContextInitialized()

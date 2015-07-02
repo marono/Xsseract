@@ -24,6 +24,7 @@ namespace Xsseract.Droid
     }
 
     public string FeedbackEmailAddress { get; set; }
+    public int SuccessCountForRatingPrompt { get; set; }
   }
 
   public class TessDataFile

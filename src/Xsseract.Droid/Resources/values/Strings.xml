@@ -5,6 +5,9 @@
   <string name="AlertTitle">A message from the underworld ...</string>
   <string name="action_Yes">Yes</string>
   <string name="action_No">No</string>
+  <string name="action_RateLater">Later</string>
+  <string name="action_RateNever">Never</string>
+  <string name="action_RateNow">NOW</string>
   <string name="label_Result">Result:</string>
   <string name="label_Initializing">Xsseract is initializing ...</string>
   <string name="label_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
@@ -19,7 +22,8 @@
   <string name="label_InstanceId">InstanceId:</string>
   <string name="progress_OCR">Performing text recognition ...</string>
   <string name="progress_ImageAdjust">Adjusting image ...</string>
-  <string name="sendTo">Xsseract just decoded the following image for me</string>
+  <string name="text_SendToSubject">Xsseract just decoded the following image for me</string>
+  <string name="text_SendToTitle">Share Xsseract result</string>
   <string name="message_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
   <string name="message_MobileDataDownload">Xsseract requires a larger download on first startup, will you allow us to do it over your mobile data connection?</string>
   <string name="menu_About">About</string>
@@ -28,6 +32,8 @@
   <string name="menu_RateUs">Rate Us!</string>
   <string name="text_FeedbackEmailSubject">Xsseract feedback</string>
   <string name="text_FeedbackChooserTitle">Send feedback</string>
+  <string name="text_RatingPrompt">Please rate our app, it wil help other users make sense of it!</string>
+  <string name="text_RatingPromptTitle">Rate us!</string>
   <string name="intent_resolveText">ro.onos.xsseract.ResolveImage</string>
   <string name="label_HelpCaptureDescr"><![CDATA[
     <h3>Capture view</h3>
