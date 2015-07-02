@@ -13,6 +13,9 @@ using Android.Widget;
 using Xsseract.Droid.Fragments;
 using ClipboardManager = Android.Content.ClipboardManager;
 using File = Java.IO.File;
+using Xamarin;
+using System.Diagnostics;
+using Xsseract.Droid.Extensions;
 
 namespace Xsseract.Droid
 {
@@ -80,16 +83,45 @@ namespace Xsseract.Droid
 
       if (null == cropped)
       {
+        ITrackHandle handle = null;
+        var sw = new Stopwatch();
         try
         {
           DisplayProgress(Resources.GetString(Resource.String.progress_OCR));
+
+          handle = XsseractContext.LogTimedEvent(AppTrackingEvents.ImageParseDuration);
+          sw.Start();
+          handle.Start();
           await PerformOcrAsync();
 
           XsseractContext.IncrementSuccessCounter();
+          handle.Stop();
+          sw.Stop();
+
+          var img = XsseractContext.GetBitmap();
+
+          var data = new System.Collections.Generic.Dictionary<string, string>
+          {
+            { AppTrackingEventsDataKey.ImageResW, cropped.Width.ToString() },
+            { AppTrackingEventsDataKey.ImageResH, cropped.Height.ToString() },
+            { AppTrackingEventsDataKey.ImageDensity, cropped.Density.ToString() },
+            { AppTrackingEventsDataKey.OriginalImageResW, cropped.Width.ToString() },
+            { AppTrackingEventsDataKey.OriginalImageResH, cropped.Height.ToString() }
+          };
+          if (0 != sw.ElapsedMilliseconds)
+          {
+            data.Add(AppTrackingEventsDataKey.ParseSpeedPixelsPerMs, ((cropped.Width * cropped.Height) / sw.ElapsedMilliseconds).ToString());
+          }
+
+          XsseractContext.LogEvent(AppTrackingEvents.ImageDetails, data);
+
           HideProgress();
         }
         catch (Exception e)
         {
+          handle.DisposeIfRunning();
+          sw.Stop();
+
           HideProgress();
 
           LogError(e);
@@ -261,6 +293,7 @@ namespace Xsseract.Droid
       var imm = (InputMethodManager)GetSystemService(InputMethodService);
       imm.HideSoftInputFromWindow(txtEditResult.WindowToken, 0);
 
+      bool hasChanged = 0 != String.Compare(txtEditResult.Text, result);
       txtViewResult.Text = result = txtEditResult.Text;
       txtViewResult.Visibility = ViewStates.Visible;
       txtEditResult.Visibility = ViewStates.Gone;
@@ -269,6 +302,11 @@ namespace Xsseract.Droid
         Toolbar.ShowResultTools(false);
       else
         Toolbar.ShowResultToolsNoShare(false);
+
+      if (hasChanged)
+      {
+        XsseractContext.LogEvent(AppTrackingEvents.ResultManuallyEdited);
+      }
     }
 
     private void AskForRating(Func<Task> callback)
@@ -302,12 +340,14 @@ namespace Xsseract.Droid
       };
       btnLater.Click += async (sender, e) =>
       {
+        XsseractContext.LogEvent(AppTrackingEvents.RateLater);
         d.Hide();
         await callback?.Invoke();
       };
       btnNever.Click += async (sender, e) =>
       {
         XsseractContext.SetDontRateFlag();
+        XsseractContext.LogEvent(AppTrackingEvents.RateNever);
 
         d.Hide();
         await callback?.Invoke();
@@ -355,14 +395,17 @@ namespace Xsseract.Droid
       {
         await Task.Yield();
         CopyToClipboard();
+
+        XsseractContext.LogEvent(AppTrackingEvents.CopyToClipboard);
       });
     }
 
-    private async void Toolbar_Share(object sender, EventArgs eventArgs)
+    private void Toolbar_Share(object sender, EventArgs eventArgs)
     {
       AskForRating(async () =>
       {
         await ShareResult();
+        XsseractContext.LogEvent(AppTrackingEvents.Share);
       });
     }
 
@@ -371,6 +414,8 @@ namespace Xsseract.Droid
       AskForRating(async () =>
       {
         await Task.Yield();
+
+        XsseractContext.LogEvent(AppTrackingEvents.Accept);
 
         var intent = new Intent();
         intent.PutExtra(Constants.Accept, true);

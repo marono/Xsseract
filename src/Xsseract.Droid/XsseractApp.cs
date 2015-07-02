@@ -2,20 +2,14 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using Android.App;
 using Android.Runtime;
-using Android.Util;
-//using Crashlytics.Bindings.Droid;
-using Java.IO;
-using Java.Util.Zip;
 using Xamarin;
 
 #endregion
 
 namespace Xsseract.Droid
 {
-  // TODO: Add more analytics data.
   // TODO: Validate app permissions again before release.
   // TODO: Cleanup unused files.
   // TODO: Rename strings so that they follow ONE naming convention.

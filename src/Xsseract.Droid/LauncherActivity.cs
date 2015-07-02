@@ -130,6 +130,8 @@ namespace Xsseract.Droid
       {
         intent.PutExtra(CaptureActivity.Constants.PipeResult, true);
         intent.AddFlags(ActivityFlags.ForwardResult);
+
+        XsseractContext.LogEvent(AppTrackingEvents.PipelineMode);
       }
 
       StartActivity(intent);

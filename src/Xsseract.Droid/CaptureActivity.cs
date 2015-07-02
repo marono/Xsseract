@@ -19,6 +19,8 @@ using Xsseract.Droid.Views;
 using Environment = Android.OS.Environment;
 using Orientation = Android.Media.Orientation;
 using Uri = Android.Net.Uri;
+using Xamarin;
+using Xsseract.Droid.Extensions;
 
 #endregion
 
@@ -79,6 +81,8 @@ namespace Xsseract.Droid
               return;
             }
 
+            XsseractContext.LogEvent(AppTrackingEvents.InitialSnapshotCancelled);
+
             Toast.MakeText(this, Resource.String.label_ExitNotice, ToastLength.Short).Show();
             SetResult(Result.Canceled);
             Finish();
@@ -86,14 +90,21 @@ namespace Xsseract.Droid
             return;
           }
 
+          ITrackHandle handle = null;
           try
           {
+            handle = XsseractContext.LogTimedEvent(AppTrackingEvents.ImagePreparationDuration);
+            handle.Start();
+
             DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
             await ProcessAndDisplayImage();
+
+            handle.Stop();
             HideProgress();
           }
           catch (Exception)
           {
+            handle?.DisposeIfRunning();
             HideProgress();
             throw;
           }
@@ -298,6 +309,8 @@ namespace Xsseract.Droid
 
     private void Toolbar_Crop(object sender, EventArgs eventArgs)
     {
+      XsseractContext.LogEvent(AppTrackingEvents.Cropping);
+
       var intent = new Intent(this, typeof(ResultActivity));
 
       var cropRect = new RectF(crop.CropRect);
@@ -309,6 +322,7 @@ namespace Xsseract.Droid
 
     private void Toolbar_Camera(object sender, EventArgs eventArgs)
     {
+      XsseractContext.LogEvent(AppTrackingEvents.Reimaging);
       AcquireNewImage();
     }
     #endregion

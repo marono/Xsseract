@@ -32,6 +32,11 @@ namespace Xsseract.Droid
 
       frmCaptureHelp.Clickable = true;
       frmCaptureHelp.Visibility = ViewStates.Visible;
+
+      XsseractContext.LogEvent(AppTrackingEvents.Help, new System.Collections.Generic.Dictionary<string, string>
+      {
+        { AppTrackingEventsDataKey.HelpPage, this.GetType().Name }
+      });
     }
 
     private void BtnGotIt_Click(object sender, EventArgs eventArgs)

@@ -1515,16 +1515,13 @@ namespace Xsseract.Droid
 			public const int indicator_autocrop = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int monoandroidsplash = 2130837577;
+			public const int ProgressBar = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int ProgressBar = 2130837578;
+			public const int share = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int share = 2130837579;
-			
-			// aapt resource value: 0x7f02004c
-			public const int TestImg = 2130837580;
+			public const int TestImg = 2130837579;
 			
 			static Drawable()
 			{
@@ -2674,9 +2671,6 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b0120
 			public const int HelpLabel = 2131427616;
 			
-			// aapt resource value: 0x7f0b0123
-			public const int Mono_Android_Theme_Splash = 2131427619;
-			
 			// aapt resource value: 0x7f0b007e
 			public const int Platform_AppCompat = 2131427454;
 			
@@ -2920,8 +2914,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b00c8
 			public const int Theme_AppCompat_NoActionBar = 2131427528;
 			
-			// aapt resource value: 0x7f0b0124
-			public const int Theme_PageIndicatorDefaults = 2131427620;
+			// aapt resource value: 0x7f0b0123
+			public const int Theme_PageIndicatorDefaults = 2131427619;
 			
 			// aapt resource value: 0x7f0b00c9
 			public const int ThemeOverlay_AppCompat = 2131427529;
@@ -2938,8 +2932,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b00cd
 			public const int ThemeOverlay_AppCompat_Light = 2131427533;
 			
-			// aapt resource value: 0x7f0b0125
-			public const int Widget = 2131427621;
+			// aapt resource value: 0x7f0b0124
+			public const int Widget = 2131427620;
 			
 			// aapt resource value: 0x7f0b00ce
 			public const int Widget_AppCompat_ActionBar = 2131427534;
@@ -3136,8 +3130,8 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0b010e
 			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131427598;
 			
-			// aapt resource value: 0x7f0b0126
-			public const int Widget_CirclePageIndicator = 2131427622;
+			// aapt resource value: 0x7f0b0125
+			public const int Widget_CirclePageIndicator = 2131427621;
 			
 			static Style()
 			{

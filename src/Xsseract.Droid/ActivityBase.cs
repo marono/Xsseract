@@ -58,6 +58,8 @@ namespace Xsseract.Droid
       switch (item.ItemId)
       {
         case Resource.Id.tutorial:
+          XsseractContext.LogEvent(AppTrackingEvents.Tutorial);
+
           var intent = new Intent(this, typeof(HelpActivity));
           intent.PutExtra(HelpActivity.Constants.FinishOnClose, true);
           StartActivity(intent);
@@ -170,6 +172,8 @@ namespace Xsseract.Droid
     {
       try
       {
+        XsseractContext.LogEvent(AppTrackingEvents.RateNow);
+
         var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + PackageName));
         StartActivity(intent);
       }

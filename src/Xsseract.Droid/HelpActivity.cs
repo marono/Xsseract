@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Support.V4.View;
 using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
+using Xamarin;
 
 namespace Xsseract.Droid
 {
@@ -16,6 +17,10 @@ namespace Xsseract.Droid
       public const string
         FinishOnClose = "FinishOnClose";
     }
+
+    private bool firstTimeEntered = true;
+    private ITrackHandle timeTracker;
+
     private GenericFragmentPagerAdaptor pageViewAdapter;
     protected override void OnCreate(Bundle bundle)
     {
@@ -23,6 +28,18 @@ namespace Xsseract.Droid
 
       SetContentView(Resource.Layout.Help);
       InitializePaging();
+    }
+
+    protected override void OnResume()
+    {
+      base.OnResume();
+
+      if(firstTimeEntered)
+      {
+        firstTimeEntered = false;
+        timeTracker = XsseractContext.LogTimedEvent(AppTrackingEvents.InitialTutorialTime);
+        timeTracker.Start();
+      }
     }
 
     private void InitializePaging()
@@ -59,6 +76,9 @@ namespace Xsseract.Droid
         return;
       }
 
+      // This assumes that when the tutorial page is called as an user request, it will always go via the FinishOnClose branch above.
+      // We only want to track how much time the user spent on the tutorial page.
+      timeTracker?.Stop();
       var intent = new Intent(this, typeof(CaptureActivity));
 
       if(null != Intent && null != Intent.Extras)

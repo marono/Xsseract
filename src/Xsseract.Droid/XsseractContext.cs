@@ -79,7 +79,7 @@ namespace Xsseract.Droid
 #if DEBUG
         // ReSharper disable once ConvertPropertyToExpressionBody
         return false;
-#elif RELEASE
+#else
         return Preferences.GetBoolean(PreferencesKeys.IsFirstRun, true);
 #endif
       }
@@ -362,7 +362,7 @@ namespace Xsseract.Droid
 #if DEBUG
       // For insights reporting during debug.
       var iid = Guid.Empty;
-#elif RELASE
+#else
       var iid = Guid.NewGuid();
 #endif
       var details = new InstallationDetails
@@ -395,7 +395,7 @@ namespace Xsseract.Droid
     {
 #if DEBUG
       string fileName = "Settings.DEBUG.json";
-#elif RELEASE
+#else
       string fileName = "Settings.RELEASE.json";
 #endif
       var serializer = new JsonSerializer();

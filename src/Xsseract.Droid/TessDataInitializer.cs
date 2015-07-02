@@ -132,7 +132,7 @@ namespace Xsseract.Droid
         }
         catch
         {
-          handle?.Dispose();
+          handle.DisposeIfRunning();
           context.LogEvent(AppTrackingEvents.ErrorDownloadingDataFiles);
           throw;
         }
@@ -155,7 +155,7 @@ namespace Xsseract.Droid
         }
         catch
         {
-          handle?.Dispose();
+          handle.DisposeIfRunning();
           context.LogEvent(AppTrackingEvents.ErrorDownloadingOrientationFiles);
           throw;
         }
