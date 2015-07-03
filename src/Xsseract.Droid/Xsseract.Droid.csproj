@@ -122,6 +122,8 @@
     <AndroidAsset Include="Assets\Settings.RELEASE.json" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\tesseract-ocr-3.01.osd.tar.gz" />
+    <AndroidAsset Include="Assets\tesseract-ocr-3.02.eng.tar.gz" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

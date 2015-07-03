@@ -12,6 +12,7 @@ using File = Java.IO.File;
 using System.Threading.Tasks;
 using Android.Graphics;
 using Android.Net;
+using Xsseract.Droid.Extensions;
 
 namespace Xsseract.Droid
 {
@@ -19,6 +20,8 @@ namespace Xsseract.Droid
   public class XsseractContext
   {
     private const string tag = "Xsseract.App";
+
+    private bool meteredConnectionAccessApproved = false;
 
     #region Inner classes
     private class InstallationDetails
@@ -111,7 +114,7 @@ namespace Xsseract.Droid
 
     public void Initialize()
     {
-      if(State != AppContextState.None)
+      if (State != AppContextState.None)
       {
         return;
       }
@@ -125,13 +128,13 @@ namespace Xsseract.Droid
         tesseractor.Initialize(this);
         State = AppContextState.Initialized;
       }
-      catch(WebException e)
+      catch (WebException e)
       {
         State = AppContextState.InitializationErrors;
         // TODO: To resources.
         throw new DataConnectionException("Could not connect to the server for the tess data files download.", e);
       }
-      catch(Exception)
+      catch (Exception)
       {
         State = AppContextState.InitializationErrors;
         // TODO: Log error.
@@ -288,18 +291,24 @@ namespace Xsseract.Droid
     public void AskForMeteredConnectionPermission()
     {
       ConnectivityManager cm = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
-      if(!cm.IsActiveNetworkMetered)
+      if (!cm.IsActiveNetworkMetered)
       {
         return;
       }
 
-      if(null == MeteredConnectionPermissionCallback)
+      if (null == MeteredConnectionPermissionCallback)
       {
         // TODO: To resources.
         throw new DataConnectionException("A metered data connection is active. Xsseract needs to download some rather large files, come back when you've hit WiFi.");
       }
 
-      if(!MeteredConnectionPermissionCallback())
+      if(meteredConnectionAccessApproved)
+      {
+        return;
+      }
+
+      meteredConnectionAccessApproved = MeteredConnectionPermissionCallback();
+      if (!MeteredConnectionPermissionCallback())
       {
         // TODO: To resources.
         throw new DataConnectionException("User denied data usage over a metered connection.");
@@ -325,13 +334,25 @@ namespace Xsseract.Droid
 
     public bool ShouldAskForRating()
     {
-      if(Preferences.GetBoolean(PreferencesKeys.DontRate, false) || 0 == Settings.SuccessCountForRatingPrompt)
+      if (Preferences.GetBoolean(PreferencesKeys.DontRate, false) || 0 == Settings.SuccessCountForRatingPrompt)
       {
         return false;
       }
 
       var count = Preferences.GetInt(PreferencesKeys.SuccessfullImages, 0);
       return 0 != count && 0 == count % Settings.SuccessCountForRatingPrompt;
+    }
+
+    public Stream GetAssetStream(System.Uri assetUri)
+    {
+      Stream s = context.Assets.Open(System.IO.Path.GetFileNameWithoutExtension(assetUri.GetFileName()));
+      if(null == s)
+      {
+        // TODO: To resources.
+        throw new ApplicationException($"The specified asset could not be identified (${assetUri})");
+      }
+
+      return s;
     }
 
     private void EnsureAppContextInitialized()

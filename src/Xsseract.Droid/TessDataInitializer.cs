@@ -105,16 +105,6 @@ namespace Xsseract.Droid
         }
       }
 
-      if(shouldRefreshDataFiles || shouldRefreshOrientationFiles)
-      {
-        if(!context.IsDataConnectionAvailable())
-        {
-          // TODO: To resources.
-          throw new ApplicationException("There's no data connection. Can't do first-time initialize without an active data connection.");
-        }
-        context.AskForMeteredConnectionPermission();
-      }
-
       if (shouldRefreshDataFiles)
       {
         ITrackHandle handle = null;
@@ -125,7 +115,7 @@ namespace Xsseract.Droid
           EnsureTessDataFiles(tessDataSrc, destination);
 
           handle?.Stop();
-          if(tessDataFiles?.Count > 0 || dstFiles?.Length > 0)
+          if (tessDataFiles?.Count > 0 || dstFiles?.Length > 0)
           {
             context.LogEvent(AppTrackingEvents.RestoredOutOfSyncDataFiles);
           }
@@ -148,7 +138,7 @@ namespace Xsseract.Droid
           EnsureTessDataFiles(tessOrientationSrc, destination);
 
           handle?.Stop();
-          if(tessOrientationFiles?.Count > 0 || dstFiles?.Length > 0)
+          if (tessOrientationFiles?.Count > 0 || dstFiles?.Length > 0)
           {
             context.LogEvent(AppTrackingEvents.RestoredOutOfSyncOrientationFiles);
           }
@@ -220,28 +210,18 @@ namespace Xsseract.Droid
     private void DownloadFile(Uri uri, string destination)
     {
       var tempDest = new File(GetTempDownloadFileName(destination));
-
       try
       {
+        context.LogInfo("Downloading file from '{0}' to '{1}'.", uri, tempDest.AbsolutePath);
+
         if (tempDest.Exists())
         {
           context.LogDebug("Removing previously existing download file '{0}'.", tempDest.AbsolutePath);
           tempDest.Delete();
         }
 
-        context.LogInfo("Downloading file from '{0}' to '{1}'.", uri, tempDest.AbsolutePath);
-        WebRequest request = WebRequest.Create(uri);
-        request.Method = "GET";
-        request.Timeout = 10000;
-
-        var response = request.GetResponse();
-        if(((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
-        {
-          throw new ApplicationException("Could not download Tess data files.");
-        }
-
-        var stream = response.GetResponseStream();
-        CopyStreamContentToFile(stream, tempDest.AbsolutePath);
+        Stream srcStream = uri.IsAsset() ? context.GetAssetStream(uri) : GetWebResourceStream(uri, destination);
+        CopyStreamContentToFile(srcStream, tempDest.AbsolutePath);
 
         tempDest.RenameTo(new File(destination));
       }
@@ -252,6 +232,28 @@ namespace Xsseract.Droid
           tempDest.Delete();
         }
       }
+    }
+
+    private Stream GetWebResourceStream(Uri uri, string destination)
+    {
+      if (!context.IsDataConnectionAvailable())
+      {
+        // TODO: To resources.
+        throw new ApplicationException("There's no data connection. Can't do first-time initialize without an active data connection.");
+      }
+      context.AskForMeteredConnectionPermission();
+
+      WebRequest request = WebRequest.Create(uri);
+      request.Method = "GET";
+      request.Timeout = 10000;
+
+      var response = request.GetResponse();
+      if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
+      {
+        throw new ApplicationException("Could not download Tess data files.");
+      }
+
+      return response.GetResponseStream();
     }
 
     private void CopyStreamContentToFile(Stream stream, string destinationPath)
@@ -281,8 +283,17 @@ namespace Xsseract.Droid
       }
 
       context.LogInfo("Extracting archive at '{0}' to '{1}'.", archive.AbsolutePath, destinationDir.AbsolutePath);
-      var tarFile = Unzip(archive, destinationDir);
-      var files = Untar(tarFile, destinationDir);
+      File tarFile;
+      try
+      {
+        tarFile = Unzip(archive, destinationDir);
+      }
+      catch (Java.IO.IOException)
+      {
+        // Maybe it's already gunziped.
+        tarFile = archive;
+      }
+      List<string> files = Untar(tarFile, destinationDir);
 
       using (var sw = new StreamWriter(Path.Combine(destinationDir.AbsolutePath, GetSrcFileName(archive.Name)), false))
       {
