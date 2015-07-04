@@ -13,7 +13,6 @@ using Android.Widget;
 
 namespace Xsseract.Droid
 {
-  // TODO: Investigate white screen before splashscreen.
   [Activity(Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true)]
   public class LauncherActivity : ActivityBase
   {
@@ -70,6 +69,7 @@ namespace Xsseract.Droid
       }
       catch (Exception e)
       {
+        LogError(e);
         DisplayError(e,
           () =>
           {
@@ -160,7 +160,6 @@ namespace Xsseract.Droid
         () =>
         {
           XsseractContext.Initialize();
-          // TODO: Handle error during init.
         });
     }
 

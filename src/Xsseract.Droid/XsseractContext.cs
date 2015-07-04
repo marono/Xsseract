@@ -137,7 +137,6 @@ namespace Xsseract.Droid
       catch (Exception)
       {
         State = AppContextState.InitializationErrors;
-        // TODO: Log error.
         throw;
       }
     }
@@ -184,12 +183,16 @@ namespace Xsseract.Droid
 
     public void LogDebug(string message)
     {
+#if DEBUG
       Log.Debug(tag, message);
+#endif
     }
 
     public void LogDebug(string format, params object[] args)
     {
+#if DEBUG
       Log.Debug(tag, format, args);
+#endif
     }
 
     public void LogInfo(string message)
@@ -226,7 +229,6 @@ namespace Xsseract.Droid
         return;
       }
 
-      // TODO: Disable DEBUG logging by configuration.
       Log.Error(tag, e.ToString());
       Insights.Report(e, Insights.Severity.Warning);
     }
