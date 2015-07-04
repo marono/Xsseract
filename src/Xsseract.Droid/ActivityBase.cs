@@ -4,6 +4,8 @@ using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Xsseract.Droid.Fragments;
@@ -42,6 +44,14 @@ namespace Xsseract.Droid
     #endregion
 
     #region Protected methods
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+      base.OnCreate(savedInstanceState);
+
+      RequestedOrientation = ScreenOrientation.Portrait;
+    }
+
     public override void SetContentView(int layoutResID)
     {
       base.SetContentView(layoutResID);
