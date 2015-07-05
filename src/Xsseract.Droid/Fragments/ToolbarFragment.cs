@@ -1,27 +1,34 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.App;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using com.refractored.fab;
 
+#endregion
+
 namespace Xsseract.Droid.Fragments
 {
   // TODO: Icons not suggestive enough.
-  public class ToolbarFragment : Android.Support.V4.App.Fragment
+  public class ToolbarFragment : Fragment
   {
-    private FloatingActionButton fabCrop;
-    private FloatingActionButton fabCamera;
-    private FloatingActionButton fabAccept;
-    private FloatingActionButton fabToClipboard;
-    private FloatingActionButton fabShare;
-    private FloatingActionButton fabHelp;
-    private ImageButton btnOptions;
+    #region Fields
 
-    private View contextMenuHost;
     private List<FloatingActionButton> allFabs;
+    private ImageButton btnOptions;
+    private View contextMenuHost;
+    private FloatingActionButton fabAccept;
+    private FloatingActionButton fabCamera;
+    private FloatingActionButton fabCrop;
+    private FloatingActionButton fabHelp;
+    private FloatingActionButton fabShare;
+    private FloatingActionButton fabToClipboard;
+
+    #endregion
 
     public event EventHandler<EventArgs> Camera;
     public event EventHandler<EventArgs> Crop;
@@ -50,7 +57,15 @@ namespace Xsseract.Droid.Fragments
       HideFab(fabToClipboard, false);
       HideFab(fabShare, false);
 
-      allFabs = new List<FloatingActionButton> { fabCamera, fabCrop, fabAccept, fabToClipboard, fabShare, fabHelp };
+      allFabs = new List<FloatingActionButton>
+      {
+        fabCamera,
+        fabCrop,
+        fabAccept,
+        fabToClipboard,
+        fabShare,
+        fabHelp
+      };
 
       fabCamera.Click += (sender, e) => OnCamera(EventArgs.Empty);
       fabCrop.Click += (sender, e) => OnCrop(EventArgs.Empty);
@@ -125,6 +140,19 @@ namespace Xsseract.Droid.Fragments
       Help?.Invoke(this, e);
     }
 
+    #region Private Methods
+
+    private void HideFab(FloatingActionButton button, bool animate)
+    {
+      button.Hide(animate);
+      button.Visibility = ViewStates.Gone;
+    }
+
+    private void ResumeOptionsButtonVisibility()
+    {
+      btnOptions.Visibility = contextMenuHost != null ? ViewStates.Visible : ViewStates.Gone;
+    }
+
     private void SetVisibleFabs(params FloatingActionButton[] visibleFabs)
     {
       if (null == visibleFabs)
@@ -132,7 +160,7 @@ namespace Xsseract.Droid.Fragments
         visibleFabs = new FloatingActionButton[0];
       }
 
-      foreach (var f in allFabs)
+      foreach(var f in allFabs)
       {
         if (!visibleFabs.Contains(f))
         {
@@ -157,15 +185,6 @@ namespace Xsseract.Droid.Fragments
       button.Show(animate);
     }
 
-    private void HideFab(FloatingActionButton button, bool animate)
-    {
-      button.Hide(animate);
-      button.Visibility = ViewStates.Gone;
-    }
-
-    private void ResumeOptionsButtonVisibility()
-    {
-      btnOptions.Visibility = contextMenuHost != null ? ViewStates.Visible : ViewStates.Gone;
-    }
+    #endregion
   }
 }

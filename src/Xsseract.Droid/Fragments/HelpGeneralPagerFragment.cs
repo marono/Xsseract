@@ -1,6 +1,9 @@
+#region
+
 using Android.OS;
 using Android.Views;
 
+#endregion
 
 namespace Xsseract.Droid.Fragments
 {

@@ -10,14 +10,9 @@ namespace Xsseract.Droid.Views
 {
   public class Util
   {
-    // Rotates the bitmap by the specified degree.
-    // If a new bitmap is created, the original bitmap is recycled.
-
-    #region Public methods
-
     public static Bitmap rotateImage(Bitmap b, int degrees)
     {
-      if(degrees != 0 && b != null)
+      if (degrees != 0 && b != null)
       {
         var m = new Matrix();
         m.SetRotate(degrees,
@@ -26,7 +21,7 @@ namespace Xsseract.Droid.Views
         {
           Bitmap b2 = Bitmap.CreateBitmap(
             b, 0, 0, b.Width, b.Height, m, true);
-          if(b != b2)
+          if (b != b2)
           {
             b.Recycle();
             b = b2;
@@ -50,7 +45,7 @@ namespace Xsseract.Droid.Views
       int deltaX = source.Width - targetWidth;
       int deltaY = source.Height - targetHeight;
 
-      if(!scaleUp && (deltaX < 0 || deltaY < 0))
+      if (!scaleUp && (deltaX < 0 || deltaY < 0))
       {
         // In this case the bitmap is smaller, at least in one dimension,
         // than the target.  Transform it by placing as much of the image
@@ -88,10 +83,10 @@ namespace Xsseract.Droid.Views
       float bitmapAspect = bitmapWidthF / bitmapHeightF;
       float viewAspect = (float)targetWidth / targetHeight;
 
-      if(bitmapAspect > viewAspect)
+      if (bitmapAspect > viewAspect)
       {
         float scale = targetHeight / bitmapHeightF;
-        if(scale < .9F || scale > 1F)
+        if (scale < .9F || scale > 1F)
         {
           scaler.SetScale(scale, scale);
         }
@@ -104,7 +99,7 @@ namespace Xsseract.Droid.Views
       {
         float scale = targetWidth / bitmapWidthF;
 
-        if(scale < .9F || scale > 1F)
+        if (scale < .9F || scale > 1F)
         {
           scaler.SetScale(scale, scale);
         }
@@ -116,7 +111,7 @@ namespace Xsseract.Droid.Views
 
       Bitmap b1;
 
-      if(scaler != null)
+      if (scaler != null)
       {
         // this is used for minithumb and crop, so we want to filter here.
         b1 = Bitmap.CreateBitmap(source, 0, 0,
@@ -137,14 +132,12 @@ namespace Xsseract.Droid.Views
         targetWidth,
         targetHeight);
 
-      if(b1 != source)
+      if (b1 != source)
       {
         b1.Recycle();
       }
 
       return b3;
     }
-
-    #endregion
   }
 }

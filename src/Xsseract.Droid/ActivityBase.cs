@@ -7,26 +7,27 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using Xsseract.Droid.Fragments;
-using AlertDialog = Android.App.AlertDialog;
 using Environment = System.Environment;
+using Uri = Android.Net.Uri;
 
 #endregion
 
 namespace Xsseract.Droid
 {
-  public class ActivityBase : Android.Support.V4.App.FragmentActivity
+  public class ActivityBase : FragmentActivity
   {
+    #region Fields
+
     private ProgressDialog progressDialog;
     private ToolbarFragment toolbar;
 
-    #region Properties
+    #endregion
 
     protected XsseractContext XsseractContext => XsseractApplication?.XsseractContext;
-
     protected XsseractApp XsseractApplication => BaseContext.ApplicationContext as XsseractApp;
-
     protected ToolbarFragment Toolbar
     {
       get
@@ -39,17 +40,6 @@ namespace Xsseract.Droid
         toolbar = SupportFragmentManager.FindFragmentById(Resource.Id.toolbar) as ToolbarFragment;
         return toolbar;
       }
-    }
-
-    #endregion
-
-    #region Protected methods
-
-    protected override void OnCreate(Bundle savedInstanceState)
-    {
-      base.OnCreate(savedInstanceState);
-
-      RequestedOrientation = ScreenOrientation.Portrait;
     }
 
     public override void SetContentView(int layoutResID)
@@ -65,7 +55,7 @@ namespace Xsseract.Droid
 
     public override bool OnContextItemSelected(IMenuItem item)
     {
-      switch (item.ItemId)
+      switch(item.ItemId)
       {
         case Resource.Id.tutorial:
           XsseractContext.LogEvent(AppTrackingEvents.Tutorial);
@@ -78,7 +68,7 @@ namespace Xsseract.Droid
           StartRateApplicationActivity();
           break;
         case Resource.Id.feedback:
-          Intent feedbackIntent = new Intent(Intent.ActionSendto, Android.Net.Uri.FromParts("mailto", XsseractContext.Settings.FeedbackEmailAddress, null));
+          Intent feedbackIntent = new Intent(Intent.ActionSendto, Uri.FromParts("mailto", XsseractContext.Settings.FeedbackEmailAddress, null));
           feedbackIntent.PutExtra(Intent.ExtraSubject, Resources.GetString(Resource.String.text_FeedbackEmailSubject));
 
           StartActivity(Intent.CreateChooser(feedbackIntent, Resources.GetString(Resource.String.text_FeedbackChooserTitle)));
@@ -95,7 +85,7 @@ namespace Xsseract.Droid
       MenuInflater.Inflate(Resource.Layout.OptionsMenu, menu);
     }
 
-    public override bool OnKeyDown([GeneratedEnum]Keycode keyCode, KeyEvent e)
+    public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
     {
       if (keyCode == Keycode.Menu)
       {
@@ -107,6 +97,28 @@ namespace Xsseract.Droid
         }
       }
       return base.OnKeyDown(keyCode, e);
+    }
+
+    public void LogDebug(string message)
+    {
+      XsseractContext.LogDebug(message);
+    }
+
+    public void LogDebug(string format, params object[] args)
+    {
+      XsseractContext.LogDebug(format, args);
+    }
+
+    public void LogError(Exception e)
+    {
+      XsseractContext.LogError(e);
+    }
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+      base.OnCreate(savedInstanceState);
+
+      RequestedOrientation = ScreenOrientation.Portrait;
     }
 
     protected void DisplayAlert(string message, Action callback)
@@ -125,12 +137,12 @@ namespace Xsseract.Droid
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok,
           async (sender, e) =>
-          {
-            if (null != callback)
-            {
-              await callback();
-            }
-          })
+                {
+                  if (null != callback)
+                  {
+                    await callback();
+                  }
+                })
         .Show();
     }
 
@@ -184,33 +196,13 @@ namespace Xsseract.Droid
       {
         XsseractContext.LogEvent(AppTrackingEvents.RateNow);
 
-        var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + PackageName));
+        var intent = new Intent(Intent.ActionView, Uri.Parse("market://details?id=" + PackageName));
         StartActivity(intent);
       }
-      catch (ActivityNotFoundException)
+      catch(ActivityNotFoundException)
       {
-        StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + PackageName)));
+        StartActivity(new Intent(Intent.ActionView, Uri.Parse("https://play.google.com/store/apps/details?id=" + PackageName)));
       }
     }
-    #endregion
-
-    #region Public methods
-
-    public void LogDebug(string message)
-    {
-      XsseractContext.LogDebug(message);
-    }
-
-    public void LogDebug(string format, params object[] args)
-    {
-      XsseractContext.LogDebug(format, args);
-    }
-
-    public void LogError(Exception e)
-    {
-      XsseractContext.LogError(e);
-    }
-
-    #endregion
   }
 }

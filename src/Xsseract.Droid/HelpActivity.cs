@@ -1,27 +1,29 @@
+#region
+
 using System;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.View;
+using Xamarin;
 using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
-using Xamarin;
+
+#endregion
 
 namespace Xsseract.Droid
 {
   [Activity(NoHistory = true, Theme = "@style/AppTheme")]
   public class HelpActivity : ActivityBase
   {
-    public static class Constants
-    {
-      public const string
-        FinishOnClose = "FinishOnClose";
-    }
+    #region Fields
 
     private bool firstTimeEntered = true;
+    private GenericFragmentPagerAdaptor pageViewAdapter;
     private ITrackHandle timeTracker;
 
-    private GenericFragmentPagerAdaptor pageViewAdapter;
+    #endregion
+
     protected override void OnCreate(Bundle bundle)
     {
       base.OnCreate(bundle);
@@ -34,12 +36,38 @@ namespace Xsseract.Droid
     {
       base.OnResume();
 
-      if(firstTimeEntered)
+      if (firstTimeEntered)
       {
         firstTimeEntered = false;
         timeTracker = XsseractContext.LogTimedEvent(AppTrackingEvents.InitialTutorialTime);
         timeTracker.Start();
       }
+    }
+
+    #region Private Methods
+
+    private void finishFrag_GotIt(object sender, EventArgs eventArgs)
+    {
+      XsseractContext.MarkHelpScreenCompleted();
+
+      if (Intent.GetBooleanExtra(Constants.FinishOnClose, false))
+      {
+        Finish();
+        return;
+      }
+
+      // This assumes that when the tutorial page is called as an user request, it will always go via the FinishOnClose branch above.
+      // We only want to track how much time the user spent on the tutorial page.
+      timeTracker?.Stop();
+      var intent = new Intent(this, typeof(CaptureActivity));
+
+      if (null != Intent && null != Intent.Extras)
+      {
+        intent.PutExtras(Intent.Extras);
+        intent.AddFlags(ActivityFlags.ForwardResult);
+      }
+
+      StartActivity(intent);
     }
 
     private void InitializePaging()
@@ -66,28 +94,16 @@ namespace Xsseract.Droid
       finishFrag.GotIt += finishFrag_GotIt;
     }
 
-    private void finishFrag_GotIt(object sender, EventArgs eventArgs)
+    #endregion
+
+    #region Inner Classes/Enums
+
+    public static class Constants
     {
-      XsseractContext.MarkHelpScreenCompleted();
-
-      if(Intent.GetBooleanExtra(Constants.FinishOnClose, false))
-      {
-        Finish();
-        return;
-      }
-
-      // This assumes that when the tutorial page is called as an user request, it will always go via the FinishOnClose branch above.
-      // We only want to track how much time the user spent on the tutorial page.
-      timeTracker?.Stop();
-      var intent = new Intent(this, typeof(CaptureActivity));
-
-      if(null != Intent && null != Intent.Extras)
-      {
-        intent.PutExtras(Intent.Extras);
-        intent.AddFlags(ActivityFlags.ForwardResult);
-      }
-
-      StartActivity(intent);
+      public const string
+        FinishOnClose = "FinishOnClose";
     }
+
+    #endregion
   }
 }

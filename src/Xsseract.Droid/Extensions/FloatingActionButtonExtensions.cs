@@ -1,6 +1,10 @@
+#region
+
 using System;
 using Android.Views;
 using com.refractored.fab;
+
+#endregion
 
 namespace Xsseract.Droid.Extensions
 {
@@ -8,7 +12,7 @@ namespace Xsseract.Droid.Extensions
   {
     public static bool WillShow(this FloatingActionButton button, ViewStates requestedState)
     {
-      if(null == button)
+      if (null == button)
       {
         throw new ArgumentNullException("button");
       }

@@ -1,6 +1,10 @@
+#region
+
 using Android.Graphics;
 using Android.Media;
 using Java.Lang;
+
+#endregion
 
 namespace Xsseract.Droid
 {
@@ -40,7 +44,7 @@ namespace Xsseract.Droid
 
     public static float GetRotationAngle(Orientation orientation)
     {
-      switch (orientation)
+      switch(orientation)
       {
         case Orientation.Normal:
         case Orientation.Rotate90:
@@ -57,7 +61,7 @@ namespace Xsseract.Droid
     public static Matrix GetOrientationMatrix(Orientation orientation, float px, float py)
     {
       var matrix = new Matrix();
-      switch (orientation)
+      switch(orientation)
       {
         case Orientation.Normal:
         case Orientation.Rotate90:

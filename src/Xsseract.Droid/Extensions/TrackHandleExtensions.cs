@@ -1,5 +1,8 @@
-using System;
+#region
+
 using Xamarin;
+
+#endregion
 
 namespace Xsseract.Droid.Extensions
 {
@@ -7,7 +10,7 @@ namespace Xsseract.Droid.Extensions
   {
     public static void DisposeIfRunning(this ITrackHandle handle)
     {
-      if(null == handle)
+      if (null == handle)
       {
         return;
       }
@@ -16,7 +19,7 @@ namespace Xsseract.Droid.Extensions
       {
         handle.Dispose();
       }
-      catch { }
+      catch {}
     }
   }
 }

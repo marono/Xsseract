@@ -1,6 +1,10 @@
+#region
+
 using Android.App;
 using Android.OS;
 using Android.Widget;
+
+#endregion
 
 namespace Xsseract.Droid
 {
@@ -14,7 +18,7 @@ namespace Xsseract.Droid
       SetContentView(Resource.Layout.About);
 
       var package = PackageManager.GetPackageInfo(PackageName, 0);
-      
+
       FindViewById<TextView>(Resource.Id.txtVersion).Text = $"{package.VersionName} ({package.VersionCode})";
       FindViewById<TextView>(Resource.Id.txtInstanceId).Text = XsseractContext.InstallationId;
     }

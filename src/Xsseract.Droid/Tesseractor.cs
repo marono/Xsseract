@@ -28,9 +28,8 @@ namespace Xsseract.Droid
     //  ".traineddata"
     //};
     private readonly string baseDir;
-
-    private static string languageCode = "eng";
-    private int ocrEngineMode = TessBaseAPI.OemTesseractOnly;
+    private static readonly string languageCode = "eng";
+    private readonly int ocrEngineMode = TessBaseAPI.OemTesseractOnly;
     private TessBaseAPI tesseract;
 
     #endregion
@@ -51,8 +50,6 @@ namespace Xsseract.Droid
     }
 
     #endregion
-
-    #region Public methods
 
     public void Dispose()
     {
@@ -94,14 +91,12 @@ namespace Xsseract.Droid
     public async Task<string> RecognizeAsync(Bitmap bitmap, Rect target)
     {
       return await Task.Factory.StartNew(
-          () =>
-          {
-            tesseract.SetImage(ReadFile.ReadBitmap(bitmap));
-            tesseract.SetRectangle(target);
-            return tesseract.UTF8Text;
-          });
+        () =>
+        {
+          tesseract.SetImage(ReadFile.ReadBitmap(bitmap));
+          tesseract.SetRectangle(target);
+          return tesseract.UTF8Text;
+        });
     }
-
-    #endregion
   }
 }

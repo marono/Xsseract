@@ -1,14 +1,22 @@
+#region
+
 using System;
 using Android.Graphics;
+using Java.Lang;
+using String = System.String;
+
+#endregion
 
 namespace Xsseract.Droid
 {
   internal class Image : IDisposable
   {
-    public string Path { get; private set; }
-    public float Rotation { get; private set; }
+    public string Path { get; }
+    public float Rotation { get; }
     public Bitmap Bitmap { get; private set; }
     public int SampleSize { get; private set; }
+
+    #region .ctors
 
     public Image(string path, float rotation)
     {
@@ -22,13 +30,30 @@ namespace Xsseract.Droid
       LoadImage();
     }
 
+    #endregion
+
+    public void Dispose()
+    {
+      if (null != Bitmap)
+      {
+        if (!Bitmap.IsRecycled)
+        {
+          Bitmap.Recycle();
+          Bitmap.Dispose();
+        }
+        Bitmap = null;
+      }
+    }
+
+    #region Private Methods
+
     private void LoadImage()
     {
       Bitmap loaded;
       BitmapFactory.Options opts = new BitmapFactory.Options();
       opts.InSampleSize = 1;
 
-      while (!TryLoadImageAndTransform(opts, Rotation, out loaded) && opts.InSampleSize < 32)
+      while(!TryLoadImageAndTransform(opts, Rotation, out loaded) && opts.InSampleSize < 32)
       {
         opts.InSampleSize++;
       }
@@ -40,6 +65,34 @@ namespace Xsseract.Droid
       }
 
       Bitmap = loaded;
+    }
+
+    private bool TryLoadImage(BitmapFactory.Options options, out Bitmap image)
+    {
+      Bitmap loaded = null;
+      try
+      {
+        loaded = BitmapFactory.DecodeFile(Path, options);
+        image = loaded;
+        return true;
+      }
+      catch(OutOfMemoryError)
+      {
+        if (null != loaded)
+        {
+          try
+          {
+            loaded.Recycle();
+            loaded.Dispose();
+          }
+            // ReSharper disable once EmptyGeneralCatchClause
+            // Try and recycle whatever still possible to recycle.
+          catch {}
+        }
+
+        image = null;
+        return false;
+      }
     }
 
     private bool TryLoadImageAndTransform(BitmapFactory.Options options, float rotation, out Bitmap image)
@@ -73,7 +126,7 @@ namespace Xsseract.Droid
 
         loaded = transformed;
       }
-      catch (Java.Lang.OutOfMemoryError)
+      catch(OutOfMemoryError)
       {
         if (null != transformed)
         {
@@ -93,45 +146,6 @@ namespace Xsseract.Droid
       return loaded != null;
     }
 
-    private bool TryLoadImage(BitmapFactory.Options options, out Bitmap image)
-    {
-      Bitmap loaded = null;
-      try
-      {
-        loaded = BitmapFactory.DecodeFile(Path, options);
-        image = loaded;
-        return true;
-      }
-      catch (Java.Lang.OutOfMemoryError)
-      {
-        if (null != loaded)
-        {
-          try
-          {
-            loaded.Recycle();
-            loaded.Dispose();
-          }
-          // ReSharper disable once EmptyGeneralCatchClause
-          // Try and recycle whatever still possible to recycle.
-          catch { }
-        }
-
-        image = null;
-        return false;
-      }
-    }
-
-    public void Dispose()
-    {
-      if (null != Bitmap)
-      {
-        if (!Bitmap.IsRecycled)
-        {
-          Bitmap.Recycle();
-          Bitmap.Dispose();
-        }
-        Bitmap = null;
-      }
-    }
+    #endregion
   }
 }

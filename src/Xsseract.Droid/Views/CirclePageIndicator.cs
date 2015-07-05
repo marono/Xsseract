@@ -1,3 +1,5 @@
+#region
+
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -7,41 +9,42 @@ using Android.Views;
 using Java.Interop;
 using Java.Lang;
 
+#endregion
+
 namespace Xsseract.Droid.Views
 {
   public class CirclePageIndicator : View, IPageIndicator
   {
-    const int horizontal = 0;
-    const int vertical = 1;
-    private float mRadius;
+    #region Fields
+
+    private int mActivePointerId = invalidPointer;
+    private bool mCentered;
+    private int mCurrentOffset;
+    private int mCurrentPage;
+    private bool mIsDragging;
+    private float mLastMotionX = -1;
+    private ViewPager.IOnPageChangeListener mListener;
+    private int mOrientation;
+    private int mPageSize;
+    private readonly Paint mPaintFill;
     private readonly Paint mPaintPageFill;
     private readonly Paint mPaintStroke;
-    private readonly Paint mPaintFill;
-    private ViewPager mViewPager;
-    private ViewPager.IOnPageChangeListener mListener;
-    private int mCurrentPage;
-    private int mSnapPage;
-    private int mCurrentOffset;
+    private float mRadius;
     private int mScrollState;
-    private int mPageSize;
-    private int mOrientation;
-    private bool mCentered;
     private bool mSnap;
-    private const int invalidPointer = -1;
+    private int mSnapPage;
     private readonly int mTouchSlop;
-    private float mLastMotionX = -1;
-    private int mActivePointerId = invalidPointer;
-    private bool mIsDragging;
+    private ViewPager mViewPager;
+
+    #endregion
+
+    #region .ctors
 
     public CirclePageIndicator(Context context)
-      : this(context, null)
-    {
-    }
+      : this(context, null) {}
 
     public CirclePageIndicator(Context context, IAttributeSet attrs)
-      : this(context, attrs, Resource.Attribute.vpiCirclePageIndicatorStyle)
-    {
-    }
+      : this(context, attrs, Resource.Attribute.vpiCirclePageIndicatorStyle) {}
 
     public CirclePageIndicator(Context context, IAttributeSet attrs, int defStyle)
       : base(context, attrs, defStyle)
@@ -79,8 +82,9 @@ namespace Xsseract.Droid.Views
 
       var configuration = ViewConfiguration.Get(context);
       mTouchSlop = ViewConfigurationCompat.GetScaledPagingTouchSlop(configuration);
-
     }
+
+    #endregion
 
     public void SetCentered(bool centered)
     {
@@ -117,7 +121,7 @@ namespace Xsseract.Droid.Views
 
     public void setOrientation(int orientation)
     {
-      switch (orientation)
+      switch(orientation)
       {
         case horizontal:
         case vertical:
@@ -180,111 +184,8 @@ namespace Xsseract.Droid.Views
       return mSnap;
     }
 
-    protected override void OnDraw(Canvas canvas)
-    {
-      base.OnDraw(canvas);
-
-      if (mViewPager == null)
-      {
-        return;
-      }
-      int count = mViewPager.Adapter.Count;
-      if (count == 0)
-      {
-        return;
-      }
-
-      if (mCurrentPage >= count)
-      {
-        SetCurrentItem(count - 1);
-        return;
-      }
-
-      int longSize;
-      int longPaddingBefore;
-      int longPaddingAfter;
-      int shortPaddingBefore;
-      if (mOrientation == horizontal)
-      {
-        longSize = Width;
-        longPaddingBefore = PaddingLeft;
-        longPaddingAfter = PaddingRight;
-        shortPaddingBefore = PaddingTop;
-      }
-      else
-      {
-        longSize = Height;
-        longPaddingBefore = PaddingTop;
-        longPaddingAfter = PaddingBottom;
-        shortPaddingBefore = PaddingLeft;
-      }
-
-      float threeRadius = mRadius * 3;
-      float shortOffset = shortPaddingBefore + mRadius;
-      float longOffset = longPaddingBefore + mRadius;
-      if (mCentered)
-      {
-        longOffset += ((longSize - longPaddingBefore - longPaddingAfter) / 2.0f) - ((count * threeRadius) / 2.0f);
-      }
-
-      float dX;
-      float dY;
-
-      float pageFillRadius = mRadius;
-      if (mPaintStroke.StrokeWidth > 0)
-      {
-        pageFillRadius -= mPaintStroke.StrokeWidth / 2.0f;
-      }
-
-      //Draw stroked circles
-      for (int iLoop = 0; iLoop < count; iLoop++)
-      {
-        float drawLong = longOffset + (iLoop * threeRadius);
-        if (mOrientation == horizontal)
-        {
-          dX = drawLong;
-          dY = shortOffset;
-        }
-        else
-        {
-          dX = shortOffset;
-          dY = drawLong;
-        }
-        // Only paint fill if not completely transparent
-        if (mPaintPageFill.Alpha > 0)
-        {
-          canvas.DrawCircle(dX, dY, pageFillRadius, mPaintPageFill);
-        }
-
-        // Only paint stroke if a stroke width was non-zero
-        if (pageFillRadius != mRadius)
-        {
-          canvas.DrawCircle(dX, dY, mRadius, mPaintStroke);
-        }
-      }
-
-      //Draw the filled circle according to the current scroll
-      float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
-      if (!mSnap && (mPageSize != 0))
-      {
-        cx += (mCurrentOffset * 1.0f / mPageSize) * threeRadius;
-      }
-      if (mOrientation == horizontal)
-      {
-        dX = longOffset + cx;
-        dY = shortOffset;
-      }
-      else
-      {
-        dX = shortOffset;
-        dY = longOffset + cx;
-      }
-      canvas.DrawCircle(dX, dY, mRadius, mPaintFill);
-    }
-
     public override bool OnTouchEvent(MotionEvent ev)
     {
-
       if (base.OnTouchEvent(ev))
       {
         return true;
@@ -296,7 +197,7 @@ namespace Xsseract.Droid.Views
 
       var action = ev.Action;
 
-      switch ((int)action & MotionEventCompat.ActionMask)
+      switch((int)action & MotionEventCompat.ActionMask)
       {
         case (int)MotionEventActions.Down:
           mActivePointerId = MotionEventCompat.GetPointerId(ev, 0);
@@ -304,33 +205,33 @@ namespace Xsseract.Droid.Views
           break;
 
         case (int)MotionEventActions.Move:
+        {
+          int activePointerIndex = MotionEventCompat.FindPointerIndex(ev, mActivePointerId);
+          float x = MotionEventCompat.GetX(ev, activePointerIndex);
+          float deltaX = x - mLastMotionX;
+
+          if (!mIsDragging)
           {
-            int activePointerIndex = MotionEventCompat.FindPointerIndex(ev, mActivePointerId);
-            float x = MotionEventCompat.GetX(ev, activePointerIndex);
-            float deltaX = x - mLastMotionX;
-
-            if (!mIsDragging)
+            if (Math.Abs(deltaX) > mTouchSlop)
             {
-              if (Java.Lang.Math.Abs(deltaX) > mTouchSlop)
-              {
-                mIsDragging = true;
-              }
+              mIsDragging = true;
             }
-
-            if (mIsDragging)
-            {
-              if (!mViewPager.IsFakeDragging)
-              {
-                mViewPager.BeginFakeDrag();
-              }
-
-              mLastMotionX = x;
-
-              mViewPager.FakeDragBy(deltaX);
-            }
-
-            break;
           }
+
+          if (mIsDragging)
+          {
+            if (!mViewPager.IsFakeDragging)
+            {
+              mViewPager.BeginFakeDrag();
+            }
+
+            mLastMotionX = x;
+
+            mViewPager.FakeDragBy(deltaX);
+          }
+
+          break;
+        }
 
         case (int)MotionEventActions.Cancel:
         case (int)MotionEventActions.Up:
@@ -356,17 +257,19 @@ namespace Xsseract.Droid.Views
           mIsDragging = false;
           mActivePointerId = invalidPointer;
           if (mViewPager.IsFakeDragging)
+          {
             mViewPager.EndFakeDrag();
+          }
           break;
 
         case MotionEventCompat.ActionPointerDown:
-          {
-            int index = MotionEventCompat.GetActionIndex(ev);
-            float x = MotionEventCompat.GetX(ev, index);
-            mLastMotionX = x;
-            mActivePointerId = MotionEventCompat.GetPointerId(ev, index);
-            break;
-          }
+        {
+          int index = MotionEventCompat.GetActionIndex(ev);
+          float x = MotionEventCompat.GetX(ev, index);
+          mLastMotionX = x;
+          mActivePointerId = MotionEventCompat.GetPointerId(ev, index);
+          break;
+        }
 
         case MotionEventCompat.ActionPointerUp:
           int pointerIndex = MotionEventCompat.GetActionIndex(ev);
@@ -393,14 +296,6 @@ namespace Xsseract.Droid.Views
       mViewPager.SetOnPageChangeListener(this);
       UpdatePageSize();
       Invalidate();
-    }
-
-    private void UpdatePageSize()
-    {
-      if (mViewPager != null)
-      {
-        mPageSize = (mOrientation == horizontal) ? mViewPager.Width : mViewPager.Height;
-      }
     }
 
     public void SetViewPager(ViewPager view, int initialPosition)
@@ -468,6 +363,108 @@ namespace Xsseract.Droid.Views
       mListener = listener;
     }
 
+    protected override void OnDraw(Canvas canvas)
+    {
+      base.OnDraw(canvas);
+
+      if (mViewPager == null)
+      {
+        return;
+      }
+      int count = mViewPager.Adapter.Count;
+      if (count == 0)
+      {
+        return;
+      }
+
+      if (mCurrentPage >= count)
+      {
+        SetCurrentItem(count - 1);
+        return;
+      }
+
+      int longSize;
+      int longPaddingBefore;
+      int longPaddingAfter;
+      int shortPaddingBefore;
+      if (mOrientation == horizontal)
+      {
+        longSize = Width;
+        longPaddingBefore = PaddingLeft;
+        longPaddingAfter = PaddingRight;
+        shortPaddingBefore = PaddingTop;
+      }
+      else
+      {
+        longSize = Height;
+        longPaddingBefore = PaddingTop;
+        longPaddingAfter = PaddingBottom;
+        shortPaddingBefore = PaddingLeft;
+      }
+
+      float threeRadius = mRadius * 3;
+      float shortOffset = shortPaddingBefore + mRadius;
+      float longOffset = longPaddingBefore + mRadius;
+      if (mCentered)
+      {
+        longOffset += ((longSize - longPaddingBefore - longPaddingAfter) / 2.0f) - ((count * threeRadius) / 2.0f);
+      }
+
+      float dX;
+      float dY;
+
+      float pageFillRadius = mRadius;
+      if (mPaintStroke.StrokeWidth > 0)
+      {
+        pageFillRadius -= mPaintStroke.StrokeWidth / 2.0f;
+      }
+
+      //Draw stroked circles
+      for(int iLoop = 0; iLoop < count; iLoop++)
+      {
+        float drawLong = longOffset + (iLoop * threeRadius);
+        if (mOrientation == horizontal)
+        {
+          dX = drawLong;
+          dY = shortOffset;
+        }
+        else
+        {
+          dX = shortOffset;
+          dY = drawLong;
+        }
+        // Only paint fill if not completely transparent
+        if (mPaintPageFill.Alpha > 0)
+        {
+          canvas.DrawCircle(dX, dY, pageFillRadius, mPaintPageFill);
+        }
+
+        // Only paint stroke if a stroke width was non-zero
+        if (pageFillRadius != mRadius)
+        {
+          canvas.DrawCircle(dX, dY, mRadius, mPaintStroke);
+        }
+      }
+
+      //Draw the filled circle according to the current scroll
+      float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
+      if (!mSnap && (mPageSize != 0))
+      {
+        cx += (mCurrentOffset * 1.0f / mPageSize) * threeRadius;
+      }
+      if (mOrientation == horizontal)
+      {
+        dX = longOffset + cx;
+        dY = shortOffset;
+      }
+      else
+      {
+        dX = shortOffset;
+        dY = longOffset + cx;
+      }
+      canvas.DrawCircle(dX, dY, mRadius, mPaintFill);
+    }
+
     protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
       if (mOrientation == horizontal)
@@ -480,73 +477,8 @@ namespace Xsseract.Droid.Views
       }
     }
 
-    /**
-       * Determines the width of this view
-       *
-       * @param measureSpec
-       *            A measureSpec packed into an int
-       * @return The width of the view, honoring constraints from measureSpec
-       */
-    private int MeasureLong(int measureSpec)
-    {
-      int result = 0;
-      var specMode = MeasureSpec.GetMode(measureSpec);
-      var specSize = MeasureSpec.GetSize(measureSpec);
-
-      if ((specMode == MeasureSpecMode.Exactly) || (mViewPager == null))
-      {
-        //We were told how big to be
-        result = specSize;
-      }
-      else
-      {
-        //Calculate the width according the views count
-        int count = mViewPager.Adapter.Count;
-        result = (int)(PaddingLeft + PaddingRight
-                      + (count * 2 * mRadius) + (count - 1) * mRadius + 1);
-        //Respect AT_MOST value if that was what is called for by measureSpec
-        if (specMode == MeasureSpecMode.AtMost)
-        {
-          result = Java.Lang.Math.Min(result, specSize);
-        }
-      }
-      return result;
-    }
-
-    /**
-       * Determines the height of this view
-       *
-       * @param measureSpec
-       *            A measureSpec packed into an int
-       * @return The height of the view, honoring constraints from measureSpec
-       */
-    private int MeasureShort(int measureSpec)
-    {
-      int result = 0;
-      var specMode = MeasureSpec.GetMode(measureSpec);
-      var specSize = MeasureSpec.GetSize(measureSpec);
-
-      if (specMode == MeasureSpecMode.Exactly)
-      {
-        //We were told how big to be
-        result = specSize;
-      }
-      else
-      {
-        //Measure the height
-        result = (int)(2 * mRadius + PaddingTop + PaddingBottom + 1);
-        //Respect AT_MOST value if that was what is called for by measureSpec
-        if (specMode == MeasureSpecMode.AtMost)
-        {
-          result = Java.Lang.Math.Min(result, specSize);
-        }
-      }
-      return result;
-    }
-
     protected override void OnRestoreInstanceState(IParcelable state)
     {
-
       try
       {
         SavedState savedState = (SavedState)state;
@@ -570,14 +502,94 @@ namespace Xsseract.Droid.Views
       return savedState;
     }
 
+    #region Private Methods
+
+    /**
+       * Determines the width of this view
+       *
+       * @param measureSpec
+       *            A measureSpec packed into an int
+       * @return The width of the view, honoring constraints from measureSpec
+       */
+
+    private int MeasureLong(int measureSpec)
+    {
+      int result = 0;
+      var specMode = MeasureSpec.GetMode(measureSpec);
+      var specSize = MeasureSpec.GetSize(measureSpec);
+
+      if ((specMode == MeasureSpecMode.Exactly) || (mViewPager == null))
+      {
+        //We were told how big to be
+        result = specSize;
+      }
+      else
+      {
+        //Calculate the width according the views count
+        int count = mViewPager.Adapter.Count;
+        result = (int)(PaddingLeft + PaddingRight
+                       + (count * 2 * mRadius) + (count - 1) * mRadius + 1);
+        //Respect AT_MOST value if that was what is called for by measureSpec
+        if (specMode == MeasureSpecMode.AtMost)
+        {
+          result = Math.Min(result, specSize);
+        }
+      }
+      return result;
+    }
+
+    /**
+       * Determines the height of this view
+       *
+       * @param measureSpec
+       *            A measureSpec packed into an int
+       * @return The height of the view, honoring constraints from measureSpec
+       */
+
+    private int MeasureShort(int measureSpec)
+    {
+      int result = 0;
+      var specMode = MeasureSpec.GetMode(measureSpec);
+      var specSize = MeasureSpec.GetSize(measureSpec);
+
+      if (specMode == MeasureSpecMode.Exactly)
+      {
+        //We were told how big to be
+        result = specSize;
+      }
+      else
+      {
+        //Measure the height
+        result = (int)(2 * mRadius + PaddingTop + PaddingBottom + 1);
+        //Respect AT_MOST value if that was what is called for by measureSpec
+        if (specMode == MeasureSpecMode.AtMost)
+        {
+          result = Math.Min(result, specSize);
+        }
+      }
+      return result;
+    }
+
+    private void UpdatePageSize()
+    {
+      if (mViewPager != null)
+      {
+        mPageSize = (mOrientation == horizontal) ? mViewPager.Width : mViewPager.Height;
+      }
+    }
+
+    #endregion
+
+    #region Inner Classes/Enums
+
     public class SavedState : BaseSavedState
     {
       public int CurrentPage { get; set; }
 
+      #region .ctors
+
       public SavedState(IParcelable superState)
-        : base(superState)
-      {
-      }
+        : base(superState) {}
 
       private SavedState(Parcel parcel)
         : base(parcel)
@@ -585,30 +597,46 @@ namespace Xsseract.Droid.Views
         CurrentPage = parcel.ReadInt();
       }
 
+      #endregion
+
       public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags)
       {
         base.WriteToParcel(dest, flags);
         dest.WriteInt(CurrentPage);
       }
 
+      #region Private Methods
+
       [ExportField("CREATOR")]
-      static SavedStateCreator InitializeCreator()
+      private static SavedStateCreator InitializeCreator()
       {
         return new SavedStateCreator();
       }
 
-      class SavedStateCreator : Java.Lang.Object, IParcelableCreator
+      #endregion
+
+      #region Inner Classes/Enums
+
+      private class SavedStateCreator : Object, IParcelableCreator
       {
-        public Java.Lang.Object CreateFromParcel(Parcel source)
+        public Object CreateFromParcel(Parcel source)
         {
           return new SavedState(source);
         }
 
-        public Java.Lang.Object[] NewArray(int size)
+        public Object[] NewArray(int size)
         {
           return new SavedState[size];
         }
       }
+
+      #endregion
     }
+
+    #endregion
+
+    private const int horizontal = 0;
+    private const int vertical = 1;
+    private const int invalidPointer = -1;
   }
 }

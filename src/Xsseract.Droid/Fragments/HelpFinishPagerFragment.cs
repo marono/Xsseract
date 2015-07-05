@@ -1,14 +1,21 @@
-using System;
+#region
 
+using System;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+
+#endregion
 
 namespace Xsseract.Droid.Fragments
 {
   public class HelpFinishPagerFragment : HtmlFragmentBase
   {
+    #region Fields
+
     private Button btnGotIt;
+
+    #endregion
 
     public event EventHandler<EventArgs> GotIt;
 
@@ -28,11 +35,7 @@ namespace Xsseract.Droid.Fragments
 
     protected void OnGotIt(EventArgs e)
     {
-      var handler = GotIt;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
+      GotIt?.Invoke(this, e);
     }
   }
 }

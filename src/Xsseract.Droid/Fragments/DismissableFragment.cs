@@ -1,22 +1,33 @@
-using System;
+#region
 
+using System;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+
+#endregion
 
 namespace Xsseract.Droid.Fragments
 {
   public abstract class DismissableFragment : HtmlFragmentBase
   {
-    private Button btnGotIt;
+    #region Fields
+
     private readonly bool allowDismissal;
+    private Button btnGotIt;
+
+    #endregion
 
     public event EventHandler<EventArgs> Dismissed;
+
+    #region .ctors
 
     protected DismissableFragment(bool allowDismissal)
     {
       this.allowDismissal = allowDismissal;
     }
+
+    #endregion
 
     public override void OnViewCreated(View view, Bundle savedInstanceState)
     {
@@ -24,7 +35,7 @@ namespace Xsseract.Droid.Fragments
       btnGotIt = view.FindViewWithTag("dismissAction") as Button;
       if (null != btnGotIt)
       {
-        if(!allowDismissal)
+        if (!allowDismissal)
         {
           btnGotIt.Visibility = ViewStates.Gone;
         }
@@ -37,11 +48,7 @@ namespace Xsseract.Droid.Fragments
 
     protected void OnDismissed(EventArgs e)
     {
-      var handler = Dismissed;
-      if(null != handler)
-      {
-        handler(this, e);
-      }
+      Dismissed?.Invoke(this, e);
     }
   }
 }

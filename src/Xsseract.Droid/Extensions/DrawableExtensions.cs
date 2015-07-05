@@ -1,6 +1,10 @@
+#region
+
 using System;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+
+#endregion
 
 namespace Xsseract.Droid.Extensions
 {
@@ -8,7 +12,7 @@ namespace Xsseract.Droid.Extensions
   {
     public static void SetBounds(this Drawable drawable, Rect boundingRect)
     {
-      if(null == drawable)
+      if (null == drawable)
       {
         throw new ArgumentNullException("drawable");
       }

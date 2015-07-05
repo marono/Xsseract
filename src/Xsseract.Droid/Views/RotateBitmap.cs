@@ -8,15 +8,12 @@ namespace Xsseract.Droid.Views
 {
   public class RotateBitmap
   {
-    #region Properties
-
     public Bitmap Bitmap { get; set; }
-
     public int Height
     {
       get
       {
-        if(IsOrientationChanged)
+        if (IsOrientationChanged)
         {
           return Bitmap.Width;
         }
@@ -31,12 +28,11 @@ namespace Xsseract.Droid.Views
       get { return (Rotation / 90) % 2 != 0; }
     }
     public int Rotation { get; set; }
-
     public int Width
     {
       get
       {
-        if(IsOrientationChanged)
+        if (IsOrientationChanged)
         {
           return Bitmap.Height;
         }
@@ -46,8 +42,6 @@ namespace Xsseract.Droid.Views
         }
       }
     }
-
-    #endregion
 
     #region .ctors
 
@@ -64,14 +58,12 @@ namespace Xsseract.Droid.Views
 
     #endregion
 
-    #region Public methods
-
     public Matrix GetRotateMatrix()
     {
       // By default this is an identity matrix.
       var matrix = new Matrix();
 
-      if(Rotation != 0)
+      if (Rotation != 0)
       {
         // We want to do the rotation at origin, but since the bounding
         // rectangle will be changed after rotation, so the delta values
@@ -86,10 +78,6 @@ namespace Xsseract.Droid.Views
       return matrix;
     }
 
-    #endregion
-
     public const string TAG = "RotateBitmap";
-
-    // TOOD: Recyle
   }
 }

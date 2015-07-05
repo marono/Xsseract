@@ -6,7 +6,6 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Views;
 using Xsseract.Droid.Extensions;
-using Math = System.Math;
 
 #endregion
 
@@ -14,30 +13,24 @@ namespace Xsseract.Droid.Views
 {
   public class HighlightView
   {
-    // The View displaying the image.
-
     #region Fields
 
     private readonly View context;
-
     private RectF cropRect; // in image space
-
     private readonly Paint focusPaint = new Paint();
     private RectF imageRect; // in image space
     private float initialAspectRatio;
+    private Rect leftResizeWidgetRect, rightResizeWidgetRect, topResizeWidgetRect, bottomResizeWidgetRect;
     private bool maintainAspectRatio;
-    public Matrix Matrix { get; set; }
     private ModifyMode mode = ModifyMode.None;
     private readonly Paint noFocusPaint = new Paint();
     private readonly Paint outlinePaint = new Paint();
     private Drawable resizeDrawableHeight;
     private Drawable resizeDrawableWidth;
-    private Rect leftResizeWidgetRect, rightResizeWidgetRect, topResizeWidgetRect, bottomResizeWidgetRect;
 
     #endregion
 
-    #region Properties
-
+    public Matrix Matrix { get; set; }
     public Rect CropRect
     {
       get
@@ -48,11 +41,8 @@ namespace Xsseract.Droid.Views
     }
     public Rect DrawRect // in screen space
     { get; private set; }
-
     public bool Focused { get; set; }
-
     public bool Hidden { get; set; }
-
     public ModifyMode Mode
     {
       get { return mode; }
@@ -66,12 +56,14 @@ namespace Xsseract.Droid.Views
       }
     }
 
+    #region .ctors
+
+    public HighlightView(View ctx)
+    {
+      context = ctx;
+    }
+
     #endregion
-
-    // Handles motion (dx, dy) in screen space.
-    // The "edge" parameter specifies which edges the user is dragging.
-
-    #region Public methods
 
     public void Draw(Canvas canvas)
     {
@@ -180,7 +172,7 @@ namespace Xsseract.Droid.Views
       {
         return;
       }
-      
+
       if (edge == HitPosition.Move)
       {
         // Convert to image space before sending to moveBy().
@@ -233,9 +225,7 @@ namespace Xsseract.Droid.Views
       init();
     }
 
-    #endregion
-
-    #region Private helpers
+    #region Private Methods
 
     private Rect computeLayout()
     {
@@ -284,7 +274,7 @@ namespace Xsseract.Droid.Views
       //}
 
       //r.Inset(-dx, -dy);
-      switch (position)
+      switch(position)
       {
         case HitPosition.GrowLeftEdge:
           r.Left += dx;
@@ -328,7 +318,9 @@ namespace Xsseract.Droid.Views
         var deltaOutTop = imageRect.Top - r.Top;
         var offset = deltaOutTop;
         if (r.Bottom + deltaOutTop > imageRect.Bottom)
+        {
           offset = imageRect.Bottom - r.Bottom;
+        }
 
         r.Offset(0F, offset);
         if (r.Top < imageRect.Top)
@@ -369,16 +361,16 @@ namespace Xsseract.Droid.Views
       cropRect.Offset(
         Math.Min(0, imageRect.Right - cropRect.Right),
         Math.Min(0, imageRect.Bottom - cropRect.Bottom));
-      
+
       DrawRect = computeLayout();
       invalRect.Union(DrawRect);
       invalRect.Inset(-10, -10);
       context.Invalidate(invalRect);
     }
 
-    // Grows the cropping rectange by (dx, dy) in image space.
-
     #endregion
+
+    #region Inner Classes/Enums
 
     public enum ModifyMode
     {
@@ -396,13 +388,6 @@ namespace Xsseract.Droid.Views
       GrowTopEdge,
       GrowBottomEdge,
       Move
-    }
-
-    #region Constructor
-
-    public HighlightView(View ctx)
-    {
-      context = ctx;
     }
 
     #endregion

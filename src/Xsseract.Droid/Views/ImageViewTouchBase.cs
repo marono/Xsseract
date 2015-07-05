@@ -17,6 +17,21 @@ namespace Xsseract.Droid.Views
   {
     #region Fields
 
+    // This is the final matrix which is computed as the concatentation
+    // of the base matrix and the supplementary matrix.
+    private readonly Matrix displayMatrix = new Matrix();
+    private readonly Handler handler = new Handler();
+    // Temporary buffer used for getting the values out of a matrix.
+    private readonly float[] matrixValues = new float[9];
+    // The current bitmap being displayed.
+
+    private float maxZoom;
+    private Action onLayoutRunnable;
+    private int thisHeight = -1;
+    private int thisWidth = -1;
+
+    #endregion
+
     // This is the base transformation which is used to show the image
     // initially.  The current computation for this shows the image in
     // it's entirety, letterboxing as needed.  One could choose to
@@ -24,53 +39,20 @@ namespace Xsseract.Droid.Views
     //
     // This matrix is recomputed when we go from the thumbnail image to
     // the full size image.
-    protected Matrix BaseMatrix
-    {
-      get { return baseMatrix; }
-      set { baseMatrix = value; }
-    }
-    protected RotateBitmap BitmapDisplayed
-    {
-      get { return bitmapDisplayed; }
-      set { bitmapDisplayed = value; }
-    }
-
-    // This is the final matrix which is computed as the concatentation
-    // of the base matrix and the supplementary matrix.
-    private readonly Matrix displayMatrix = new Matrix();
-
-    private readonly Handler handler = new Handler();
-
-    // Temporary buffer used for getting the values out of a matrix.
-    private readonly float[] matrixValues = new float[9];
-
-    // The current bitmap being displayed.
-
-    private float maxZoom;
-
-    private Action onLayoutRunnable;
+    protected Matrix BaseMatrix { get; set; } = new Matrix();
+    protected RotateBitmap BitmapDisplayed { get; set; } = new RotateBitmap(null);
     // This is the supplementary transformation which reflects what
     // the user has done in terms of zooming and panning.
     //
     // This matrix remains the same when we go from the thumbnail image
     // to the full size image.
-    protected Matrix SuppMatrix
-    {
-      get { return suppMatrix; }
-      set { suppMatrix = value; }
-    }
+    protected Matrix SuppMatrix { get; set; } = new Matrix();
+    public int IvBottom { get; private set; }
+    public int IvLeft { get; private set; }
+    public int IvRight { get; private set; }
+    public int IvTop { get; private set; }
 
-    private int thisHeight = -1;
-    private int thisWidth = -1;
-    private Matrix baseMatrix = new Matrix();
-    private RotateBitmap bitmapDisplayed = new RotateBitmap(null);
-    private Matrix suppMatrix = new Matrix();
-
-    #endregion
-
-    private const float scaleRate = 1.25F;
-
-    #region Constructor
+    #region .ctors
 
     public ImageViewTouchBase(Context context)
       : this(context, null) {}
@@ -83,44 +65,71 @@ namespace Xsseract.Droid.Views
 
     #endregion
 
-    #region Private helpers
-
-    private void init()
+    public void Clear()
     {
-      SetScaleType(ScaleType.Matrix);
+      SetImageBitmapResetBase(null, true);
     }
 
-    private void setImageBitmap(Bitmap bitmap, int rotation)
+    /// <summary>
+    ///   This function changes bitmap, reset base matrix according to the size
+    ///   of the bitmap, and optionally reset the supplementary matrix.
+    /// </summary>
+    public void SetImageBitmapResetBase(Bitmap bitmap, bool resetSupp)
     {
-      base.SetImageBitmap(bitmap);
-      var d = Drawable;
-      if(d != null)
+      SetImageRotateBitmapResetBase(new RotateBitmap(bitmap), resetSupp);
+    }
+
+    public void SetImageRotateBitmapResetBase(RotateBitmap bitmap, bool resetSupp)
+    {
+      int viewWidth = Width;
+
+      if (viewWidth <= 0)
       {
-        d.SetDither(true);
+        onLayoutRunnable = () => { SetImageRotateBitmapResetBase(bitmap, resetSupp); };
+
+        return;
       }
 
-      BitmapDisplayed.Bitmap = bitmap;
-      BitmapDisplayed.Rotation = rotation;
+      if (bitmap.Bitmap != null)
+      {
+        getProperBaseMatrix(bitmap, BaseMatrix);
+        setImageBitmap(bitmap.Bitmap, bitmap.Rotation);
+      }
+      else
+      {
+        BaseMatrix.Reset();
+        base.SetImageBitmap(null);
+      }
+
+      if (resetSupp)
+      {
+        SuppMatrix.Reset();
+      }
+      ImageMatrix = GetImageViewMatrix();
+      maxZoom = CalculateMaxZoom();
     }
 
-    #endregion
+    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+    {
+      if (keyCode == Keycode.Back && GetScale() > 1.0f)
+      {
+        // If we're zoomed in, pressing Back jumps out to show the entire
+        // image, otherwise Back returns the user to the gallery.
+        ZoomTo(1.0f);
+        return true;
+      }
 
-    #region Properties
+      return base.OnKeyDown(keyCode, e);
+    }
 
-    public int IvBottom { get; private set; }
-    public int IvLeft { get; private set; }
-
-    public int IvRight { get; private set; }
-
-    public int IvTop { get; private set; }
-
-    #endregion
-
-    #region Protected methods
+    public override void SetImageBitmap(Bitmap bm)
+    {
+      setImageBitmap(bm, 0);
+    }
 
     protected float CalculateMaxZoom()
     {
-      if(BitmapDisplayed.Bitmap == null)
+      if (BitmapDisplayed.Bitmap == null)
       {
         return 1F;
       }
@@ -141,7 +150,7 @@ namespace Xsseract.Droid.Views
     /// </summary>
     protected void Center(bool horizontal, bool vertical)
     {
-      if(BitmapDisplayed.Bitmap == null)
+      if (BitmapDisplayed.Bitmap == null)
       {
         return;
       }
@@ -159,35 +168,35 @@ namespace Xsseract.Droid.Views
 
       float deltaX = 0, deltaY = 0;
 
-      if(vertical)
+      if (vertical)
       {
         int viewHeight = Height;
-        if(height < viewHeight)
+        if (height < viewHeight)
         {
           deltaY = (viewHeight - height) / 2 - rect.Top;
         }
-        else if(rect.Top > 0)
+        else if (rect.Top > 0)
         {
           deltaY = -rect.Top;
         }
-        else if(rect.Bottom < viewHeight)
+        else if (rect.Bottom < viewHeight)
         {
           deltaY = Height - rect.Bottom;
         }
       }
 
-      if(horizontal)
+      if (horizontal)
       {
         int viewWidth = Width;
-        if(width < viewWidth)
+        if (width < viewWidth)
         {
           deltaX = (viewWidth - width) / 2 - rect.Left;
         }
-        else if(rect.Left > 0)
+        else if (rect.Left > 0)
         {
           deltaX = -rect.Left;
         }
-        else if(rect.Right < viewWidth)
+        else if (rect.Right < viewWidth)
         {
           deltaX = viewWidth - rect.Right;
         }
@@ -244,13 +253,13 @@ namespace Xsseract.Droid.Views
 
     protected virtual void ZoomIn(float rate)
     {
-      if(GetScale() >= maxZoom)
+      if (GetScale() >= maxZoom)
       {
         // Don't let the user zoom into the molecular level.
         return;
       }
 
-      if(BitmapDisplayed.Bitmap == null)
+      if (BitmapDisplayed.Bitmap == null)
       {
         return;
       }
@@ -269,7 +278,7 @@ namespace Xsseract.Droid.Views
 
     protected void ZoomOut(float rate)
     {
-      if(BitmapDisplayed.Bitmap == null)
+      if (BitmapDisplayed.Bitmap == null)
       {
         return;
       }
@@ -281,7 +290,7 @@ namespace Xsseract.Droid.Views
       var tmp = new Matrix(SuppMatrix);
       tmp.PostScale(1F / rate, 1F / rate, cx, cy);
 
-      if(GetScale(tmp) < 1F)
+      if (GetScale(tmp) < 1F)
       {
         SuppMatrix.SetScale(1F, 1F, cx, cy);
       }
@@ -296,7 +305,7 @@ namespace Xsseract.Droid.Views
 
     protected virtual void ZoomTo(float scale, float centerX, float centerY)
     {
-      if(scale > maxZoom)
+      if (scale > maxZoom)
       {
         scale = maxZoom;
       }
@@ -326,7 +335,7 @@ namespace Xsseract.Droid.Views
                float target = oldScale + (incrementPerMs * currentMs);
                ZoomTo(target, centerX, centerY);
 
-               if(currentMs < durationMs)
+               if (currentMs < durationMs)
                {
                  handler.Post(anim);
                }
@@ -343,60 +352,6 @@ namespace Xsseract.Droid.Views
       ZoomTo(scale, cx, cy);
     }
 
-    #endregion
-
-    #region Public methods
-
-    public void Clear()
-    {
-      SetImageBitmapResetBase(null, true);
-    }
-
-    /// <summary>
-    ///   This function changes bitmap, reset base matrix according to the size
-    ///   of the bitmap, and optionally reset the supplementary matrix.
-    /// </summary>
-    public void SetImageBitmapResetBase(Bitmap bitmap, bool resetSupp)
-    {
-      SetImageRotateBitmapResetBase(new RotateBitmap(bitmap), resetSupp);
-    }
-
-    public void SetImageRotateBitmapResetBase(RotateBitmap bitmap, bool resetSupp)
-    {
-      int viewWidth = Width;
-
-      if(viewWidth <= 0)
-      {
-        onLayoutRunnable = () => { SetImageRotateBitmapResetBase(bitmap, resetSupp); };
-
-        return;
-      }
-
-      if(bitmap.Bitmap != null)
-      {
-        getProperBaseMatrix(bitmap, BaseMatrix);
-        setImageBitmap(bitmap.Bitmap, bitmap.Rotation);
-      }
-      else
-      {
-        BaseMatrix.Reset();
-        base.SetImageBitmap(null);
-      }
-
-      if(resetSupp)
-      {
-        SuppMatrix.Reset();
-      }
-      ImageMatrix = GetImageViewMatrix();
-      maxZoom = CalculateMaxZoom();
-    }
-
-    #endregion
-
-    #region Overrides
-
-    #region Protected methods
-
     protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
     {
       IvLeft = left;
@@ -409,44 +364,18 @@ namespace Xsseract.Droid.Views
 
       var r = onLayoutRunnable;
 
-      if(r != null)
+      if (r != null)
       {
         onLayoutRunnable = null;
         r();
       }
 
-      if(BitmapDisplayed.Bitmap != null)
+      if (BitmapDisplayed.Bitmap != null)
       {
         getProperBaseMatrix(BitmapDisplayed, BaseMatrix);
         ImageMatrix = GetImageViewMatrix();
       }
     }
-
-    #endregion
-
-    #region Public methods
-
-    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
-    {
-      if(keyCode == Keycode.Back && GetScale() > 1.0f)
-      {
-        // If we're zoomed in, pressing Back jumps out to show the entire
-        // image, otherwise Back returns the user to the gallery.
-        ZoomTo(1.0f);
-        return true;
-      }
-
-      return base.OnKeyDown(keyCode, e);
-    }
-
-    public override void SetImageBitmap(Bitmap bm)
-    {
-      setImageBitmap(bm, 0);
-    }
-
-    #endregion
-
-    #endregion
 
     #region Private Methods
 
@@ -476,6 +405,26 @@ namespace Xsseract.Droid.Views
         (viewHeight - h * scale) / 2F);
     }
 
+    private void init()
+    {
+      SetScaleType(ScaleType.Matrix);
+    }
+
+    private void setImageBitmap(Bitmap bitmap, int rotation)
+    {
+      base.SetImageBitmap(bitmap);
+      var d = Drawable;
+      if (d != null)
+      {
+        d.SetDither(true);
+      }
+
+      BitmapDisplayed.Bitmap = bitmap;
+      BitmapDisplayed.Rotation = rotation;
+    }
+
     #endregion
+
+    private const float scaleRate = 1.25F;
   }
 }

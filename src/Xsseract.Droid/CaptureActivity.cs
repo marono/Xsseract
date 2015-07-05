@@ -14,13 +14,13 @@ using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using Java.IO;
+using Xamarin;
+using Xsseract.Droid.Extensions;
 using Xsseract.Droid.Fragments;
 using Xsseract.Droid.Views;
 using Environment = Android.OS.Environment;
 using Orientation = Android.Media.Orientation;
 using Uri = Android.Net.Uri;
-using Xamarin;
-using Xsseract.Droid.Extensions;
 
 #endregion
 
@@ -30,28 +30,45 @@ namespace Xsseract.Droid
   [Activity(Theme = "@style/AppTheme")]
   public class CaptureActivity : ContextualHelpActivity
   {
-    internal enum RequestCode
-    {
-      Image = 1,
-      Parse = 2
-    }
-
-    public static class Constants
-    {
-      public const string PipeResult = "PipeResult",
-        Result = "Result";
-    }
-
     #region Fields
-    private HighlightView crop;
-    private Uri prospectiveUri;
-    private CropImageView imgPreview;
-    private bool pipeResult;
-    private DateTime lastBackHit;
+
     private static readonly TimeSpan buttonHelpToastDelay = TimeSpan.FromMilliseconds(500);
+    private HighlightView crop;
+    private CropImageView imgPreview;
+    private DateTime lastBackHit;
+    private bool pipeResult;
+    private Uri prospectiveUri;
+
     #endregion
 
-    #region Protected methods
+    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+    {
+      var now = DateTime.UtcNow;
+      if (keyCode == Keycode.Back)
+      {
+        if (now - lastBackHit > buttonHelpToastDelay)
+        {
+          Timer timer = new Timer(
+            (state) =>
+            {
+              if (!IsFinishing)
+              {
+                RunOnUiThread(() => Toast.MakeText(this, Resource.String.toast_TapToExit, ToastLength.Short).Show());
+              }
+            }, null, buttonHelpToastDelay, Timeout.InfiniteTimeSpan);
+
+          lastBackHit = now;
+
+          return true;
+        }
+
+        Finish();
+        return true;
+      }
+
+      return base.OnKeyDown(keyCode, e);
+    }
+
     protected override void OnCreate(Bundle bundle)
     {
       base.OnCreate(bundle);
@@ -69,14 +86,14 @@ namespace Xsseract.Droid
     {
       base.OnActivityResult(requestCode, resultCode, data);
 
-      switch ((RequestCode)requestCode)
+      switch((RequestCode)requestCode)
       {
         case RequestCode.Image:
           if (resultCode != Result.Ok)
           {
             prospectiveUri = null;
 
-            if(XsseractContext.HasImage)
+            if (XsseractContext.HasImage)
             {
               return;
             }
@@ -102,7 +119,7 @@ namespace Xsseract.Droid
             handle.Stop();
             HideProgress();
           }
-          catch (Exception)
+          catch(Exception)
           {
             handle?.DisposeIfRunning();
             HideProgress();
@@ -145,7 +162,7 @@ namespace Xsseract.Droid
       AcquireNewImage();
     }
 
-    protected async override void OnDestroy()
+    protected override async void OnDestroy()
     {
       base.OnDestroy();
 
@@ -157,43 +174,27 @@ namespace Xsseract.Droid
       return new HelpCapturePagerFragment(true);
     }
 
-    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
-    {
-      var now = DateTime.UtcNow;
-      if (keyCode == Keycode.Back)
-      {
-        if (now - lastBackHit > buttonHelpToastDelay)
-        {
-          Timer timer = new Timer(
-            (state) =>
-            {
-              if (!IsFinishing)
-              {
-                RunOnUiThread(() => Toast.MakeText(this, Resource.String.toast_TapToExit, ToastLength.Short).Show());
-              }
-            }, null, buttonHelpToastDelay, Timeout.InfiniteTimeSpan);
-
-          lastBackHit = now;
-
-          return true;
-        }
-
-        Finish();
-        return true;
-      }
-
-
-      return base.OnKeyDown(keyCode, e);
-    }
-    #endregion
-
     #region Private Methods
-    private void ResetHighlightView()
-    {
-      imgPreview.ClearHighlightViews();
-      crop = null;
 
-      AddHighlightView();
+    private void AcquireNewImage()
+    {
+      try
+      {
+        DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
+        prospectiveUri = null;
+        StartCameraActivity();
+        //prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
+        //prospectiveUri = Uri.FromFile(new File("/storage/sdcard1/DCIM/Camera/IMG_20150609_172808052.jpg"));
+        //await ProcessAndDisplayImage();
+
+        HideProgress();
+      }
+      catch(Exception e)
+      {
+        HideProgress();
+        LogError(e);
+        DisplayError(e);
+      }
     }
 
     private void AddHighlightView()
@@ -253,7 +254,7 @@ namespace Xsseract.Droid
         {
           string path = prospectiveUri.Path;
           var exif = new ExifInterface(path); //Since API Level 5
-        var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
+          var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
           LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
           var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
@@ -263,6 +264,14 @@ namespace Xsseract.Droid
 
       imgPreview.SetImageBitmapResetBase(newImage, true);
       ResetHighlightView();
+    }
+
+    private void ResetHighlightView()
+    {
+      imgPreview.ClearHighlightViews();
+      crop = null;
+
+      AddHighlightView();
     }
 
     private void StartCameraActivity()
@@ -286,25 +295,10 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, (int)RequestCode.Image);
     }
 
-    private void AcquireNewImage()
+    private void Toolbar_Camera(object sender, EventArgs eventArgs)
     {
-      try
-      {
-        DisplayProgress(Resources.GetString(Resource.String.progress_ImageAdjust));
-        prospectiveUri = null;
-        StartCameraActivity();
-        //prospectiveUri = Uri.FromFile(new File("/storage/emulated/0/Pictures/Xsseract/Xsseract_3b8c746e-0822-4f77-8476-cd1d9a3f3958.jpg"));
-        //prospectiveUri = Uri.FromFile(new File("/storage/sdcard1/DCIM/Camera/IMG_20150609_172808052.jpg"));
-        //await ProcessAndDisplayImage();
-
-        HideProgress();
-      }
-      catch (Exception e)
-      {
-        HideProgress();
-        LogError(e);
-        DisplayError(e);
-      }
+      XsseractContext.LogEvent(AppTrackingEvents.Reimaging);
+      AcquireNewImage();
     }
 
     private void Toolbar_Crop(object sender, EventArgs eventArgs)
@@ -320,11 +314,22 @@ namespace Xsseract.Droid
       StartActivityForResult(intent, (int)RequestCode.Parse);
     }
 
-    private void Toolbar_Camera(object sender, EventArgs eventArgs)
+    #endregion
+
+    #region Inner Classes/Enums
+
+    public static class Constants
     {
-      XsseractContext.LogEvent(AppTrackingEvents.Reimaging);
-      AcquireNewImage();
+      public const string PipeResult = "PipeResult",
+        Result = "Result";
     }
+
+    internal enum RequestCode
+    {
+      Image = 1,
+      Parse = 2
+    }
+
     #endregion
   }
 }

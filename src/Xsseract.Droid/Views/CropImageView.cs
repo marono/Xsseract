@@ -13,7 +13,8 @@ namespace Xsseract.Droid.Views
 {
   public class CropImageView : ImageViewTouchBase
   {
-    #region Private members
+    #region Fields
+
     private readonly List<HighlightView> hightlightViews = new List<HighlightView>();
     private float mLastX;
     private float mLastY;
@@ -22,7 +23,7 @@ namespace Xsseract.Droid.Views
 
     #endregion
 
-    #region Constructor
+    #region .ctors
 
     public CropImageView(Context context, IAttributeSet attrs)
       : base(context, attrs)
@@ -31,8 +32,6 @@ namespace Xsseract.Droid.Views
     }
 
     #endregion
-
-    #region Public methods
 
     public void AddHighlightView(HighlightView hv)
     {
@@ -45,17 +44,91 @@ namespace Xsseract.Droid.Views
       hightlightViews.Clear();
     }
 
-    #endregion
+    public override bool OnTouchEvent(MotionEvent ev)
+    {
+      switch(ev.Action)
+      {
+        case MotionEventActions.Down:
 
-    #region Overrides
+          for(int i = 0; i < hightlightViews.Count; i++)
+          {
+            HighlightView hv = hightlightViews[i];
+            var edge = hv.GetHit(ev.GetX(), ev.GetY());
+            if (edge != HighlightView.HitPosition.None)
+            {
+              motionEdge = edge;
+              mMotionHighlightView = hv;
+              mLastX = ev.GetX();
+              mLastY = ev.GetY();
+              mMotionHighlightView.Mode =
+                (edge == HighlightView.HitPosition.Move)
+                  ? HighlightView.ModifyMode.Move
+                  : HighlightView.ModifyMode.Grow;
 
-    #region Protected methods
+              break;
+            }
+          }
+          break;
+
+        case MotionEventActions.Up:
+          if (mMotionHighlightView != null)
+          {
+            CenterBasedOnHighlightView(mMotionHighlightView);
+            mMotionHighlightView.Mode = HighlightView.ModifyMode.None;
+          }
+
+          mMotionHighlightView = null;
+          motionEdge = HighlightView.HitPosition.None;
+          break;
+
+        case MotionEventActions.Move:
+          if (mMotionHighlightView != null)
+          {
+            mMotionHighlightView.HandleMotion(motionEdge,
+              ev.GetX() - mLastX,
+              ev.GetY() - mLastY);
+            mLastX = ev.GetX();
+            mLastY = ev.GetY();
+
+            if (true)
+            {
+              // This section of code is optional. It has some user
+              // benefit in that moving the crop rectangle against
+              // the edge of the screen causes scrolling but it means
+              // that the crop rectangle is no longer fixed under
+              // the user's finger.
+              EnsureVisible(mMotionHighlightView);
+            }
+          }
+          break;
+      }
+
+      switch(ev.Action)
+      {
+        case MotionEventActions.Up:
+          Center(true, true);
+          break;
+        case MotionEventActions.Move:
+          // if we're not zoomed then there's no point in even allowing
+          // the user to move the image around.  This call to center puts
+          // it back to the normalized location (with false meaning don't
+          // animate).
+          if (GetScale().Equals(1F))
+          {
+            Center(true, true);
+          }
+          break;
+      }
+
+      return true;
+    }
 
     protected override void OnDraw(Canvas canvas)
     {
       base.OnDraw(canvas);
 
-      foreach(HighlightView t in hightlightViews) {
+      foreach(HighlightView t in hightlightViews)
+      {
         t.Draw(canvas);
       }
     }
@@ -64,14 +137,14 @@ namespace Xsseract.Droid.Views
     {
       base.OnLayout(changed, left, top, right, bottom);
 
-      if(BitmapDisplayed.Bitmap != null)
+      if (BitmapDisplayed.Bitmap != null)
       {
         foreach(var hv in hightlightViews)
         {
           hv.Matrix.Set(ImageMatrix);
           hv.Invalidate();
 
-          if(hv.Focused)
+          if (hv.Focused)
           {
             CenterBasedOnHighlightView(hv);
           }
@@ -121,94 +194,7 @@ namespace Xsseract.Droid.Views
       }
     }
 
-    #endregion
-
-    #region Public methods
-
-    public override bool OnTouchEvent(MotionEvent ev)
-    {
-      switch(ev.Action)
-      {
-        case MotionEventActions.Down:
-
-          for (int i = 0; i < hightlightViews.Count; i++)
-          {
-            HighlightView hv = hightlightViews[i];
-            var edge = hv.GetHit(ev.GetX(), ev.GetY());
-            if (edge != HighlightView.HitPosition.None)
-            {
-              motionEdge = edge;
-              mMotionHighlightView = hv;
-              mLastX = ev.GetX();
-              mLastY = ev.GetY();
-              mMotionHighlightView.Mode =
-                (edge == HighlightView.HitPosition.Move)
-                  ? HighlightView.ModifyMode.Move
-                  : HighlightView.ModifyMode.Grow;
-              
-              break;
-            }
-          }
-          break;
-
-        case MotionEventActions.Up:
-          if(mMotionHighlightView != null)
-          {
-            CenterBasedOnHighlightView(mMotionHighlightView);
-            mMotionHighlightView.Mode = HighlightView.ModifyMode.None;
-          }
-
-          mMotionHighlightView = null;
-          motionEdge = HighlightView.HitPosition.None;
-          break;
-
-        case MotionEventActions.Move:
-          if(mMotionHighlightView != null)
-          {
-            mMotionHighlightView.HandleMotion(motionEdge,
-              ev.GetX() - mLastX,
-              ev.GetY() - mLastY);
-            mLastX = ev.GetX();
-            mLastY = ev.GetY();
-
-            if(true)
-            {
-              // This section of code is optional. It has some user
-              // benefit in that moving the crop rectangle against
-              // the edge of the screen causes scrolling but it means
-              // that the crop rectangle is no longer fixed under
-              // the user's finger.
-              EnsureVisible(mMotionHighlightView);
-            }
-          }
-          break;
-      }
-
-      switch (ev.Action)
-      {
-        case MotionEventActions.Up:
-          Center(true, true);
-          break;
-        case MotionEventActions.Move:
-          // if we're not zoomed then there's no point in even allowing
-          // the user to move the image around.  This call to center puts
-          // it back to the normalized location (with false meaning don't
-          // animate).
-          if (GetScale().Equals(1F))
-          {
-            Center(true, true);
-          }
-          break;
-      }
-
-      return true;
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Private helpers
+    #region Private Methods
 
     // Pan the displayed image to make sure the cropping rectangle is visible.
 
@@ -230,7 +216,7 @@ namespace Xsseract.Droid.Views
       float zoom = Math.Min(z1, z2);
       zoom = zoom * GetScale();
       zoom = Math.Max(1F, zoom);
-      if((Math.Abs(zoom - GetScale()) / zoom) > .1)
+      if ((Math.Abs(zoom - GetScale()) / zoom) > .1)
       {
         var coordinates = new float[]
         {
@@ -258,7 +244,7 @@ namespace Xsseract.Droid.Views
       int panDeltaX = panDeltaX1 != 0 ? panDeltaX1 : panDeltaX2;
       int panDeltaY = panDeltaY1 != 0 ? panDeltaY1 : panDeltaY2;
 
-      if(panDeltaX != 0 || panDeltaY != 0)
+      if (panDeltaX != 0 || panDeltaY != 0)
       {
         PanBy(panDeltaX, panDeltaY);
       }

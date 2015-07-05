@@ -1,14 +1,23 @@
+#region
+
 using System;
+using System.Collections.Generic;
 using Android.Views;
 using Android.Widget;
 using Xsseract.Droid.Fragments;
+
+#endregion
 
 namespace Xsseract.Droid
 {
   public abstract class ContextualHelpActivity : ActivityBase
   {
+    #region Fields
+
     private FrameLayout frmCaptureHelp;
     private DismissableFragment helpFragment;
+
+    #endregion
 
     protected override void OnResume()
     {
@@ -20,6 +29,16 @@ namespace Xsseract.Droid
     }
 
     protected abstract DismissableFragment GetHelpFragment();
+
+    #region Private Methods
+
+    private void BtnGotIt_Click(object sender, EventArgs eventArgs)
+    {
+      helpFragment.Dismissed -= BtnGotIt_Click;
+      frmCaptureHelp.Visibility = ViewStates.Gone;
+      frmCaptureHelp.RemoveAllViews();
+      helpFragment = null;
+    }
 
     private void Toolbar_Help(object sender, EventArgs e)
     {
@@ -33,18 +52,12 @@ namespace Xsseract.Droid
       frmCaptureHelp.Clickable = true;
       frmCaptureHelp.Visibility = ViewStates.Visible;
 
-      XsseractContext.LogEvent(AppTrackingEvents.Help, new System.Collections.Generic.Dictionary<string, string>
+      XsseractContext.LogEvent(AppTrackingEvents.Help, new Dictionary<string, string>
       {
         { AppTrackingEventsDataKey.HelpPage, this.GetType().Name }
       });
     }
 
-    private void BtnGotIt_Click(object sender, EventArgs eventArgs)
-    {
-      helpFragment.Dismissed -= BtnGotIt_Click;
-      frmCaptureHelp.Visibility = ViewStates.Gone;
-      frmCaptureHelp.RemoveAllViews();
-      helpFragment = null;
-    }
+    #endregion
   }
 }
