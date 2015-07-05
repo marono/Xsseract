@@ -10,7 +10,6 @@ using Xamarin;
 
 namespace Xsseract.Droid
 {
-  // TODO: Validate app permissions again before release.
   // TODO: Cleanup unused files.
   [Application(Icon = "@drawable/icon")]
   public class XsseractApp : Application
