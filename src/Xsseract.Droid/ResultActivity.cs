@@ -142,7 +142,7 @@ namespace Xsseract.Droid
       }
       else
       {
-        Toast t = Toast.MakeText(this, Resource.String.label_TapToEditResult, ToastLength.Short);
+        Toast t = Toast.MakeText(this, Resource.String.toast_TapToEditResult, ToastLength.Short);
         t.Show();
       }
     }
@@ -280,11 +280,11 @@ namespace Xsseract.Droid
     private void CopyToClipboard()
     {
       var service = (ClipboardManager)GetSystemService(ClipboardService);
-      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.label_ClipboardLabel), $"{Resources.GetString(Resource.String.text_SendToSubject)}: {System.Environment.NewLine}{result}");
+      var data = ClipData.NewPlainText(Resources.GetString(Resource.String.text_ClipboardLabel), $"{Resources.GetString(Resource.String.text_SendToSubject)}: {System.Environment.NewLine}{result}");
 
       service.PrimaryClip = data;
 
-      var toast = Toast.MakeText(this, Resource.String.label_CopiedToClipboard, ToastLength.Long);
+      var toast = Toast.MakeText(this, Resource.String.toast_CopiedToClipboard, ToastLength.Long);
       toast.Show();
     }
 
@@ -359,7 +359,7 @@ namespace Xsseract.Droid
     private async Task ShareResult()
     {
       CopyToClipboard();
-      DisplayProgress(Resources.GetString(Resource.String.label_PrepareShare));
+      DisplayProgress(Resources.GetString(Resource.String.progress_PrepareShare));
       var attachment = await GetImageAttachmentAsync();
 
       HideProgress();

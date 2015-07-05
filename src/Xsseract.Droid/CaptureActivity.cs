@@ -83,7 +83,7 @@ namespace Xsseract.Droid
 
             XsseractContext.LogEvent(AppTrackingEvents.InitialSnapshotCancelled);
 
-            Toast.MakeText(this, Resource.String.label_ExitNotice, ToastLength.Short).Show();
+            Toast.MakeText(this, Resource.String.toast_ExitNotice, ToastLength.Short).Show();
             SetResult(Result.Canceled);
             Finish();
 
@@ -169,7 +169,7 @@ namespace Xsseract.Droid
             {
               if (!IsFinishing)
               {
-                RunOnUiThread(() => Toast.MakeText(this, Resource.String.label_TapToExit, ToastLength.Short).Show());
+                RunOnUiThread(() => Toast.MakeText(this, Resource.String.toast_TapToExit, ToastLength.Short).Show());
               }
             }, null, buttonHelpToastDelay, Timeout.InfiniteTimeSpan);
 

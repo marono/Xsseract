@@ -1,31 +1,31 @@
 <?xml  version="1.0" encoding="utf-8"?>
 <resources>
   <string name="ApplicationName">Xsseract</string>
-  <string name="ErrorTitle">Ooops...</string>
-  <string name="AlertTitle">A message from the underworld ...</string>
+  <string name="text_ErrorTitle">Ooops...</string>
+  <string name="text_AlertTitle">A message from the underworld ...</string>
   <string name="action_Yes">Yes</string>
   <string name="action_No">No</string>
   <string name="action_RateLater">Later</string>
   <string name="action_RateNever">Never</string>
   <string name="action_RateNow">NOW</string>
   <string name="label_Result">Result:</string>
-  <string name="label_Initializing">Xsseract is initializing ...</string>
-  <string name="label_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
-  <string name="label_TapToExit">Press Back twice to exit</string>
-  <string name="label_ExitNotice">The app terminated. There\'s nothing to do without an image ...</string>
-  <string name="label_CopiedToClipboard">The result has been copied to clipboard. PASTE it in your app of chice.</string>
-  <string name="label_ClipboardLabel">Xsseract result</string>
-  <string name="label_PrepareShare">Preparing content for sharing ...</string>
-  <string name="label_FirstTimeInitialize">Xsseract is running for the first time (downloading the OCR training files, it will take a while)...</string>
-  <string name="label_InitializeFailedOnPrevAttempt">There was an error initializing on a previous attempt. Kill the app and try again...</string>
+  <string name="text_Initializing">Xsseract is initializing ...</string>
+  <string name="toast_TapToEditResult">Tap\'n\'Hold the result to edit the text ...</string>
+  <string name="toast_TapToExit">Press Back twice to exit</string>
+  <string name="toast_ExitNotice">The app terminated. There\'s nothing to do without an image ...</string>
+  <string name="toast_CopiedToClipboard">The result has been copied to clipboard. PASTE it in your app of chice.</string>
+  <string name="text_ClipboardLabel">Xsseract result</string>
+  <string name="progress_PrepareShare">Preparing content for sharing ...</string>
+  <string name="text_FirstTimeInitialize">Xsseract is running for the first time (downloading the OCR training files, it will take a while)...</string>
+  <string name="prompt_InitializeFailedOnPrevAttempt">There was an error initializing on a previous attempt. Kill the app and try again...</string>
   <string name="label_Version">Version:</string>
   <string name="label_InstanceId">InstanceId:</string>
   <string name="progress_OCR">Performing text recognition ...</string>
   <string name="progress_ImageAdjust">Adjusting image ...</string>
   <string name="text_SendToSubject">Xsseract just decoded the following image for me</string>
   <string name="text_SendToTitle">Share Xsseract result</string>
-  <string name="message_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
-  <string name="message_MobileDataDownload">Xsseract requires a larger download on first startup, will you allow us to do it over your mobile data connection?</string>
+  <string name="prompt_ShareInstructions">Some of the sharing options don\'t allow sending the result as text (i.e. Facebook), so I\'ve copied the text to the clipboard for you to PASTE in the target app. Sorry for the added effort, but this is out of my hands.</string>
+  <string name="prompt_MobileDataDownload">Xsseract requires a larger download on first startup, will you allow us to do it over your mobile data connection?</string>
   <string name="menu_About">About</string>
   <string name="menu_Tutorial">Tutorial</string>
   <string name="menu_Feedback">Feedback</string>
@@ -34,34 +34,33 @@
   <string name="text_FeedbackChooserTitle">Send feedback</string>
   <string name="text_RatingPrompt">Please rate our app, it wil help other users make sense of it!</string>
   <string name="text_RatingPromptTitle">Rate us!</string>
-  <string name="intent_resolveText">ro.onos.xsseract.ResolveImage</string>
-  <string name="label_HelpCaptureDescr"><![CDATA[
+  <string name="html_HelpCaptureDescr"><![CDATA[
     <h3>Capture view</h3>
     <p>Will capture an image from the camera and then it will allow you to select the region you wish to perfrom OCR on.</p>
   ]]></string>
-  <string name="label_helpCameraAction">Recapture the image from the camera.</string>
-  <string name="label_helpCropAction">Trigger the OCR for the selected region.</string>
-  <string name="label_HelpResultDescr"><![CDATA[
+  <string name="text_HelpCameraAction">Recapture the image from the camera.</string>
+  <string name="text_HelpCropAction">Trigger the OCR for the selected region.</string>
+  <string name="html_HelpResultDescr"><![CDATA[
   <h3>Result view</h3>
   <p>A long click on the result text, at the bottom, allows you to edit it before sharing.</p>
   <p>When sharing the result, keep in mind that some apps (so far I\'ve spotted Facebook) will not allow sharing both text and image - for such situations, the result is copied to clipboard before sharing. You\'ll need to PASTE it in the target app yourself.</p>
   ]]></string>
-  <string name="label_helpShareAction">Share results via Facebook, Email, Twitter ...</string>
-  <string name="label_helpClipboardAction">Copy result to clipboard for use in other apps.</string>
-  <string name="label_helpAcceptAction">Will only be available when another application has called into Xsseract for OCR. Returns the result text to the original caller.</string>
-  <string name="label_helpImageNotice">
+  <string name="text_HelpShareAction">Share results via Facebook, Email, Twitter ...</string>
+  <string name="text_HelpClipboardAction">Copy result to clipboard for use in other apps.</string>
+  <string name="text_HelpAcceptAction">Will only be available when another application has called into Xsseract for OCR. Returns the result text to the original caller.</string>
+  <string name="html_HelpImageNotice">
     <![CDATA[
   <p>When taking images of text (documents, invoices ...) try as much as possible to get good lighting conditions and proper focus.</p>
   <p>Image resolution is another factor that influences the correctness of the OCR process - higher resolutions will give better results at the expense of processing time.</p>
   ]]></string>
-  <string name="label_helpWelcome">
+  <string name="html_HelpWelcome">
     <![CDATA[
     <p style=\"text-align: center; font-weight: bold;\">Welcome to Xsseract!<p>
     <p>This is an optical character recognition (OCR) application that aims at parsing images into usable text for sharing or use in other apps.</p>
     <p>We only support English for now, but other languages will be added upon request.</p>
   ]]>
   </string>
-  <string name="label_helpHelp">
+  <string name="html_HelpHelp">
       <![CDATA[
     <p>You can always click the help action (depicted above) to get contextual help for the screen you\'re looking at, or [Menu > Tutorial] to return to this tutorial.</p>
     <p>We kindly ask you to provide feedback.</p>
@@ -69,5 +68,5 @@
     <span style=\"text-align: left; font-weight: bold;\">Thanks!</span><br />
     <span style=\"text-align: left; font-weight: bold;\">The Mix&Match Software Factory</span>
   ]]></string>
-  <string name="label_GotIt">Got It!</string>
+  <string name="action_GotIt">Got It!</string>
 </resources>

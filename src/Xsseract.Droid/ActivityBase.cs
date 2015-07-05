@@ -112,7 +112,7 @@ namespace Xsseract.Droid
     protected void DisplayAlert(string message, Action callback)
     {
       new AlertDialog.Builder(this)
-        .SetTitle(Resource.String.AlertTitle)
+        .SetTitle(Resource.String.text_AlertTitle)
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok, delegate { callback?.Invoke(); })
         .Show();
@@ -121,7 +121,7 @@ namespace Xsseract.Droid
     protected void DisplayAlert(string message, Func<Task> callback)
     {
       new AlertDialog.Builder(this)
-        .SetTitle(Resource.String.AlertTitle)
+        .SetTitle(Resource.String.text_AlertTitle)
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok,
           async (sender, e) =>
@@ -144,7 +144,7 @@ namespace Xsseract.Droid
       string message = $"{exception.Message}{Environment.NewLine}{exception.StackTrace[0]}";
 
       new AlertDialog.Builder(this)
-        .SetTitle(Resource.String.ErrorTitle)
+        .SetTitle(Resource.String.text_ErrorTitle)
         .SetMessage(message)
         .SetPositiveButton(Android.Resource.String.Ok, (sender, e) => dismissDelegate?.Invoke())
         .Show();
@@ -153,7 +153,7 @@ namespace Xsseract.Droid
     protected void DisplayError(string error)
     {
       new AlertDialog.Builder(this)
-        .SetTitle(Resource.String.ErrorTitle)
+        .SetTitle(Resource.String.text_ErrorTitle)
         .SetMessage(error)
         .SetPositiveButton(Android.Resource.String.Ok, (IDialogInterfaceOnClickListener)null)
         .Show();
@@ -187,7 +187,7 @@ namespace Xsseract.Droid
         var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + PackageName));
         StartActivity(intent);
       }
-      catch (ActivityNotFoundException e)
+      catch (ActivityNotFoundException)
       {
         StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + PackageName)));
       }

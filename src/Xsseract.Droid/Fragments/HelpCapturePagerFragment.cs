@@ -15,7 +15,7 @@ namespace Xsseract.Droid.Fragments
 
     protected override string GetHtml()
     {
-      return Resources.GetString(Resource.String.label_HelpCaptureDescr);
+      return Resources.GetString(Resource.String.html_HelpCaptureDescr);
     }
   }
 }

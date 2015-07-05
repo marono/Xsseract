@@ -23,7 +23,7 @@
             android:layout_marginBottom="20dp" />
         <Button
             android:id="@+id/btnGoIt"
-            android:text="@string/label_GotIt"
+            android:text="@string/action_GotIt"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

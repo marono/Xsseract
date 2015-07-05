@@ -23,7 +23,7 @@ namespace Xsseract.Droid.Fragments
 
     protected override string GetHtml()
     {
-      return Resources.GetString(Resource.String.label_helpHelp);
+      return Resources.GetString(Resource.String.html_HelpHelp);
     }
 
     protected void OnGotIt(EventArgs e)

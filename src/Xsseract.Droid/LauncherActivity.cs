@@ -50,7 +50,7 @@ namespace Xsseract.Droid
             ResumeApplication();
             break;
           case XsseractContext.AppContextState.InitializationErrors:
-            DisplayAlert(Resources.GetString(Resource.String.label_InitializeFailedOnPrevAttempt),
+            DisplayAlert(Resources.GetString(Resource.String.prompt_InitializeFailedOnPrevAttempt),
               () =>
               {
                 SetResult(Result.Canceled);
@@ -96,8 +96,8 @@ namespace Xsseract.Droid
         () =>
         {
           new AlertDialog.Builder(this)
-        .SetTitle(Resource.String.AlertTitle)
-        .SetMessage(Resources.GetString(Resource.String.message_MobileDataDownload))
+            .SetTitle(Resource.String.text_AlertTitle)
+        .SetMessage(Resources.GetString(Resource.String.prompt_MobileDataDownload))
         .SetPositiveButton(Resource.String.action_Yes, delegate
         {
           result = true;
@@ -149,7 +149,7 @@ namespace Xsseract.Droid
 
     private void AppContext_FirstTimeInitialize(object sender, EventArgs eventArgs)
     {
-      RunOnUiThread(() => txtViewDescription.Text = Resources.GetString(Resource.String.label_FirstTimeInitialize));
+      RunOnUiThread(() => txtViewDescription.Text = Resources.GetString(Resource.String.text_FirstTimeInitialize));
     }
 
     #endregion

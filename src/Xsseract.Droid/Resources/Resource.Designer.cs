@@ -2049,14 +2049,8 @@ namespace Xsseract.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f0a0013
-			public const int AlertTitle = 2131361811;
-			
 			// aapt resource value: 0x7f0a0011
 			public const int ApplicationName = 2131361809;
-			
-			// aapt resource value: 0x7f0a0012
-			public const int ErrorTitle = 2131361810;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int abc_action_bar_home_description = 2131361792;
@@ -2109,6 +2103,9 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a0010
 			public const int abc_toolbar_collapse_description = 2131361808;
 			
+			// aapt resource value: 0x7f0a003d
+			public const int action_GotIt = 2131361853;
+			
 			// aapt resource value: 0x7f0a0015
 			public const int action_No = 2131361813;
 			
@@ -2125,76 +2122,28 @@ namespace Xsseract.Droid
 			public const int action_Yes = 2131361812;
 			
 			// aapt resource value: 0x7f0a0033
-			public const int intent_resolveText = 2131361843;
+			public const int html_HelpCaptureDescr = 2131361843;
 			
-			// aapt resource value: 0x7f0a001f
-			public const int label_ClipboardLabel = 2131361823;
+			// aapt resource value: 0x7f0a003c
+			public const int html_HelpHelp = 2131361852;
 			
-			// aapt resource value: 0x7f0a001e
-			public const int label_CopiedToClipboard = 2131361822;
+			// aapt resource value: 0x7f0a003a
+			public const int html_HelpImageNotice = 2131361850;
 			
-			// aapt resource value: 0x7f0a001d
-			public const int label_ExitNotice = 2131361821;
+			// aapt resource value: 0x7f0a0036
+			public const int html_HelpResultDescr = 2131361846;
 			
-			// aapt resource value: 0x7f0a0021
-			public const int label_FirstTimeInitialize = 2131361825;
-			
-			// aapt resource value: 0x7f0a003e
-			public const int label_GotIt = 2131361854;
-			
-			// aapt resource value: 0x7f0a0034
-			public const int label_HelpCaptureDescr = 2131361844;
-			
-			// aapt resource value: 0x7f0a0037
-			public const int label_HelpResultDescr = 2131361847;
-			
-			// aapt resource value: 0x7f0a0022
-			public const int label_InitializeFailedOnPrevAttempt = 2131361826;
-			
-			// aapt resource value: 0x7f0a001a
-			public const int label_Initializing = 2131361818;
+			// aapt resource value: 0x7f0a003b
+			public const int html_HelpWelcome = 2131361851;
 			
 			// aapt resource value: 0x7f0a0024
 			public const int label_InstanceId = 2131361828;
 			
-			// aapt resource value: 0x7f0a0020
-			public const int label_PrepareShare = 2131361824;
-			
 			// aapt resource value: 0x7f0a0019
 			public const int label_Result = 2131361817;
 			
-			// aapt resource value: 0x7f0a001b
-			public const int label_TapToEditResult = 2131361819;
-			
-			// aapt resource value: 0x7f0a001c
-			public const int label_TapToExit = 2131361820;
-			
 			// aapt resource value: 0x7f0a0023
 			public const int label_Version = 2131361827;
-			
-			// aapt resource value: 0x7f0a003a
-			public const int label_helpAcceptAction = 2131361850;
-			
-			// aapt resource value: 0x7f0a0035
-			public const int label_helpCameraAction = 2131361845;
-			
-			// aapt resource value: 0x7f0a0039
-			public const int label_helpClipboardAction = 2131361849;
-			
-			// aapt resource value: 0x7f0a0036
-			public const int label_helpCropAction = 2131361846;
-			
-			// aapt resource value: 0x7f0a003d
-			public const int label_helpHelp = 2131361853;
-			
-			// aapt resource value: 0x7f0a003b
-			public const int label_helpImageNotice = 2131361851;
-			
-			// aapt resource value: 0x7f0a0038
-			public const int label_helpShareAction = 2131361848;
-			
-			// aapt resource value: 0x7f0a003c
-			public const int label_helpWelcome = 2131361852;
 			
 			// aapt resource value: 0x7f0a002b
 			public const int menu_About = 2131361835;
@@ -2208,23 +2157,59 @@ namespace Xsseract.Droid
 			// aapt resource value: 0x7f0a002c
 			public const int menu_Tutorial = 2131361836;
 			
-			// aapt resource value: 0x7f0a002a
-			public const int message_MobileDataDownload = 2131361834;
-			
-			// aapt resource value: 0x7f0a0029
-			public const int message_ShareInstructions = 2131361833;
-			
 			// aapt resource value: 0x7f0a0026
 			public const int progress_ImageAdjust = 2131361830;
 			
 			// aapt resource value: 0x7f0a0025
 			public const int progress_OCR = 2131361829;
 			
+			// aapt resource value: 0x7f0a0020
+			public const int progress_PrepareShare = 2131361824;
+			
+			// aapt resource value: 0x7f0a0022
+			public const int prompt_InitializeFailedOnPrevAttempt = 2131361826;
+			
+			// aapt resource value: 0x7f0a002a
+			public const int prompt_MobileDataDownload = 2131361834;
+			
+			// aapt resource value: 0x7f0a0029
+			public const int prompt_ShareInstructions = 2131361833;
+			
+			// aapt resource value: 0x7f0a0013
+			public const int text_AlertTitle = 2131361811;
+			
+			// aapt resource value: 0x7f0a001f
+			public const int text_ClipboardLabel = 2131361823;
+			
+			// aapt resource value: 0x7f0a0012
+			public const int text_ErrorTitle = 2131361810;
+			
 			// aapt resource value: 0x7f0a0030
 			public const int text_FeedbackChooserTitle = 2131361840;
 			
 			// aapt resource value: 0x7f0a002f
 			public const int text_FeedbackEmailSubject = 2131361839;
+			
+			// aapt resource value: 0x7f0a0021
+			public const int text_FirstTimeInitialize = 2131361825;
+			
+			// aapt resource value: 0x7f0a0039
+			public const int text_HelpAcceptAction = 2131361849;
+			
+			// aapt resource value: 0x7f0a0034
+			public const int text_HelpCameraAction = 2131361844;
+			
+			// aapt resource value: 0x7f0a0038
+			public const int text_HelpClipboardAction = 2131361848;
+			
+			// aapt resource value: 0x7f0a0035
+			public const int text_HelpCropAction = 2131361845;
+			
+			// aapt resource value: 0x7f0a0037
+			public const int text_HelpShareAction = 2131361847;
+			
+			// aapt resource value: 0x7f0a001a
+			public const int text_Initializing = 2131361818;
 			
 			// aapt resource value: 0x7f0a0031
 			public const int text_RatingPrompt = 2131361841;
@@ -2237,6 +2222,18 @@ namespace Xsseract.Droid
 			
 			// aapt resource value: 0x7f0a0028
 			public const int text_SendToTitle = 2131361832;
+			
+			// aapt resource value: 0x7f0a001e
+			public const int toast_CopiedToClipboard = 2131361822;
+			
+			// aapt resource value: 0x7f0a001d
+			public const int toast_ExitNotice = 2131361821;
+			
+			// aapt resource value: 0x7f0a001b
+			public const int toast_TapToEditResult = 2131361819;
+			
+			// aapt resource value: 0x7f0a001c
+			public const int toast_TapToExit = 2131361820;
 			
 			static String()
 			{
