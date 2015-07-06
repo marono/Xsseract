@@ -1473,55 +1473,52 @@ namespace Xsseract.Droid
 			public const int abc_textfield_search_material = 2130837562;
 			
 			// aapt resource value: 0x7f02003b
-			public const int accept = 2130837563;
+			public const int camera_crop_height = 2130837563;
 			
 			// aapt resource value: 0x7f02003c
-			public const int camera = 2130837564;
+			public const int camera_crop_width = 2130837564;
 			
 			// aapt resource value: 0x7f02003d
-			public const int camera_crop_height = 2130837565;
+			public const int fab_shadow = 2130837565;
 			
 			// aapt resource value: 0x7f02003e
-			public const int camera_crop_width = 2130837566;
+			public const int fab_shadow_mini = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int clipboard = 2130837567;
+			public const int ic_action_accept = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int crop = 2130837568;
+			public const int ic_action_camera = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int fab_shadow = 2130837569;
+			public const int ic_action_clipboard = 2130837569;
 			
 			// aapt resource value: 0x7f020042
-			public const int fab_shadow_mini = 2130837570;
+			public const int ic_action_help = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int ic_action_help = 2130837571;
+			public const int ic_action_ocr = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int ic_action_swap_horiz = 2130837572;
+			public const int ic_action_share = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int ic_action_swap_vert = 2130837573;
+			public const int ic_action_swap_horiz = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int ic_options = 2130837574;
+			public const int ic_action_swap_vert = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int icon = 2130837575;
+			public const int ic_options = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int indicator_autocrop = 2130837576;
+			public const int icon = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int ProgressBar = 2130837577;
+			public const int indicator_autocrop = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int share = 2130837578;
-			
-			// aapt resource value: 0x7f02004b
-			public const int TestImg = 2130837579;
+			public const int ProgressBar = 2130837578;
 			
 			static Drawable()
 			{

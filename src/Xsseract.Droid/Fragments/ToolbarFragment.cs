@@ -13,7 +13,6 @@ using com.refractored.fab;
 
 namespace Xsseract.Droid.Fragments
 {
-  // TODO: Icons not suggestive enough.
   public class ToolbarFragment : Fragment
   {
     #region Fields

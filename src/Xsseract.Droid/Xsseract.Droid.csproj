@@ -132,12 +132,11 @@
     <AndroidResource Include="Resources\layout\Launcher.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable\ProgressBar.xml" />
     <AndroidResource Include="Resources\layout\Result.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Toolbar.axml">
-      <SubType>AndroidResource</SubType>
+      <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\HelpCapture.axml">
       <SubType>AndroidResource</SubType>
@@ -166,6 +165,11 @@
     <AndroidResource Include="Resources\layout\RatingDialog.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_ocr.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_ocr.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_ocr.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_ocr.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_ocr.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Capture.axml">
@@ -191,9 +195,6 @@
       <Project>{EFB459E0-0648-4AAE-AB15-DA707D5566B6}</Project>
       <Name>XeusTech.JTar.Bindings.Droid</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TestImg.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Styles.xml">
@@ -260,79 +261,64 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\camera.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_camera.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\camera.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_camera.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\camera.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_camera.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\camera.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_camera.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\camera.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_camera.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\accept.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_accept.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\accept.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_accept.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\accept.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_accept.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\accept.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_accept.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\accept.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_accept.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\crop.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_share.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\crop.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_share.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\crop.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_share.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\crop.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_share.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\crop.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_share.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\share.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_action_clipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\share.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_clipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_clipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\share.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_clipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\share.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\clipboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\clipboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\clipboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\clipboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\clipboard.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_clipboard.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_action_help.png" />
@@ -377,6 +363,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ProgressBar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

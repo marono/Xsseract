@@ -12,7 +12,7 @@
         <com.refractored.fab.FloatingActionButton
             android:id="@+id/fabCrop"
             style="@style/FloatingActionButtonHelp"
-            android:src="@drawable/camera"
+            android:src="@drawable/ic_action_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp" />

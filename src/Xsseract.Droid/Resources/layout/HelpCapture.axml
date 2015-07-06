@@ -22,7 +22,7 @@
             <com.refractored.fab.FloatingActionButton
                 android:id="@+id/fabCrop"
                 style="@style/FloatingActionButtonHelp"
-                android:src="@drawable/crop"
+                android:src="@drawable/ic_action_ocr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
@@ -40,7 +40,7 @@
             <com.refractored.fab.FloatingActionButton
                 android:id="@+id/fabCrop"
                 style="@style/FloatingActionButtonHelp"
-                android:src="@drawable/camera"
+                android:src="@drawable/ic_action_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
