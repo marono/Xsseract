@@ -148,8 +148,6 @@ namespace Xsseract.Droid
           handle.Stop();
           sw.Stop();
 
-          var img = XsseractContext.GetBitmap();
-
           var data = new Dictionary<string, string>
           {
             { AppTrackingEventsDataKey.ImageResW, cropped.Width.ToString() },
@@ -375,7 +373,12 @@ namespace Xsseract.Droid
                               {
                                 XsseractContext.LogEvent(AppTrackingEvents.RateLater);
                                 d.Hide();
-                                await callback?.Invoke();
+                                if(null != callback) {
+                                  await callback.Invoke();
+                                }
+                                else {
+                                  await Task.Yield();
+                                }
                               };
       btnNever.Click += async (sender, e) =>
                               {
@@ -383,7 +386,12 @@ namespace Xsseract.Droid
                                 XsseractContext.LogEvent(AppTrackingEvents.RateNever);
 
                                 d.Hide();
-                                await callback?.Invoke();
+                                if(null != callback) {
+                                  await callback.Invoke();
+                                }
+                                else {
+                                  await Task.Yield();
+                                }
                               };
 
       d.Show();

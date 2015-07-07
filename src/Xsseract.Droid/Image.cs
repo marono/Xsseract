@@ -11,8 +11,8 @@ namespace Xsseract.Droid
 {
   internal class Image : IDisposable
   {
-    public string Path { get; }
-    public float Rotation { get; }
+    public string Path { get; private set; }
+    public float Rotation { get; private set; }
     public Bitmap Bitmap { get; private set; }
     public int SampleSize { get; private set; }
 

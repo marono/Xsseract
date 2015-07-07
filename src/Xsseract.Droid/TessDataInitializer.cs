@@ -149,7 +149,8 @@ namespace Xsseract.Droid
       {
         foreach(var f in dstFiles)
         {
-          if (tessDataFiles?.Contains(f, feq) == false && tessOrientationFiles?.Contains(f, feq) == false)
+          if ((null == tessDataFiles || !tessDataFiles.Contains(f, feq))
+            && (null ==  tessOrientationFiles || !tessOrientationFiles.Contains(f, feq)))
           {
             context.LogWarn("Removing '{0}' because is not part of any of any source.", f.Name);
             f.Delete();

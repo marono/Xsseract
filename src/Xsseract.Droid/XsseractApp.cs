@@ -15,7 +15,7 @@ namespace Xsseract.Droid
   public class XsseractApp : Application
   {
     public string DestinationDirBase { get; private set; }
-    public XsseractContext XsseractContext { get; }
+    public XsseractContext XsseractContext { get; private set; }
     public Stopwatch AppStartupTracker { get; set; }
 
     #region .ctors
