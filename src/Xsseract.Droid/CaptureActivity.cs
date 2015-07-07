@@ -256,7 +256,7 @@ namespace Xsseract.Droid
           var exif = new ExifInterface(path); //Since API Level 5
           var exifOrientation = exif.GetAttributeInt(ExifInterface.TagOrientation, 0);
 
-          LogDebug("Image is in '{0}'.", (Orientation)exifOrientation);
+          LogInfo("Image is in '{0}'.", (Orientation)exifOrientation);
           var rotation = BitmapUtils.GetRotationAngle((Orientation)exifOrientation);
 
           return XsseractContext.LoadImage(path, rotation);

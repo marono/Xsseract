@@ -47,6 +47,7 @@ namespace Xsseract.Droid
       switch(orientation)
       {
         case Orientation.Normal:
+          return 0;
         case Orientation.Rotate90:
           return 90;
         case Orientation.Rotate270:
@@ -64,6 +65,7 @@ namespace Xsseract.Droid
       switch(orientation)
       {
         case Orientation.Normal:
+          break;
         case Orientation.Rotate90:
           matrix.PostRotate(90, px, py);
           break;

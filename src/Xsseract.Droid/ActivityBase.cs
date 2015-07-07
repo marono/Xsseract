@@ -99,6 +99,16 @@ namespace Xsseract.Droid
       return base.OnKeyDown(keyCode, e);
     }
 
+    public void LogInfo(string message)
+    {
+      XsseractContext.LogInfo(message);
+    }
+
+    public void LogInfo(string format, params object[] args)
+    {
+      XsseractContext.LogInfo(format, args);
+    }
+
     public void LogDebug(string message)
     {
       XsseractContext.LogDebug(message);
