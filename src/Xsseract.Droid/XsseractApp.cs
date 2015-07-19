@@ -11,7 +11,11 @@ using Xamarin;
 namespace Xsseract.Droid
 {
   // TODO: Cleanup unused files.
-  [Application(Icon = "@drawable/icon")]
+  #if DEBUG
+  [Android.App.Application(Debuggable=true, Icon = "@drawable/icon")]
+  #else
+  [Android.App.Application(Debuggable=false, Icon = "@drawable/icon")]
+  #endif
   public class XsseractApp : Application
   {
     public string DestinationDirBase { get; private set; }

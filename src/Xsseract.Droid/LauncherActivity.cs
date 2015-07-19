@@ -26,7 +26,7 @@ namespace Xsseract.Droid
     {
       base.OnCreate(bundle);
 
-      if (XsseractContext.State == XsseractContext.AppContextState.None)
+      if (this.XsseractContext.State == XsseractContext.AppContextState.None)
       {
         SetContentView(Resource.Layout.Launcher);
       }
