@@ -63,5 +63,7 @@ After downloading the files, you'll need to add them yourselves. The structure i
 The `SuccessCountForRatingPrompt` value indicates how many successful parses the application will 
 perform before asking the user to rate the app.
 
+
 That's it!
+
 Good luck cracking!
