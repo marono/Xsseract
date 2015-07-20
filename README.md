@@ -3,7 +3,7 @@
 This is a Xamarin based implmentation of an OCR app.
 I'm using the Tesseract engine for the actual OCR task (https://code.google.com/p/tesseract-ocr/).
 
-The app has been published on the Google Play store at https://play.google.com/store/apps/details?id=ro.onos.xsseract
+The app has been published on the Google Play store at<br/> https://play.google.com/store/apps/details?id=ro.onos.xsseract
 
 The special bit about this implementation is that you can interact with it from other apps via the **ro.onos.xsseract.ResolveImage** intent.
 Because of what I think is a bug in either the Xamarin platform or in Android itself, when using the above intent you also need to specify a 
