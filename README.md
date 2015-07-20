@@ -41,7 +41,7 @@ protected override void OnActivityResult(int requestCode, Result resultCode, Int
 ```
 
 #### Tested on
-I'll add more to this list as soon as Insights data becomes available or people report their configurations.
+I'll add more to this list as soon as Insights data becomes available or people report their configurations.<br/>
 https://github.com/marono/Xsseract/blob/master/TestedDevices.md
 
 #### To contribute
@@ -68,6 +68,5 @@ The `SuccessCountForRatingPrompt` value indicates how many successful parses the
 perform before asking the user to rate the app.
 
 
-That's it!
-
+That's it!<br />
 Good luck cracking!
