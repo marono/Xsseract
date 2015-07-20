@@ -40,6 +40,10 @@ protected override void OnActivityResult(int requestCode, Result resultCode, Int
 }
 ```
 
+#### Tested on
+I'll add more to this list as soon as Insights data becomes available or people report their configurations.
+https://github.com/marono/Xsseract/blob/master/TestedDevices.md
+
 #### To contribute
 The solution is currently missing two files for obvious reasons:
 >src\Xsseract.Droid\Assets\Settings.DEBUG.json
