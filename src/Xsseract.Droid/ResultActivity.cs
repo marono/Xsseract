@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -30,7 +31,7 @@ using Uri = Android.Net.Uri;
 namespace Xsseract.Droid
 {
   // TODO: android.view.WindowLeaked: Activity md5b71b1bed33a31f85ecaffba202309a1f.ResultActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView{43b5f40 G.E..... R.....ID 0,0-1026,348} that was originally added here
-  [Activity(WindowSoftInputMode = SoftInput.AdjustResize, Theme = "@style/AppTheme")]
+  [Activity(WindowSoftInputMode = SoftInput.AdjustResize, Theme = "@style/AppTheme", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
   public class ResultActivity : ContextualHelpActivity
   {
     #region Fields

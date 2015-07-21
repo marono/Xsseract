@@ -27,7 +27,7 @@ using Uri = Android.Net.Uri;
 namespace Xsseract.Droid
 {
   // TODO: Memory issue probably due to poor image manipulation.
-  [Activity(Theme = "@style/AppTheme")]
+  [Activity(Theme = "@style/AppTheme", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
   public class CaptureActivity : ContextualHelpActivity
   {
     #region Fields

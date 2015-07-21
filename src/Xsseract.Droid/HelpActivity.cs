@@ -3,6 +3,7 @@
 using System;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.View;
 using Xamarin;
@@ -13,7 +14,7 @@ using Xsseract.Droid.Views;
 
 namespace Xsseract.Droid
 {
-  [Activity(NoHistory = true, Theme = "@style/AppTheme")]
+  [Activity(NoHistory = true, Theme = "@style/AppTheme", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
   public class HelpActivity : ActivityBase
   {
     #region Fields

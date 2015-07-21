@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 
@@ -13,7 +14,7 @@ using Android.Widget;
 
 namespace Xsseract.Droid
 {
-  [Activity(Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true)]
+  [Activity(Name = "xsseract.droid.Launcher", Icon = "@drawable/icon", NoHistory = true, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
   public class LauncherActivity : ActivityBase
   {
     #region Fields
